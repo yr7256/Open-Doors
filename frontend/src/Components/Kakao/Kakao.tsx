@@ -4,12 +4,11 @@ import mapdata from '../../csvjson.json';
 const { kakao } = window;
 
 const Kakao = () => {
-	var isopen = 1;
-	const options = {
-		center: new kakao.maps.LatLng(36.350475, 127.384834),
-		level: 13,
-	};
 	useEffect(() => {
+		const options = {
+			center: new kakao.maps.LatLng(36.350475, 127.384834),
+			level: 12,
+		};
 		// const mapdata = [
 		// 	{ name: '대전광역시청', latlng: new kakao.maps.LatLng(36.350475, 127.384834) },
 		// 	{ name: '시청역', latlng: new kakao.maps.LatLng(36.351271, 127.386788) },
@@ -33,19 +32,18 @@ const Kakao = () => {
 			});
 
 			const infowindow = new kakao.maps.InfoWindow({
+				disableAutoPan: true,
 				zIndex: 1,
 				content: `<div class="inactive infowindow""><span>${data.spotName}</span></div>`,
-				disableAutoPan: true,
 				removable: true,
-				map: map,
+				// map: map,
 			});
 
 			markers.push(marker);
 
 			kakao.maps.event.addListener(marker, 'click', function () {
+				// 마커 위에 인포윈도우를 표시합니다
 				infowindow.open(map, marker);
-				// // 마커 위에 인포윈도우를 표시합니다
-				// infowindow.open(map, marker);
 			});
 		};
 

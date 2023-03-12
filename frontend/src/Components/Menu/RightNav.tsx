@@ -1,5 +1,5 @@
 import { Ul, Li } from './styles';
-
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 
 type Props = {
@@ -10,7 +10,6 @@ function RightNav(props: Props) {
 	return (
 		<>
 			<Ul open={props.open}>
-
 				<NavLink
 					to="/menu1"
 					style={({ isActive }) => ({
