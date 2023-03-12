@@ -1,12 +1,12 @@
 import React from 'react';
 import SearchBar from '../Searchbar/Searchbar';
-import Sidebar from '../Sidebar/Sidebar'
+import Navbar from '../Menu/Navbar'
 
 const Topbar = () => {
 	return (
 		<div>
 			<SearchBar />
-			<Sidebar />
+			<Navbar />
 		</div>
 	);
 };
