@@ -1,6 +1,6 @@
 import React from "react";
-import Topbar from "../../components/Topbar/Topbar";
-import Kakao from "../../components/Kakao/Kakao";
+import Topbar from "../../Components/Topbar/Topbar";
+import Kakao from "../../Components/Kakao/Kakao";
 
 function Map() {
 	return (
