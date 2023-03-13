@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import mapdata from '../../csvjson.json';
+import '../../styles/Kakao/Kakao.css';
 
 const { kakao } = window;
 
+let clickedOverlay: any = null;
+
 const Kakao = () => {
 	useEffect(() => {
+		const test = document.getElementById('test')
 		const options = {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 12,
@@ -31,19 +35,46 @@ const Kakao = () => {
 				position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
 			});
 
-			const infowindow = new kakao.maps.InfoWindow({
-				disableAutoPan: true,
-				zIndex: 1,
-				content: `<div class="inactive infowindow""><span>${data.spotName}</span></div>`,
-				removable: true,
+			// const content = `<div class="inactive infowindow"><span>${data.spotName}</span></div>`;
+
+			// const infowindow = new kakao.maps.CustomOverlay({
+				// disableAutoPan: true,
+				// position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
+				// zIndex: 1,
+				// content: `<div id="popup_map" class="inactive infowindow"><span>${data.spotName}</span></div>`,
+				// content: content,
+				// removable: true,
 				// map: map,
-			});
+			// });
+
+			const content = document.createElement('div');
+			content.className = 'infowindow';
+			content.innerHTML = data.spotName;
+
+			const closeBtn = document.createElement('button');
+			closeBtn.innerHTML = '닫기';
+			closeBtn.onclick = function () {
+				// infowindow.setMap(null);
+				test!.style.display = 'none';
+			};
+			// content.appendChild(closeBtn);
+			test?.appendChild(closeBtn);
+			// infowindow.setContent(content);
 
 			markers.push(marker);
 
 			kakao.maps.event.addListener(marker, 'click', function () {
-				// 마커 위에 인포윈도우를 표시합니다
-				infowindow.open(map, marker);
+				if (clickedOverlay) {
+					// clickedOverlay.setMap(null);
+					clickedOverlay = null;
+					test!.style.display = 'none';
+				} else
+				// infowindow.setMap(map);
+				// clickedOverlay = infowindow;
+				clickedOverlay = 'open';
+				test!.textContent = data.spotName;
+				test!.style.display = 'block'
+				test?.appendChild(closeBtn);
 			});
 		};
 
@@ -57,7 +88,12 @@ const Kakao = () => {
 		map.setCenter(position);
 	}, []);
 
-	return <div id="map" style={{ width: '100vw', height: '100vh' }} />;
+	return (
+		<div id="wrap">
+			<div id="map" />
+			<div id="test"> 11 </div>
+		</div>
+	);
 };
 
 export default Kakao;

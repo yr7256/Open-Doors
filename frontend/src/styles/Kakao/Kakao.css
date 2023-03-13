@@ -1,0 +1,21 @@
+#map {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+.infowindow {
+  background-color: blue;
+  /* position: fixed; */
+  /* top: 90vh; */
+  /* z-index: 100; */
+}
+
+#test {
+  width: 100vw;
+  height: 25vh;
+  background-color: aqua;
+  display: none;
+  position: absolute;
+  top: 75vh;
+  z-index: 100;
+}
