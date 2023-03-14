@@ -1,3 +1,4 @@
+import { stringify } from 'querystring';
 import React, { useEffect } from 'react';
 import mapdata from '../../csvjson.json';
 import '../../styles/Kakao/Kakao.css';
@@ -8,15 +9,12 @@ let clickedOverlay: any = null;
 
 const Kakao = () => {
 	useEffect(() => {
-		const test = document.getElementById('test')
+		const test = document.getElementById('test');
 		const options = {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 12,
+			maxLevel: 13,
 		};
-		// const mapdata = [
-		// 	{ name: '대전광역시청', latlng: new kakao.maps.LatLng(36.350475, 127.384834) },
-		// 	{ name: '시청역', latlng: new kakao.maps.LatLng(36.351271, 127.386788) },
-		// ];
 
 		const container = document.getElementById('map');
 		const map = new kakao.maps.Map(container, options);
@@ -38,42 +36,41 @@ const Kakao = () => {
 			// const content = `<div class="inactive infowindow"><span>${data.spotName}</span></div>`;
 
 			// const infowindow = new kakao.maps.CustomOverlay({
-				// disableAutoPan: true,
-				// position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
-				// zIndex: 1,
-				// content: `<div id="popup_map" class="inactive infowindow"><span>${data.spotName}</span></div>`,
-				// content: content,
-				// removable: true,
-				// map: map,
+			// disableAutoPan: true,
+			// position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
+			// zIndex: 1,
+			// content: `<div id="popup_map" class="inactive infowindow"><span>${data.spotName}</span></div>`,
+			// content: content,
+			// removable: true,
+			// map: map,
 			// });
 
-			const content = document.createElement('div');
-			content.className = 'infowindow';
-			content.innerHTML = data.spotName;
-
 			const closeBtn = document.createElement('button');
+			closeBtn.className = 'closeBtn';
 			closeBtn.innerHTML = '닫기';
 			closeBtn.onclick = function () {
 				// infowindow.setMap(null);
 				test!.style.display = 'none';
 			};
-			// content.appendChild(closeBtn);
-			test?.appendChild(closeBtn);
-			// infowindow.setContent(content);
 
 			markers.push(marker);
 
 			kakao.maps.event.addListener(marker, 'click', function () {
 				if (clickedOverlay) {
 					// clickedOverlay.setMap(null);
+					// test!.textContent = null;
 					clickedOverlay = null;
 					test!.style.display = 'none';
-				} else
+				}
 				// infowindow.setMap(map);
 				// clickedOverlay = infowindow;
-				clickedOverlay = 'open';
-				test!.textContent = data.spotName;
-				test!.style.display = 'block'
+				else clickedOverlay = 'open';
+				test!.innerHTML = `<p class="spotname">이곳의 이름은 ${data.spotName} 입니다.</p>
+				<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
+				<p class="spotaddress">이곳의 주소는 ${data.spotAddress} 입니다.</p>
+				<p>전화번호는 여기에 넣습니다.</p>
+				<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>`;
+				test!.style.display = 'block';
 				test?.appendChild(closeBtn);
 			});
 		};
@@ -91,7 +88,7 @@ const Kakao = () => {
 	return (
 		<div id="wrap">
 			<div id="map" />
-			<div id="test"> 11 </div>
+			<div id="test" />
 		</div>
 	);
 };

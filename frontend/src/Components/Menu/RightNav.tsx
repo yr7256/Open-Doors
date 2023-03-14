@@ -1,4 +1,4 @@
-import { Ul, Li } from './styles';
+import { Ul, Li } from '../../styles/Menu/styles';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 
