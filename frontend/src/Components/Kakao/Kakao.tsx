@@ -12,7 +12,7 @@ const Kakao = () => {
 		const test = document.getElementById('test');
 		const options = {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
-			level: 12,
+			level: 5,
 			maxLevel: 13,
 		};
 
