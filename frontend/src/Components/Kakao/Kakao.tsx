@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import React, { useEffect } from 'react';
 import mapdata from '../../csvjson.json';
 import '../../styles/Kakao/Kakao.css';
