@@ -88,7 +88,7 @@ export const Ul = styled.ul<INav>`
 		width: 180px;
 		padding-top: 3.5rem;
 		transition: transform 0.3s ease-in-out;
-		z-index: 9;
+		z-index: 19;
 		justify-content: normal;
 	}
 `;
