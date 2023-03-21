@@ -1,6 +1,7 @@
 import React from 'react';
+import LoginInput from '../../Components/Auth/LoginInput';
 
 function Login() {
-	return <div />;
+	return <LoginInput></LoginInput>;
 }
 export default Login;

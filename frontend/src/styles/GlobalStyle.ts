@@ -31,11 +31,11 @@ const GlobalStyles = createGlobalStyle`
     }
     h3 {
         font-family: 'SUIT-Bold', 'sans-serif';
-        font-size: 22px;
+        font-size: 20px;
     }
     h4 {
-        font-family: 'SUIT-Bold', 'sans-serif';
-        font-size: 20px;
+        font-family: 'SUIT-Regular', 'sans-serif';
+        font-size: 24px;
     }
 
     p {

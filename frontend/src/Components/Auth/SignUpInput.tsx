@@ -1,4 +1,8 @@
 import React, { useState, useCallback, ChangeEvent } from 'react';
+import { Head, Line } from '../../styles/Nav/NavStyle';
+import { Input, Label, Checkbox, Message, Ptag2, Condition, Div } from '../../styles/Auth/SignUpInputstyle';
+import { Button } from '../../styles/Button/ButtonStyle';
+import Birthday from './Birthday';
 // import { Top } from '../../styles/Auth/SignUpInputstyle';
 // import useInput from "../../hooks/useInput";
 // import FacilitesInput from "./FacilitesInput";
@@ -62,7 +66,7 @@ function SignUpInput() {
 		const idRegExp = /^[a-zA-z0-9]{4,15}$/;
 
 		if (!idRegExp.test(currentId)) {
-			setIdMessage('4-15사이 대소문자 또는 숫자만 입력해 주세요!');
+			setIdMessage('');
 			setIsId(false);
 		} else {
 			setIdMessage('사용가능한 아이디 입니다.');
@@ -87,7 +91,7 @@ function SignUpInput() {
 		setPassword(currentPassword);
 		const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 		if (!passwordRegExp.test(currentPassword)) {
-			setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+			setPasswordMessage('');
 			setIsPassword(false);
 		} else {
 			setPasswordMessage('안전한 비밀번호 입니다.');
@@ -121,65 +125,69 @@ function SignUpInput() {
 	};
 	return (
 		<>
-			{/* <Top> */}
-			<h2>회원가입</h2>
-			{/* </Top> */}
+			<Head>회원가입</Head>
+			<Line />
 			<form onSubmit={handleSubmit}>
-				<label htmlFor="id">아이디</label> <br />
-				<input id="id" name="id" value={id} onChange={onChangeId} />
-				<p className="message"> {idMessage} </p>
-				<label htmlFor="name">이름</label> <br />
-				<input id="name" name="name" value={name} onChange={onChangeName} />
-				<p className="message">{nameMessage}</p>
+				<Label htmlFor="id">아이디</Label> <br />
+				<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />
+				<Message className="message"> {idMessage} </Message>
 				<div className="form-el">
-					<label htmlFor="password">비밀번호</label> <br />
-					<input id="password" name="password" value={'*'.repeat(password.length)} onChange={onChangePassword} />
-					<p className="message">{passwordMessage}</p>
+					<Label htmlFor="password">비밀번호</Label> <br />
+					<Input
+						id="password"
+						name="password"
+						value={'*'.repeat(password.length)}
+						onChange={onChangePassword}
+						placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
+					/>
+					<Message className="message">{passwordMessage}</Message>
 				</div>
 				<div className="form-el">
-					<label htmlFor="passwordConfirm">비밀번호 확인</label> <br />
-					<input
+					<Label htmlFor="passwordConfirm">비밀번호 확인</Label> <br />
+					<Input
 						id="passwordConfirm"
 						name="passwordConfirm"
 						value={'*'.repeat(passwordCheck.length)}
 						onChange={onChangePasswordConfirm}
+						placeholder={'  비밀번호 확인'}
 					/>
-					<p className="message">{passwordCheckMessage}</p>
+					<Message className="message">{passwordCheckMessage}</Message>
 				</div>
+				<Label htmlFor="name">이름</Label> <br />
+				<Input id="name" name="name" value={name} onChange={onChangeName} placeholder={'  이름'} />
+				<Message className="message">{nameMessage}</Message>
 				<div className="form-el">
-					<label htmlFor="birth">Birth</label> <br />
-					<input type="date" id="birth" name="birth" value={birth} onChange={onChangeBirth} />
+					<Birthday></Birthday>
 				</div>
+				<Label>성별</Label>
+				<br />
+				<Checkbox type="checkbox" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
+				남성
+				<Checkbox type="checkbox" value="female" checked={gender === 'female'} onChange={() => setGender('female')} />
+				여성
 				<br />
 				<br />
-				<label>
-					성별:
-					<input type="radio" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
-					남성
-					<input type="radio" value="female" checked={gender === 'female'} onChange={() => setGender('female')} />
-					여성
-				</label>
-				<br />
-				<br />
-				<label>필요한 배리어프리 조건(중복선택가능)</label>
-				<p>선택하신 조건은</p>
-				<p>가입 후, 마이페이지에서 변경 가능 합니다.</p>
+				<Label>배리어프리 여부(중복선택 가능)</Label>
+				<Div>
+					<Ptag2>선택하신 조건은</Ptag2>
+					<Ptag2>가입 후, 마이페이지에서 변경 가능 합니다.</Ptag2>
+				</Div>
 				{facilitiesList.map((facility) => (
 					<div key={facility.id}>
-						<label>
-							<input
+						<Label>
+							<Condition
 								type="checkbox"
 								checked={selectedFacilities.some((f) => f.id === facility.id)}
 								onChange={() => toggleCheckbox(facility)}
 							/>
 							{facility.label}
-						</label>
+						</Label>
 					</div>
 				))}
 				<br />
-				<button type="submit" disabled={isSignUpButtonDisabled}>
+				<Button type="submit" disabled={isSignUpButtonDisabled}>
 					가입하기
-				</button>
+				</Button>
 			</form>
 		</>
 	);
