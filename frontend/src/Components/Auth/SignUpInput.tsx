@@ -1,5 +1,5 @@
 import React, { useState, useCallback, ChangeEvent } from 'react';
-import { Top } from '../../styles/Auth/SignUpInputstyle';
+// import { Top } from '../../styles/Auth/SignUpInputstyle';
 // import useInput from "../../hooks/useInput";
 // import FacilitesInput from "./FacilitesInput";
 // import { User } from "../../types/auth";
@@ -121,9 +121,9 @@ function SignUpInput() {
 	};
 	return (
 		<>
-			<Top>
-				<h2>회원가입</h2>
-			</Top>
+			{/* <Top> */}
+			<h2>회원가입</h2>
+			{/* </Top> */}
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="id">아이디</label> <br />
 				<input id="id" name="id" value={id} onChange={onChangeId} />
