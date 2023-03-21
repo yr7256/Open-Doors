@@ -1,3 +1,5 @@
 .Topbarcontainer {
-  height: 7vh;
+  /* height: 7vh; */
+  position: fixed;
+  z-index: 21;
 }
