@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Container } from '../../styles/Kakao/SearchAddress';
+import { Container, Bottom } from '../../styles/Kakao/SearchAddress';
 
 const SearchAddressMap = () => {
+	const [location, setLocation] = useState();
 	useEffect(() => {
 		const geocoder = new kakao.maps.services.Geocoder();
 		const options = {
@@ -54,6 +55,7 @@ const SearchAddressMap = () => {
 						// 마커를 클릭한 위치에 표시합니다
 						marker.setPosition(map.getCenter());
 						console.log(content);
+						setLocation(detailAddr);
 					}
 				});
 			});
@@ -74,11 +76,15 @@ const SearchAddressMap = () => {
 			const locPosition = new kakao.maps.LatLng(36.350475, 127.384834);
 			displayMarker(locPosition);
 		}
-	});
+	}, []);
 	return (
 		<Container className="container">
 			<p>지도를 움직여 아이콘을 원하는 위치로 옮기세요.</p>
 			<div id="map" />
+			<Bottom>
+				<p>{location}</p>
+				<button>변경</button>
+			</Bottom>
 			<Outlet />
 		</Container>
 	);
