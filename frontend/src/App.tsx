@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Map from './pages/Map/Map';
 import NewLocation from './Components/Kakao/NewLocation';
+import SearchAddress from './Components/Kakao/SearchAddress';
+import SearchAddressMain from './Components/Kakao/SearchAddressMain';
+import SearchAddressMap from './Components/Kakao/SearchAddressMap';
 
 function App() {
 	return (
@@ -10,6 +13,11 @@ function App() {
 			<Routes>
 				<Route path="/map/*" element={<Map />} />
 				<Route path="/map/newlocation/*" element={<NewLocation />} />
+				<Route path="/map/newlocation/search" element={<SearchAddress />}>
+					{/* <Route index element= {<SearchAddressMain />} /> */}
+					<Route path="main" element={<SearchAddressMain />} />
+					<Route path="marker" element={<SearchAddressMap />} />
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);

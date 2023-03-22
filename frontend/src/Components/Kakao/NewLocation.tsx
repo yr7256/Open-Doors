@@ -1,12 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/Kakao/NewLocation.css';
-
-type Data = {
-	key: number;
-	value: string;
-};
+import SearchAddress from './SearchAddress';
 
 const NewLocation = () => {
+	const navigate = useNavigate();
+
 	const bflist = [
 		{ key: 1, value: '휠체어 접근 가능' },
 		{ key: 2, value: '해당 장소가 1층에 위치함' },
@@ -43,6 +42,11 @@ const NewLocation = () => {
 		}
 	};
 
+	const goSearch = () => {
+    navigate("/map/newlocation/search");
+  };
+
+
 	return (
 		<>
 			<p>취소</p>
@@ -65,15 +69,16 @@ const NewLocation = () => {
 				</div>
 				<div className="md:flex md:items-center mb-6">
 					<div className="md:w-1/3">
-						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">위치 (필수)</label>
+						<p className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">위치 (필수)</p>
 					</div>
 					<div className="md:w-2/3">
-						<input
+						{/* <input
 							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
 							id="inline-full-name"
 							type="text"
 							placeholder="여기를 눌러 주소를 검색해주세요."
-						/>
+						/> */}
+						<button className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" onClick={goSearch}>123</button>
 					</div>
 				</div>
 				<div className="md:flex md:items-center mb-6">
