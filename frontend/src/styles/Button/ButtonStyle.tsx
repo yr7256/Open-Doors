@@ -6,8 +6,8 @@ export const Button = styled.button`
 	height: 52px;
 	color: #3b82f6;
 	margin-left: 28px;
-	margin-bottom: 40px;
-	margin-top: 16px;
+	margin-bottom: 32px;
+	margin-top: 12px;
 	font-size: 24px;
 
 	&:active {
