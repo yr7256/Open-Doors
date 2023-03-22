@@ -1,8 +1,12 @@
 package io.blackbeat.opendoors.service.impl;
 
+import io.blackbeat.opendoors.db.entity.Place.SfInfo;
+import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.db.entity.User;
 import io.blackbeat.opendoors.db.repository.RoleRepo;
+import io.blackbeat.opendoors.db.repository.SfInfoRepo;
+import io.blackbeat.opendoors.db.repository.SpotRepo;
 import io.blackbeat.opendoors.db.repository.UserRepo;
 import io.blackbeat.opendoors.service.UserService;
 
@@ -19,6 +23,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static java.rmi.server.LogStream.log;
 
@@ -28,6 +33,7 @@ import static java.rmi.server.LogStream.log;
 @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
     private  final UserRepo userRepo;
+    private final SfInfoRepo sfInfoRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
 
@@ -71,6 +77,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.getRoles().add(role);
     }
 
+
+    @Override
+    public void addSfInfoToUser(Long userId, Collection<Long> sfInfoIds) {
+        log.info("유저 {}의 특성 {}을 추가하고 데이터베이스에 저장합니다." ,userId , sfInfoIds);
+        User user = userRepo.findById(userId).orElseThrow();
+        for(Long sfInfoId : sfInfoIds){
+//            Optional<SfInfo> sfInfo = sfInfoRepo.findById(sfInfoId);
+            SfInfo sfInfo = sfInfoRepo.findById(sfInfoId).orElseThrow();
+            user.getSfInfoIds().add(sfInfo);
+        }
+        userRepo.save(user);
+    }
     @Override
     public User getUser(String username) {
         log.info("유저 {}의 정보를 불러옵니다.." ,username );

@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.db.entity.Place;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
+@ToString(exclude = "SfInfo")
 @NoArgsConstructor
 @AllArgsConstructor
 public class SfInfo {

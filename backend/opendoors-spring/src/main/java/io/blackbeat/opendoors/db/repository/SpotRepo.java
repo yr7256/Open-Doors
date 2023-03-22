@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SpotRepo extends JpaRepository<Spot, Long> {
     Spot findBySpotName(String spotName);
+
 }

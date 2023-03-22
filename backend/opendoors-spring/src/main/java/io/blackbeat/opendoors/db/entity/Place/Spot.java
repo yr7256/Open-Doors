@@ -4,6 +4,7 @@ import io.blackbeat.opendoors.db.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -16,12 +17,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
+@ToString(exclude = "Spot")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Spot {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String spotAddress;  //주소
 
@@ -45,12 +47,27 @@ public class Spot {
     //전화번호호
     private String spotTelNumber;
 
-    //시설 이용가능 정보
+    // 도로명 주소
+    private int zipcode;
 
+    //리뷰 평점
+    private double reviewRating;
+
+    //리뷰어의 수
+    private int reviewCount;
+
+    // 오픈 시간
+    private String openHours;
+
+    //메뉴
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="MENU_ID")
+    private List<Menu> menus = new ArrayList<>();
+
+    //시설 이용가능 정보
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
     private List<SpotSfInfo> spotSfInfos = new ArrayList<>();
 
-    // 도로명 주소
 
 
 

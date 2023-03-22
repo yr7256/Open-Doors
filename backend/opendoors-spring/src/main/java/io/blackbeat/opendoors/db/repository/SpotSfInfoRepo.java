@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SpotSfInfoRepo extends JpaRepository<SpotSfInfo, Long> {
-    public List<Spot> findBySfInfoId(Long sfInfoId);
+    List<SpotSfInfo> findAllBySfInfoId(Long sfInfoId);
+    List<SpotSfInfo> findAllById(Long sfInfoId);
 }

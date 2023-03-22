@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.api.controller;
 import io.blackbeat.opendoors.api.request.RegistDto;
 import io.blackbeat.opendoors.api.request.SpotDto;
 import io.blackbeat.opendoors.api.response.CommonDto;
+import io.blackbeat.opendoors.api.response.SpotListDto;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,13 @@ public class SpotController {
     @GetMapping("/spots")
     public ResponseEntity<List<Spot>>getSpots(){return ResponseEntity.ok().body(spotService.getSpots());}
 
-    @PostMapping("/spots/save")
+    @GetMapping("/spots/{sfInfoId}")
+    public SpotListDto getSpotsBySfinfo(@PathVariable Long sfInfoId){
+        Collection<Spot> spotList  = spotService.getSpotsBySfInfo(sfInfoId);
+        return SpotListDto.of("200" , sfInfoId + "를 포함하는 장소의 목록입니다.", spotList);
+    }
+
+    @PostMapping("/spot/save")
     public CommonDto<Object> saveSpot(@RequestBody SpotDto spotDto) {
         ModelMapper modelMapper = new ModelMapper();
         Spot spot = modelMapper.map(spotDto.getSpot() , Spot.class);
@@ -42,7 +50,6 @@ public class SpotController {
                 spotSfInfo.setSpot(spot);
                 spotSfInfo.setSfInfo(sfInfo);
                 spotService.saveSpotSfInfo(spotSfInfo);
-                System.out.println(spotSfInfo);
             }
 
             return CommonDto.of("200" , "장소등록이 성공적으로 완료되었습니다." , spot.getSpotName());
