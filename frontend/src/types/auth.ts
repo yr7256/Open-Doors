@@ -1,5 +1,11 @@
 export interface User {
-  id: string;
-  password: string;
-  name: string;
+	id: string;
+	password: string;
+	name: string;
+}
+
+export interface Birth {
+	birthYear: string;
+	birthMonth: string;
+	birthDay: string;
 }
