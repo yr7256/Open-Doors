@@ -7,15 +7,18 @@ import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
+import { loginAccount, logoutAccount } from '../../store/AuthSlice';
 
 function LoginInput() {
 	//Login 초기값
-	const [id, setId] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setId(event.target.value);
+		setUsername(event.target.value);
 	};
 
 	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,20 +26,19 @@ function LoginInput() {
 	};
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		dispatch(loginAccount({ username: username, password: password }));
 		event.preventDefault();
 		if (isChecked) {
-			console.log(id, password);
+			console.log(username, password);
 		} else {
-			console.log(id, password);
+			console.log(username, password);
 		}
 	};
-
-	const dispatch = useDispatch();
 
 	// 로그인 post 보내기
 	const submitLogin = async () => {
 		const loginPayload = {
-			username: id,
+			username: username,
 			password: password,
 		};
 		console.log(loginPayload);
@@ -49,14 +51,26 @@ function LoginInput() {
 		try {
 			const loginRequest = await axios(loginPost);
 			console.log(loginRequest);
+
+			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
+			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
+			const accessToken = loginRequest.data.access_token;
+
+			// 로컬 스토리지에 액세스 토큰 저장
+			localStorage.setItem('accessToken', accessToken);
 			console.log('로그인이 완료되었습니다.');
-		} catch (err) {
+		} catch (err: any) {
 			console.log('로그인 안됐다');
+			if (err.response) {
+				// 서버에서 반환된 에러 메시지를 사용자에게 표시
+				console.log(err.response.data.message);
+			} else {
+				console.log('네트워크 오류로 인해 로그인에 실패했습니다.');
+			}
 			console.log(err);
 		}
 	};
 
-	const navigate = useNavigate();
 	const moveSignup = () => {
 		navigate('/Signup');
 	};
