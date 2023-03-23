@@ -2,6 +2,7 @@ package io.blackbeat.opendoors.db.entity;
 
 
 import com.sun.istack.NotNull;
+import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
@@ -19,14 +22,19 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
     private String username;
     private String password;
     private String gender;
-    private Boolean isDisabled;
+    private String birthDay;
+    private String birthMonth;
+    private String birthYear;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<SfInfo> sfInfoIds = new ArrayList<>();
 
 }
