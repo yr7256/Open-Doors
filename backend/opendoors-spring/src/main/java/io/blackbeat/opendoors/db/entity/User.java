@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.db.entity;
 
 import com.sun.istack.NotNull;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
+import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +32,14 @@ public class User {
     private String birthDay;
     private String birthMonth;
     private String birthYear;
+    private int point;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<SfInfo> sfInfoIds = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Review> reviews = new ArrayList<>();
 
 }

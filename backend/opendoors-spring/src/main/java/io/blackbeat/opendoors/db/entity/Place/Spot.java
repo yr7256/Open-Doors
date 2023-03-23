@@ -1,6 +1,7 @@
 package io.blackbeat.opendoors.db.entity.Place;
 
 import io.blackbeat.opendoors.db.entity.Role;
+import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -68,8 +69,11 @@ public class Spot {
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
     private List<SpotSfInfo> spotSfInfos = new ArrayList<>();
 
+    // 승인여부
+    private String state;
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Review> reviews = new ArrayList<>();
 
 
 
