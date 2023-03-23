@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Head, BannerLine } from '../../styles/Nav/NavStyle';
 import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle';
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function LoginInput() {
 	//Login 초기값
@@ -30,6 +31,8 @@ function LoginInput() {
 		}
 	};
 
+	const dispatch = useDispatch();
+
 	// 로그인 post 보내기
 	const submitLogin = async () => {
 		const loginPayload = {
@@ -41,7 +44,7 @@ function LoginInput() {
 		const loginPost = {
 			url: '',
 			method: 'POST',
-			body: JSON.stringify(loginPayload),
+			data: JSON.stringify(loginPayload),
 		};
 		try {
 			const loginRequest = await axios(loginPost);

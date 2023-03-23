@@ -73,7 +73,7 @@ function SignUpInput() {
 
 	const isSignUpButtonDisabled = !(id && password && passwordCheck && realName);
 
-	const onChangeId = async (e: ChangeEvent<HTMLInputElement>) => {
+	const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
 		const currentId = e.target.value;
 		setId(currentId);
 		const idRegExp = /^[a-zA-z0-9]{4,15}$/;
@@ -100,6 +100,16 @@ function SignUpInput() {
 		//	setIdValidMessage('중복된 아이디입니다.')
 		// }
 		// }
+		axios
+			.post('', { username: currentId })
+			.then((response) => {
+				setIsIdAvailable(response.data.available);
+				setIdValidMessage('사용가능한 아이디 입니다.');
+			})
+			.catch((error) => {
+				console.log(error);
+				setIdValidMessage('중복된 아이디입니다.');
+			});
 	};
 
 	const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,11 +147,6 @@ function SignUpInput() {
 			setIsPasswordCheck(true);
 		}
 	};
-
-	// const onChangeBirth = (e: ChangeEvent<HTMLInputElement>) => {
-	// 	const currentBirth = e.target.value;
-	// 	setBirth(currentBirth);
-	// };
 
 	const handleBirthInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
