@@ -3,12 +3,15 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Bottom } from '../../styles/Kakao/SearchAddress';
 
 const SearchAddressMap = () => {
-	const [location, setLocation] = useState();
+	const [lat, setLat] = useState<number>();
+	const [lng, setLng] = useState<number>();
+	const [address, setAddress] = useState();
+
 
 	const navigate = useNavigate();
 
 	const goregister = () => {
-		navigate('/map/newlocation', { state: location });
+		navigate('/map/newlocation', { state: {address, lat, lng} });
 	};
 
 	useEffect(() => {
@@ -17,6 +20,7 @@ const SearchAddressMap = () => {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 5,
 			maxLevel: 13,
+			isPanto: true,
 		};
 		const container = document.getElementById('map') as HTMLElement;
 		const map = new kakao.maps.Map(container, options);
@@ -37,12 +41,12 @@ const SearchAddressMap = () => {
 			kakao.maps.event.addListener(map, 'drag', function () {
 				const center = map.getCenter();
 				marker.setPosition(center);
-				console.log(center);
+				// console.log(center);
 			});
 			kakao.maps.event.addListener(map, 'zoom_changed', function () {
 				const center = map.getCenter();
 				marker.setPosition(center);
-				console.log(center);
+				// console.log(center);
 			});
 			kakao.maps.event.addListener(map, 'idle', function () {
 				searchDetailAddrFromCoords(
@@ -54,14 +58,15 @@ const SearchAddressMap = () => {
 								: result[0].address.address_name;
 							// detailAddr += result[0].address.address_name;
 							// console.log(result[0])
-							console.log(result[0]);
 
 							const content = '<div class="bAddr">' + detailAddr + '</div>';
 
 							// 마커를 클릭한 위치에 표시합니다
 							marker.setPosition(map.getCenter());
-							console.log(content);
-							setLocation(detailAddr);
+							// console.log(content);
+							setLat(marker.getPosition().getLat());
+							setLng(marker.getPosition().getLng());
+							setAddress(detailAddr);
 						}
 					}
 				);
@@ -89,7 +94,7 @@ const SearchAddressMap = () => {
 			<p>지도를 움직여 아이콘을 원하는 위치로 옮기세요.</p>
 			<div id="map" />
 			<Bottom>
-				<p>{location}</p>
+				<p>{address}</p>
 				<button onClick={goregister}>변경</button>
 			</Bottom>
 			<Outlet />

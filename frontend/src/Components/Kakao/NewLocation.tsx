@@ -20,7 +20,7 @@ const NewLocation = () => {
 	];
 
 	const [name, setName] = useState('');
-	const [address, setAddress] = useState('');
+	// const [address, setAddress] = useState('');
 	const [addressdetail, setAddressdetail] = useState('');
 	const [category, setCategory] = useState('');
 	const [telnum, setTelnum] = useState('');
@@ -71,30 +71,25 @@ const NewLocation = () => {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		// console.log(name);
-		// console.log(address);
-		// console.log(addressdetail);
-		// console.log(category);
-		// console.log(telnum);
-		// console.log(selectedFiles);
-		// console.log(checkedList);
 		try {
 			const response = await axios.post(
 				'http://192.168.31.134/api/spot/save',
 				{
 					spot: {
 						spotName: name,
-						spotAddress: address,
+						spotAddress: state?.address,
 						spotBuildingName: addressdetail,
 						spotCategory: category,
 						spotTelNumber: telnum,
+						spotLat: state?.lat,
+						spotLng: state?.lng,
 					},
 					sfInfos: checkedList,
 				},
 				{
 					headers: {
-						access_token: 123
-					}
+						access_token: 123,
+					},
 				}
 			);
 		} catch (err) {
@@ -140,7 +135,7 @@ const NewLocation = () => {
 							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm"
 							onClick={goSearch}
 						>
-							{state ? state : '여기를 눌러 주소를 검색해주세요.'}
+							{state ? state.address : '여기를 눌러 주소를 검색해주세요.'}
 						</button>
 						<input
 							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm mt-3"

@@ -29,6 +29,7 @@ export const Menu = styled.div`
 `;
 
 export const Container = styled.div`
+	width: 100vw;
 	& > p {
 		margin: 3vh auto;
 		text-align: center;
@@ -36,7 +37,7 @@ export const Container = styled.div`
 	}
 	& > #map {
 		width: 100%;
-		height: 64vh;
+		height: 60vh;
 	}
 `; 
 
