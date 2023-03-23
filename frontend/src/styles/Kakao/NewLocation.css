@@ -26,3 +26,8 @@
   overflow: hidden;
   border: 0;
 }
+
+.filesize {
+  width: 100px;
+  height: 100px;
+}

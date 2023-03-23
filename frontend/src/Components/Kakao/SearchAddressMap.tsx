@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Bottom } from '../../styles/Kakao/SearchAddress';
 
 const SearchAddressMap = () => {
 	const [location, setLocation] = useState();
+
+	const navigate = useNavigate();
+
+	const goregister = () => {
+		navigate('/map/newlocation', { state: location });
+	};
+
 	useEffect(() => {
 		const geocoder = new kakao.maps.services.Geocoder();
 		const options = {
@@ -13,10 +20,6 @@ const SearchAddressMap = () => {
 		};
 		const container = document.getElementById('map') as HTMLElement;
 		const map = new kakao.maps.Map(container, options);
-		function searchAddrFromCoords(coords: kakao.maps.LatLng, callback: any) {
-			// 좌표로 행정동 주소 정보를 요청합니다
-			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-		}
 
 		function searchDetailAddrFromCoords(coords: kakao.maps.LatLng, callback: any) {
 			// 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -42,22 +45,26 @@ const SearchAddressMap = () => {
 				console.log(center);
 			});
 			kakao.maps.event.addListener(map, 'idle', function () {
-				searchDetailAddrFromCoords(map.getCenter(), function (result: any, status: kakao.maps.services.Status) {
-					if (status === kakao.maps.services.Status.OK) {
-						const detailAddr = result[0].road_address
-							? result[0].road_address.address_name
-							: result[0].address.address_name;
-						// detailAddr += result[0].address.address_name;
-						// console.log(result[0])
+				searchDetailAddrFromCoords(
+					map.getCenter(),
+					function (result: any, status: kakao.maps.services.Status) {
+						if (status === kakao.maps.services.Status.OK) {
+							const detailAddr = result[0].road_address
+								? result[0].road_address.address_name
+								: result[0].address.address_name;
+							// detailAddr += result[0].address.address_name;
+							// console.log(result[0])
+							console.log(result[0]);
 
-						const content = '<div class="bAddr">' + detailAddr + '</div>';
+							const content = '<div class="bAddr">' + detailAddr + '</div>';
 
-						// 마커를 클릭한 위치에 표시합니다
-						marker.setPosition(map.getCenter());
-						console.log(content);
-						setLocation(detailAddr);
+							// 마커를 클릭한 위치에 표시합니다
+							marker.setPosition(map.getCenter());
+							console.log(content);
+							setLocation(detailAddr);
+						}
 					}
-				});
+				);
 			});
 		}
 
@@ -83,7 +90,7 @@ const SearchAddressMap = () => {
 			<div id="map" />
 			<Bottom>
 				<p>{location}</p>
-				<button>변경</button>
+				<button onClick={goregister}>변경</button>
 			</Bottom>
 			<Outlet />
 		</Container>

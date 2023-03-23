@@ -14,7 +14,7 @@ function App() {
 				<Route path="/map/*" element={<Map />} />
 				<Route path="/map/newlocation/*" element={<NewLocation />} />
 				<Route path="/map/newlocation/search" element={<SearchAddress />}>
-					{/* <Route index element= {<SearchAddressMain />} /> */}
+					<Route index element= {<SearchAddressMain />} />
 					<Route path="main" element={<SearchAddressMain />} />
 					<Route path="marker" element={<SearchAddressMap />} />
 				</Route>

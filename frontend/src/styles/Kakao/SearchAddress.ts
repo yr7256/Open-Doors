@@ -42,12 +42,12 @@ export const Container = styled.div`
 
 export const Bottom = styled.div`
 	& > p {
-		font-size: 24px;
+		font-size: 18px;
 		position: absolute;
 		left: 3vh;
 		bottom: 3vh;
-		width: 70vw;
-		height: 24px;
+		width: 80vw;
+		height: 18px;
 	}
 	& > button {
 		position: absolute;
