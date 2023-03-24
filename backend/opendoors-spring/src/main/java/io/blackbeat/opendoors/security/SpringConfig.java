@@ -58,7 +58,7 @@ public class SpringConfig {
         http.csrf().disable();
         http.cors().configurationSource(corsConfigurationSource());
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**" , "/api/token/refresh/**" , "/api/users/save/**" ,"/api/user/save/**" ,  "/api/spots/**" , "/api/spot/**" , "/api/users").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**" , "/api/token/refresh/**" , "/api/users/save/**" ,"/api/user/save/**" ,  "/api/spots/**" , "/api/spot/**" , "/api/users" , "/api/recommend/**" , "/api/review/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();

@@ -1,5 +1,6 @@
 package io.blackbeat.opendoors.db.entity.Place;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
@@ -52,7 +53,7 @@ public class Spot {
     private int zipcode;
 
     //리뷰 평점
-    private double reviewRating;
+    private double reviewScore;
 
     //리뷰어의 수
     private int reviewCount;

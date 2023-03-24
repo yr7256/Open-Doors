@@ -36,7 +36,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<SfInfo> sfInfoIds = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)

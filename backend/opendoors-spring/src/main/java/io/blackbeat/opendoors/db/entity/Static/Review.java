@@ -20,6 +20,7 @@ public class Review {
     private Long id;
 
     private String username;
+    private Long spotId;
     private double reviewScore;
     private String reviewContent;
 
