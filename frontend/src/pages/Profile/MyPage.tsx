@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import UserInfo from '../../Components/Profile/UserInfo';
 import Logout from '../../Components/Auth/Logout';
 import MyImg from '../../Components/Profile/MyImg';
+import Footer from '../../Components/Nav/Footer';
+import Donation from '../../assets/img/donation.png';
+import ClickReview from '../../assets/img/clickreview.png';
+import MyInfoManage from '../../assets/img/myinfomanage.png';
 import { Head, Line } from '../../styles/Nav/NavStyle';
-import { ThickLine, P, MyLine } from '../../styles/Profile/MyPagestyle';
+import { ThickLine, P, MyLine, Image } from '../../styles/Profile/MyPagestyle';
 
 function MyPage() {
 	const navigate = useNavigate();
@@ -30,12 +34,16 @@ function MyPage() {
 			<Logout />
 			<P>기부포인트 1000P</P>
 			<ThickLine />
+			<Image src={MyInfoManage}></Image>
 			<button onClick={moveMyInfo}>내 정보 관리</button>
 			<MyLine />
+			<Image src={Donation}></Image>
 			<button onClick={moveDonation}>기부 포인트 내역</button>
 			<MyLine />
+			<Image src={ClickReview}></Image>
 			<button onClick={moveReview}>리뷰 내역</button>
 			<MyLine />
+			<Footer />
 		</>
 	);
 }
