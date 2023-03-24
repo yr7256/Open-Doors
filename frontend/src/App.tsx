@@ -12,8 +12,8 @@ import SearchAddressMap from './Components/Kakao/SearchAddressMap';
 import MyDonation from './pages/Profile/MyDonation';
 import MyInfoManage from './pages/Profile/MyInfoManage';
 import MyReview from './pages/Profile/MyReview';
-import ChangePassword from './Components/Auth/ChangePassword';
-import ChangeBarrierFree from './Components/Auth/ChangeBarrierFree';
+import ChangePasswordPage from './pages/Profile/ChangePasswordPage';
+import ChangeBarrierFreePage from './pages/Profile/ChangeBarrierFreePage';
 
 function App() {
 	return (
@@ -26,8 +26,8 @@ function App() {
 				<Route path="/Mypage/Donation" element={<MyDonation />} />
 				<Route path="/Mypage/MyInfoManage" element={<MyInfoManage />} />
 				<Route path="/Mypage/MyReview" element={<MyReview />} />
-				<Route path="/Mypage/ChangePassword" element={<ChangePassword />} />
-				<Route path="/Mypage/ChangeBarrierFree" element={<ChangeBarrierFree />} />
+				<Route path="/Mypage/ChangePassword" element={<ChangePasswordPage />} />
+				<Route path="/Mypage/ChangeBarrierFree" element={<ChangeBarrierFreePage />} />
 				<Route path="/map/newlocation/*" element={<NewLocation />} />
 				<Route path="/map/newlocation/search" element={<SearchAddress />}>
 					<Route index element={<SearchAddressMain />} />
