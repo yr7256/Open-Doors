@@ -3,10 +3,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../../styles/Kakao/NewLocation.css';
 import { Head, Line } from '../../styles/Kakao/SearchAddress';
 import axios from 'axios';
+import { RegisterMapAction } from '../../store/RegisterMapSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import Checkbox from './Checkbox';
 
 const NewLocation = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
+	const dispatch = useDispatch();
+	const formdata:any = useSelector(state => state);
+	// console.log(formdata.RegisterMap)
 
 	const bflist = [
 		{ key: '1', value: '휠체어 접근 가능' },
@@ -25,7 +31,7 @@ const NewLocation = () => {
 	const [category, setCategory] = useState('');
 	const [telnum, setTelnum] = useState('');
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-	const [checkedList, setCheckedList] = useState<string[]>([]);
+	// const [checkedList, setCheckedList] = useState<string[]>([]);
 
 	const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
 		const filesArray = Array.from(event.target.files || []);
@@ -41,32 +47,37 @@ const NewLocation = () => {
 		console.log(selectedFiles);
 	};
 
-	const checkListHandler = (data: string, isChecked: boolean) => {
-		if (isChecked) {
-			setCheckedList([...checkedList, data]);
-		} else if (!isChecked) {
-			setCheckedList(checkedList.filter((el) => el !== data));
-		}
-	};
+	// const checkListHandler = (data: string, isChecked: boolean) => {
+	// 	if (isChecked) {
+	// 		setCheckedList([...checkedList, data]);
+	// 	} else if (!isChecked) {
+	// 		setCheckedList(checkedList.filter((el) => el !== data));
+	// 	}
+	// };
 
 	const goSearch = () => {
 		navigate('/map/newlocation/search');
 	};
 
+
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setName(event.target.value);
+		dispatch(RegisterMapAction.addTospotName(event.target.value));
 	};
 
 	const handleDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setAddressdetail(event.target.value);
+		dispatch(RegisterMapAction.addTospotBuildingName(event.target.value));
 	};
 
 	const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setCategory(event.target.value);
+		dispatch(RegisterMapAction.addTospotCategory(event.target.value));
 	};
 
 	const handleTelnumChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setTelnum(event.target.value);
+		dispatch(RegisterMapAction.addTospotTelNumber(event.target.value));
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -76,15 +87,19 @@ const NewLocation = () => {
 				'http://192.168.31.134/api/spot/save',
 				{
 					spot: {
-						spotName: name,
+						spotName: formdata.registerMap.spotName,
+						// spotName: name,
 						spotAddress: state?.address,
-						spotBuildingName: addressdetail,
-						spotCategory: category,
-						spotTelNumber: telnum,
+						spotBuildingName: formdata.registerMap.spotBuildingName,
+						// spotBuildingName: addressdetail,
+						spotCategory: formdata.registerMap.spotCategory,
+						// spotCategory: category,
+						spotTelNumber: formdata.registerMap.spotTelNumber,
+						// spotTelNumber: telnum,
 						spotLat: state?.lat,
 						spotLng: state?.lng,
 					},
-					sfInfos: checkedList,
+					// sfInfos: checkedList,
 				},
 				{
 					headers: {
@@ -123,6 +138,7 @@ const NewLocation = () => {
 							type="text"
 							placeholder="시설의 이름을 입력해주세요."
 							onChange={handleNameChange}
+							defaultValue={formdata.registerMap.spotName}
 						/>
 					</div>
 				</div>
@@ -143,6 +159,7 @@ const NewLocation = () => {
 							type="text"
 							placeholder="상세 정보를 입력하세요."
 							onChange={handleDetailChange}
+							defaultValue={formdata.registerMap.spotBuildingName}
 						/>
 					</div>
 				</div>
@@ -183,6 +200,7 @@ const NewLocation = () => {
 							type="text"
 							placeholder="예) 음식점, 카페 등"
 							onChange={handleCategoryChange}
+							defaultValue={formdata.registerMap.spotCategory}
 						/>
 					</div>
 				</div>
@@ -197,6 +215,7 @@ const NewLocation = () => {
 							type="text"
 							placeholder="대표 전화번호를 입력해주세요."
 							onChange={handleTelnumChange}
+							defaultValue={formdata.registerMap.spotTelNumber}
 						/>
 					</div>
 				</div>
@@ -205,14 +224,14 @@ const NewLocation = () => {
 						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">시설 이용 가능 여부</label>
 					</div>
 					<div className="md:w-2/3">
-						{bflist.map((item) => {
+						{/* {bflist.map((item) => {
 							return (
 								<label key={item.key}>
 									<input
 										type="checkbox"
 										value={item.key}
 										onChange={(e: ChangeEvent<HTMLInputElement>) => {
-											console.log(e.target);
+											// console.log(e.target.checked);
 											checkListHandler(e.target.value, e.target.checked);
 										}}
 										checked={checkedList.includes(item.key) ? true : false}
@@ -220,6 +239,11 @@ const NewLocation = () => {
 									<p>{item.value}</p>
 								</label>
 							);
+						})} */}
+						{bflist.map((item, index) => {
+							return (
+								<Checkbox key={index} id={item.key} label={item.value} />
+							)
 						})}
 					</div>
 				</div>
