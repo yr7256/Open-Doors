@@ -60,11 +60,10 @@ export const Ul = styled.ul<INav>`
 	display: flex;
 	flex-flow: row nowrap;
 	position: absolute;
-	width: 90%;
 	top: 0;
 	justify-content: flex-end;
-	margin-top: 0px;
-	align-items: center;
+	margin-top: 28px;
+	// align-items: center;
 	font-size: 18px;
 	height: 110px;
 	margin-left: 20px;
@@ -82,10 +81,10 @@ export const Ul = styled.ul<INav>`
 		background-color: #fdfdfdfa;
 		position: fixed;
 		transform: ${(props) => (props.open ? 'translateX(0)' : 'translateX(100%)')};
-		top: -16px;
+		top: -28px;
 		right: 0;
 		height: 100%;
-		width: 180px;
+		width: 66vw;
 		padding-top: 3.5rem;
 		transition: transform 0.3s ease-in-out;
 		z-index: 19;
@@ -94,9 +93,11 @@ export const Ul = styled.ul<INav>`
 `;
 
 export const Li = styled.li`
-	padding: 18px 10px;
+	padding: 0 0 0 16px;
 	outline: none;
-	@media (max-width: 768px) {
+	font-size: 24px;
+	margin-top: 28px;
+	@media {
 		color: #000;
 		margin-right: 34px;
 		&:hover {
@@ -105,39 +106,39 @@ export const Li = styled.li`
 	}
 `;
 
-export const Logo = styled.img`
-	margin: 20px 50px 20px 7%;
-	width: 160px;
-	height: 70px;
-	object-fit: contain;
-	@media (max-width: 1250px) {
-		margin: 20px 50px 20px 5%;
-	}
-`;
+// export const Logo = styled.img`
+// 	margin: 20px 50px 20px 7%;
+// 	width: 160px;
+// 	height: 70px;
+// 	object-fit: contain;
+// 	@media (max-width: 1250px) {
+// 		margin: 20px 50px 20px 5%;
+// 	}
+// `;
 
-export const LogoUl = styled.img`
-	margin: 20px 50px 20px 5%;
-	display: none;
-	@media (max-width: 768px) {
-		display: flex;
-		width: 160px;
-		height: 70px;
-		object-fit: contain;
-	}
-`;
+// export const LogoUl = styled.img`
+// 	margin: 20px 50px 20px 5%;
+// 	display: none;
+// 	@media (max-width: 768px) {
+// 		display: flex;
+// 		width: 160px;
+// 		height: 70px;
+// 		object-fit: contain;
+// 	}
+// `;
 
-export const Icon = styled.div`
-	width: 100vw;
-	height: calc(100vh - 112px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
+// export const Icon = styled.div`
+// 	width: 100vw;
+// 	height: calc(100vh - 112px);
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// `;
 
-export const Image = styled.img`
-	width: 150px;
-	height: 150px;
-	pointer-events: none;
-	object-fit: contain;
-	animation: Spin infinite 20s linear;
-`;
+// export const Image = styled.img`
+// 	width: 150px;
+// 	height: 150px;
+// 	pointer-events: none;
+// 	object-fit: contain;
+// 	animation: Spin infinite 20s linear;
+// `;

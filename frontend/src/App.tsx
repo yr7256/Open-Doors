@@ -5,6 +5,10 @@ import Map from './pages/Map/Map';
 import SignUp from './pages/Auth/SignUp';
 import Login from './pages/Auth/Login';
 import MyPage from './pages/Profile/MyPage';
+import NewLocation from './Components/Kakao/NewLocation';
+import SearchAddress from './Components/Kakao/SearchAddress';
+import SearchAddressMain from './Components/Kakao/SearchAddressMain';
+import SearchAddressMap from './Components/Kakao/SearchAddressMap';
 
 function App() {
 	return (
@@ -14,6 +18,12 @@ function App() {
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/Mypage" element={<MyPage />} />
+				<Route path="/map/newlocation/*" element={<NewLocation />} />
+				<Route path="/map/newlocation/search" element={<SearchAddress />}>
+					<Route index element={<SearchAddressMain />} />
+					<Route path="main" element={<SearchAddressMain />} />
+					<Route path="marker" element={<SearchAddressMap />} />
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);
