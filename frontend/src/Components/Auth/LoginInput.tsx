@@ -8,6 +8,7 @@ import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
 import { loginAccount, logoutAccount } from '../../store/AuthSlice';
+import { setCookie } from '../../store/Cookie';
 
 function LoginInput() {
 	//Login 초기값
@@ -55,9 +56,13 @@ function LoginInput() {
 			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
 			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
 			const accessToken = loginRequest.data.access_token;
+			const refreshToken = loginRequest.data.refresh_token;
 
 			// 로컬 스토리지에 액세스 토큰 저장
 			localStorage.setItem('accessToken', accessToken);
+			setCookie(refreshToken);
+
+			navigate('/MyPage');
 			console.log('로그인이 완료되었습니다.');
 		} catch (err: any) {
 			console.log('로그인 안됐다');
