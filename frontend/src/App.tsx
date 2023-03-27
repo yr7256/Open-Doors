@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Map from './pages/Map/Map';
@@ -14,14 +16,33 @@ import MyInfoManage from './pages/Profile/MyInfoManage';
 import MyReview from './pages/Profile/MyReview';
 import ChangePasswordPage from './pages/Profile/ChangePasswordPage';
 import ChangeBarrierFreePage from './pages/Profile/ChangeBarrierFreePage';
+import EditReview from './pages/Review/EditReview';
 
 function App() {
+	useEffect(() => {
+		const cookies = new Cookies();
+		const refreshToken = cookies.get('refresh_token');
+		const getAccessToken = async () => {
+			try {
+				const response = await axios.post('', {
+					refreshToken: refreshToken,
+				});
+				// 로컬 스토리지에 엑세스 토큰 저장
+				localStorage.setItem('accessToken', response.data.accessToken);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getAccessToken();
+	}, []);
+
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/map/*" element={<Map />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
+				<Route path="/EditReview" element={<EditReview />} />
 				<Route path="/Mypage" element={<MyPage />} />
 				<Route path="/Mypage/Donation" element={<MyDonation />} />
 				<Route path="/Mypage/MyInfoManage" element={<MyInfoManage />} />
