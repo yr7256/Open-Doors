@@ -7,7 +7,7 @@ import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
-import { loginAccount, logoutAccount } from '../../store/AuthSlice';
+import { loginAccount } from '../../store/AuthSlice';
 import { setCookie } from '../../store/Cookie';
 
 function LoginInput() {
@@ -83,9 +83,9 @@ function LoginInput() {
 	return (
 		<>
 			<Banner>
-				<div>
-					<P>로그인을 하시면,</P>
-					<Img src={Loginimg} />
+				<div className="grid grid-cols-8 gap-1">
+					<P className="col-start-1 col-span-4">로그인을 하시면,</P>
+					<Img className="col-start-5 col-span-1" src={Loginimg}></Img>
 				</div>
 				<P>더 많은 서비스를 이용할 수 있습니다.</P>
 			</Banner>
@@ -96,7 +96,13 @@ function LoginInput() {
 				</div>
 				<div>
 					<Label>비밀번호</Label>
-					<Input id="password" name="password" placeholder={'   비밀번호'} onChange={handlePasswordChange} />
+					<Input
+						id="password"
+						name="password"
+						type="password"
+						placeholder={'   비밀번호'}
+						onChange={handlePasswordChange}
+					/>
 				</div>
 				<Button onClick={submitLogin}>로그인</Button>
 			</form>

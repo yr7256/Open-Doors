@@ -17,7 +17,7 @@ function Login() {
 				</div>
 			</Head>
 			<BannerLine />
-			<LoginInput></LoginInput>;
+			<LoginInput></LoginInput>
 		</>
 	);
 }

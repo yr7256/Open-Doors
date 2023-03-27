@@ -1,10 +1,8 @@
 import React from 'react';
-import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 import GoBackPage from '../../Components/Menu/goBackPage';
-import Footer from '../../Components/Menu/Footer';
-import ChangeBarrierFree from '../../Components/Auth/ChangeBarrierFree';
+import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 
-function ChangeBarrierFreePage() {
+function EditReview() {
 	return (
 		<>
 			<Head>
@@ -13,15 +11,13 @@ function ChangeBarrierFreePage() {
 						<GoBackPage></GoBackPage>
 					</div>
 					<div className="col-start-4 col-end-8">
-						<Title>배리어프리 여부</Title>
+						<Title>리뷰 쓰기</Title>
 					</div>
 				</div>
 			</Head>
 			<Line />
-			<ChangeBarrierFree />
-			<Footer />
 		</>
 	);
 }
 
-export default ChangeBarrierFreePage;
+export default EditReview;

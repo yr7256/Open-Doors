@@ -15,3 +15,21 @@ export const Button = styled.button`
 		color: #ffffff;
 	}
 `;
+
+export const MiniButton = styled.button`
+	border: 1px solid #3b82f6;
+	width: 100px;
+	height: 40px;
+	border-radius: 4px;
+	color: #3b82f6;
+	text-align: center;
+	/* margin-bottom: 20px; */
+	/* margin-top: 8px; */
+	margin-left: 12px;
+	font-size: 22px;
+
+	&:active {
+		background-color: #3b82f6;
+		color: #ffffff;
+	}
+`;

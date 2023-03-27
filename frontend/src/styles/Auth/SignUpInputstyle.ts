@@ -88,4 +88,6 @@ export const ChangeInput = styled.input`
 export const BarrierLabel = styled.label`
 	margin-left: 28px;
 	font-size: 24px;
+	font-weight: bold;
+	margin-top: 8px;
 `;

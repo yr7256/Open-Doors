@@ -34,3 +34,14 @@ export const Div = styled.div`
 	margin-left: 32px;
 	margin-bottom: 20px;
 `;
+
+export const Withdraw = styled.div`
+	position: fixed;
+	bottom: 100px;
+	left: 10;
+	right: 16px;
+`;
+
+export const Gray = styled.p`
+	color: #969696;
+`;

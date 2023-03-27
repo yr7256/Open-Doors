@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Label, Condition, BarrierLabel } from '../../styles/Auth/SignUpInputstyle';
+import { Button } from '../../styles/Button/ButtonStyle';
 
 type Facility = {
 	id: number;
@@ -46,6 +47,8 @@ function ChangeBarrierFree() {
 						</Label>
 					</div>
 				))}
+				<br />
+				<Button type="submit">변경하기</Button>
 			</form>
 		</>
 	);
