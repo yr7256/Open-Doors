@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Head = styled.h1`
 	margin-top: 32px;
 	margin-bottom: 32px;
-	text-align: center;
-	vertical-align: middle;
+	/* text-align: center;
+	vertical-align: middle; */
 `;
 
 export const Line = styled.div`
@@ -14,4 +14,8 @@ export const Line = styled.div`
 
 export const BannerLine = styled.div`
 	border-top: 1px solid #d9d9d9;
+`;
+
+export const Title = styled.h1`
+	margin: 0 auto;
 `;

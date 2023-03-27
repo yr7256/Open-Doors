@@ -5,7 +5,11 @@ import { Image } from '../../styles/Profile/MyImgstyle';
 function MyImg() {
 	return (
 		<>
-			<Image src={basicimg} alt="My Image"></Image>
+			<div className="grid grid-cols-16 gap-1">
+				<div className="col-start-4 col-end-7">
+					<Image src={basicimg} alt="My Image"></Image>
+				</div>
+			</div>
 		</>
 	);
 }

@@ -7,6 +7,7 @@ const initialState = {
 	name: null,
 	accessToken: null,
 	sfInfoIds: null,
+	userImg: null,
 };
 
 export const AuthSlice = createSlice({
@@ -20,6 +21,7 @@ export const AuthSlice = createSlice({
 			state.name = action.payload.password;
 			state.accessToken = action.payload.accessToken;
 			state.sfInfoIds = action.payload.sfInfoIds;
+			state.userImg = action.payload.userImg;
 		},
 		logoutAccount(state) {
 			state.isLogged = false;
@@ -28,6 +30,7 @@ export const AuthSlice = createSlice({
 			state.name = null;
 			state.accessToken = null;
 			state.sfInfoIds = null;
+			state.userImg = null;
 		},
 	},
 });

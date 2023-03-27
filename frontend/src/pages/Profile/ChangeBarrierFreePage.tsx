@@ -1,5 +1,6 @@
 import React from 'react';
-import { Head, Line } from '../../styles/Nav/NavStyle';
+import { Head, Line } from '../../styles/Menu/NavStyle';
+import Footer from '../../Components/Menu/Footer';
 import ChangeBarrierFree from '../../Components/Auth/ChangeBarrierFree';
 
 function ChangeBarrierFreePage() {
@@ -8,6 +9,7 @@ function ChangeBarrierFreePage() {
 			<Head>배리어프리 항목 변경</Head>
 			<Line />
 			<ChangeBarrierFree />
+			<Footer />
 		</>
 	);
 }

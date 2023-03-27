@@ -15,20 +15,22 @@ export const P = styled.p`
 
 export const MyLine = styled.div`
 	border-top: 1px solid #d9d9d9;
+	margin-bottom: 20px;
 `;
 
 export const Image = styled.img`
 	height: 32px;
 	width: 32px;
-	text-align: center;
+	margin-bottom: 20px;
 `;
 
-export const FooterP = styled.p`
-	/* margin-left: 16px; */
-	margin-top: 8px;
-	margin-right: 0px;
+export const Ptag = styled.div`
+	font-size: 28px;
+	font-weight: bold;
+	margin-top: 2px;
 `;
 
-export const Line = styled.div`
-	border-top: 1px solid #d9d9d9;
+export const Div = styled.div`
+	margin-left: 32px;
+	margin-bottom: 20px;
 `;

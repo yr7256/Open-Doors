@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Head, BannerLine } from '../../styles/Nav/NavStyle';
+import { Head, BannerLine } from '../../styles/Menu/NavStyle';
 import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle';
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
@@ -82,10 +82,6 @@ function LoginInput() {
 
 	return (
 		<>
-			<Head>
-				<h1>로그인</h1>
-			</Head>
-			<BannerLine />
 			<Banner>
 				<div>
 					<P>로그인을 하시면,</P>

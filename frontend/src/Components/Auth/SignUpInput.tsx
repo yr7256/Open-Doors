@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Head, Line } from '../../styles/Nav/NavStyle';
+import { Head, Line } from '../../styles/Menu/NavStyle';
 import {
 	Input,
 	Label,
@@ -221,8 +221,6 @@ function SignUpInput() {
 	};
 	return (
 		<>
-			<Head>회원가입</Head>
-			<Line />
 			<form onSubmit={handleSubmit}>
 				<Label htmlFor="id">아이디</Label>
 				<br />
