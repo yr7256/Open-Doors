@@ -1,6 +1,8 @@
 package io.blackbeat.opendoors.db.entity.Place;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.blackbeat.opendoors.db.entity.Role;
+import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,7 +53,7 @@ public class Spot {
     private int zipcode;
 
     //리뷰 평점
-    private double reviewRating;
+    private double reviewScore;
 
     //리뷰어의 수
     private int reviewCount;
@@ -68,8 +70,11 @@ public class Spot {
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
     private List<SpotSfInfo> spotSfInfos = new ArrayList<>();
 
+    // 승인여부
+    private String state;
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Review> reviews = new ArrayList<>();
 
 
 
