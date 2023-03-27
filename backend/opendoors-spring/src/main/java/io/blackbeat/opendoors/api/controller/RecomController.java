@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +36,7 @@ public class RecomController {
         List<Spot> spots = spotService.getSpots();
         // Create the JSON data to be sent to Django
         JSONObject json = new JSONObject();
-
+        List<SpotForDjangoDto> sfddList = new ArrayList<>();
         for(Spot s : spots){
             SpotForDjangoDto temp = new SpotForDjangoDto();
             for(SpotSfInfo spsf : s.getSpotSfInfos()){
@@ -46,12 +47,13 @@ public class RecomController {
             temp.setSpotLng(s.getSpotLng());
             temp.setReviewCount(s.getReviewCount());
             temp.setReviewRating(s.getReviewScore());
-            json.put("spot" , temp);
+            sfddList.add(temp);
         }
+        json.put("spot" , sfddList);
 
         // Create the HTTP request to send to Django
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:8081/post_test/", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:5000/post_test/", request, String.class);
 
         // Return the response from Django to the client
         return response;
