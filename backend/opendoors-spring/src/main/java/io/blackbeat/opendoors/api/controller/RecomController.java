@@ -53,7 +53,7 @@ public class RecomController {
 
         // Create the HTTP request to send to Django
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:5000/post_test/", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:8081/post_test/", request, String.class);
 
         // Return the response from Django to the client
         return response;

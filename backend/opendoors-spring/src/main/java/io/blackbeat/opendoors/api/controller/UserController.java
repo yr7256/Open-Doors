@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.blackbeat.opendoors.api.request.PointDto;
 import io.blackbeat.opendoors.api.request.RegistDto;
 import io.blackbeat.opendoors.api.response.CommonDto;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
@@ -14,6 +15,8 @@ import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.db.entity.User;
 import io.blackbeat.opendoors.db.repository.SfInfoRepo;
+import io.blackbeat.opendoors.db.repository.SpotRepo;
+import io.blackbeat.opendoors.db.repository.UserRepo;
 import io.blackbeat.opendoors.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +44,31 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    private final UserRepo userRepo;
+    private final SpotRepo spotRepo;
     private final SfInfoRepo sfInfoRepo;
     @GetMapping("/users")
     public ResponseEntity<List<User>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
+    }
+
+    @GetMapping("/user/access/list/{username}")
+    public CommonDto<Object> getRegistedSpotList(@PathVariable String username){
+        List<Spot> spotList = spotRepo.findAllByUsername(username);
+        return null;
+    }
+    @GetMapping("/user/point/{username}")
+    public CommonDto<Object> getPoints(@PathVariable String username){
+        User user = userRepo.findByUsername(username);
+        return CommonDto.of("200" , username + "님이 획득한 포인트 입니다.." , user.getPoint());
+    }
+
+    @PutMapping("/user/point")
+    public CommonDto<Object> setPoints(@RequestBody PointDto pointDto){
+        User user = userRepo.findByUsername(pointDto.getUsername());
+        user.setPoint(pointDto.getPoint() + user.getPoint());
+        userRepo.save(user);
+        return CommonDto.of("200" , user.getUsername() + "님이 획득한 포인트 입니다.." , user.getUsername());
     }
 
     @PostMapping("/user/save")
