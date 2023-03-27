@@ -11,7 +11,7 @@ const NewLocation = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const dispatch = useDispatch();
-	const formdata:any = useSelector(state => state);
+	const formdata:any = useSelector(s => s);
 	// console.log(formdata.RegisterMap)
 
 	const bflist = [

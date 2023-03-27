@@ -6,7 +6,7 @@ import TopbarStyle from '../../styles/Topbar/Topbar.module.css'
 const Topbar = () => {
 	return (
 		<div className={TopbarStyle.Topbarcontainer}>
-			<SearchBar />
+			{/* <SearchBar /> */}
 			<Navbar />
 		</div>
 	);
