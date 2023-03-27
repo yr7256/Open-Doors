@@ -1,9 +1,9 @@
 import React from 'react';
-import LoginInput from '../../Components/Auth/LoginInput';
+import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 import GoBackPage from '../../Components/Menu/goBackPage';
-import { Head, BannerLine, Title } from '../../styles/Menu/NavStyle';
+import Footer from '../../Components/Menu/Footer';
 
-function Login() {
+function MyDonation() {
 	return (
 		<>
 			<Head>
@@ -12,13 +12,15 @@ function Login() {
 						<GoBackPage></GoBackPage>
 					</div>
 					<div className="col-start-4 col-end-8">
-						<Title>로그인</Title>
+						<Title>기부포인트 내역</Title>
 					</div>
 				</div>
 			</Head>
-			<BannerLine />
-			<LoginInput></LoginInput>
+			<Line />
+			<p>기부내역</p>
+			<Footer />
 		</>
 	);
 }
-export default Login;
+
+export default MyDonation;

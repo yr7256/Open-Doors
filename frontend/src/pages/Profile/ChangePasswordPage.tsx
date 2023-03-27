@@ -1,9 +1,10 @@
 import React from 'react';
-import LoginInput from '../../Components/Auth/LoginInput';
+import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 import GoBackPage from '../../Components/Menu/goBackPage';
-import { Head, BannerLine, Title } from '../../styles/Menu/NavStyle';
+import Footer from '../../Components/Menu/Footer';
+import ChangePassword from '../../Components/Auth/ChangePassword';
 
-function Login() {
+function ChangePasswordPage() {
 	return (
 		<>
 			<Head>
@@ -12,13 +13,15 @@ function Login() {
 						<GoBackPage></GoBackPage>
 					</div>
 					<div className="col-start-4 col-end-8">
-						<Title>로그인</Title>
+						<Title>비밀번호 변경</Title>
 					</div>
 				</div>
 			</Head>
-			<BannerLine />
-			<LoginInput></LoginInput>
+			<Line />
+			<ChangePassword />
+			<Footer />
 		</>
 	);
 }
-export default Login;
+
+export default ChangePasswordPage;

@@ -1,9 +1,10 @@
 import React from 'react';
-import SignUpInput from '../../Components/Auth/SignUpInput';
-import GoBackPage from '../../Components/Menu/goBackPage';
 import { Head, Line, Title } from '../../styles/Menu/NavStyle';
+import GoBackPage from '../../Components/Menu/goBackPage';
+import Footer from '../../Components/Menu/Footer';
+import ChangeBarrierFree from '../../Components/Auth/ChangeBarrierFree';
 
-function SignUp() {
+function ChangeBarrierFreePage() {
 	return (
 		<>
 			<Head>
@@ -12,13 +13,15 @@ function SignUp() {
 						<GoBackPage></GoBackPage>
 					</div>
 					<div className="col-start-4 col-end-8">
-						<Title>회원가입</Title>
+						<Title>배리어프리 여부</Title>
 					</div>
 				</div>
 			</Head>
 			<Line />
-			<SignUpInput></SignUpInput>
+			<ChangeBarrierFree />
+			<Footer />
 		</>
 	);
 }
-export default SignUp;
+
+export default ChangeBarrierFreePage;

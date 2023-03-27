@@ -1,0 +1,110 @@
+import axios from 'axios';
+import React, { useState, ChangeEvent } from 'react';
+import { Input, Label, Message, ChangeInput } from '../../styles/Auth/SignUpInputstyle';
+import { Button } from '../../styles/Button/ButtonStyle';
+
+function ChangePassword() {
+	const [isChecked, setIsChecked] = useState(false);
+	const [password, setPassword] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [passwordCheck, setPasswordCheck] = useState('');
+	const [passwordMessage, setPasswordMessage] = useState('');
+	const [passwordCheckMessage, setPasswordCheckMessage] = useState('');
+	const [isPassword, setIsPassword] = useState(false);
+	const [isPasswordCheck, setIsPasswordCheck] = useState(false);
+
+	const handleCurrentInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const currentPassword = e.target.value;
+		setPassword(currentPassword);
+	};
+
+	const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+		const currentPassword = e.target.value;
+		setNewPassword(currentPassword);
+		const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+		if (!passwordRegExp.test(currentPassword)) {
+			setPasswordMessage('안전하지 않은 비밀번호 입니다.');
+			setIsPassword(false);
+		} else {
+			setPasswordMessage('안전한 비밀번호 입니다.');
+			setIsPassword(true);
+		}
+	};
+	const onChangePasswordConfirm = (e: ChangeEvent<HTMLInputElement>) => {
+		const currentPasswordConfirm = e.target.value;
+		setPasswordCheck(currentPasswordConfirm);
+		if (newPassword !== currentPasswordConfirm) {
+			setPasswordCheckMessage('비밀번호가 똑같지 않습니다!');
+			setIsPasswordCheck(false);
+		} else {
+			setPasswordCheckMessage('똑같은 비밀번호를 입력했습니다.');
+			setIsPasswordCheck(true);
+		}
+	};
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (isChecked) {
+			console.log(newPassword);
+		} else {
+			// console.log(realName, id, password, formBirth, selectedFacilities, gender);
+		}
+	};
+
+	const changePassword = async () => {
+		const changePasswordRequest = {
+			url: '',
+			method: 'PUT',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			data: {
+				password: password,
+				new_password: newPassword,
+			},
+		};
+		try {
+			const changePasswordResult = await axios(changePasswordRequest);
+			console.log(changePasswordResult);
+			console.log('비밀번호 변경이 완료되었습니다.');
+		} catch (err) {
+			console.log('비밀번호 변경 에러다');
+		}
+	};
+	return (
+		<>
+			<form onSubmit={handleSubmit}>
+				<div>
+					<Label>현재 비밀번호</Label>
+					<ChangeInput id="currentpassword" onChange={handleCurrentInput}></ChangeInput>
+				</div>
+				<div>
+					<Label>새 비밀번호</Label>
+					<Input
+						id="newwpassword"
+						value={newPassword}
+						onChange={onChangePassword}
+						placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
+					></Input>
+					<Message className="message">{passwordMessage}</Message>
+				</div>
+				<div>
+					<Label>비밀번호 확인</Label>
+					<Input
+						id="confirmpassword"
+						value={passwordCheck}
+						onChange={onChangePasswordConfirm}
+						placeholder={'   비밀번호 확인'}
+					></Input>
+					<Message className="message">{passwordCheckMessage}</Message>
+				</div>
+				<br />
+				<Button type="submit" onClick={changePassword}>
+					변경하기
+				</Button>
+			</form>
+		</>
+	);
+}
+
+export default ChangePassword;
