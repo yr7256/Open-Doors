@@ -1,6 +1,7 @@
 package io.blackbeat.opendoors.db.entity.Place;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.blackbeat.opendoors.db.entity.Resource.Image;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
@@ -73,9 +74,12 @@ public class Spot {
     // 승인여부
     private String state;
 
+    private String username;
+
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Review> reviews = new ArrayList<>();
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Image> images = new ArrayList<>();
 
 }

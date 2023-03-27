@@ -14,4 +14,5 @@ public class SpotListDto{
     private final String resultCode;
     private final String message;
     private final Collection<Spot> resultList;
+    private final Collection<String> imageList;
 }
