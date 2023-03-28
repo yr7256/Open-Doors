@@ -14,6 +14,10 @@ const Kakao = () => {
 		setSearch(event?.target.value);
 	};
 
+	const goDetailpage = () => {
+		console.log('1');
+	}
+
 	useEffect(() => {
 		const test = document.getElementById('test') as HTMLElement;
 		const options = {
@@ -36,8 +40,8 @@ const Kakao = () => {
 
 		const ps = new kakao.maps.services.Places();
 
-		const searchForm = document.getElementById("submit_btn");
-		searchForm?.addEventListener("click", function (e) {
+		const searchForm = document.getElementById('submit_btn');
+		searchForm?.addEventListener('click', function (e) {
 			e.preventDefault();
 			searchPlaces();
 		});
@@ -61,7 +65,7 @@ const Kakao = () => {
 			} else if (status === kakao.maps.services.Status.ERROR) {
 				alert('검색 결과 중 오류가 발생했습니다.');
 			}
-		}
+		};
 
 		const searchPlaces = () => {
 			const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
@@ -71,9 +75,9 @@ const Kakao = () => {
 				return false;
 			}
 
-			// 여기서 검색 들어감 
+			// 여기서 검색 들어감
 			ps.keywordSearch(keyword, placesSearchCB);
-		}
+		};
 
 		const displayPlaces = (places: any) => {
 			const listEl = document.getElementById('placesList') as HTMLElement;
@@ -92,7 +96,7 @@ const Kakao = () => {
 
 			listEl?.appendChild(fragment);
 			menuEl.scrollTop = 0;
-		}
+		};
 
 		const getListItem = (index: number, places: any) => {
 			const el = document.createElement('li');
@@ -105,14 +109,12 @@ const Kakao = () => {
 				'</span>' +
 				'<div class="info">' +
 				'   <h5>' +
-				'이름 :' + places.place_name +
+				'이름 :' +
+				places.place_name +
 				'</h5>';
 
 			if (places.road_address_name) {
-				itemStr +=
-					'    <span>' +
-					'주소 :' + places.road_address_name +
-					'</span>'
+				itemStr += '    <span>' + '주소 :' + places.road_address_name + '</span>';
 			} else {
 				itemStr += '    <span>' + places.address_name + '</span>';
 			}
@@ -123,8 +125,8 @@ const Kakao = () => {
 			el.className = 'item';
 
 			return el;
-		}
- 
+		};
+
 		const addMarker = (position: kakao.maps.LatLng, idx: number) => {
 			const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
 			const imageSize = new kakao.maps.Size(36, 37);
@@ -136,8 +138,6 @@ const Kakao = () => {
 
 			const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
 
-
-
 			const marker = new kakao.maps.Marker({
 				position,
 				image: markerImage,
@@ -147,7 +147,7 @@ const Kakao = () => {
 			markers.push(marker);
 
 			return marker;
-		}
+		};
 
 		const removeMarker = () => {
 			for (let i = 0; i < markers.length; i++) {
@@ -155,7 +155,7 @@ const Kakao = () => {
 			}
 			markers = [];
 			// console.log(markers);
-		}
+		};
 
 		const displayPagination = (pagination: any) => {
 			const paginationEl = document.getElementById('pagination') as HTMLElement;
@@ -183,7 +183,7 @@ const Kakao = () => {
 				fragment.appendChild(el);
 			}
 			paginationEl?.appendChild(fragment);
-		}
+		};
 
 		function removeAllChildNods(el: HTMLElement) {
 			while (el.hasChildNodes()) {
@@ -253,23 +253,76 @@ const Kakao = () => {
 
 	return (
 		<div id="wrap">
-			<Topbar />
 			<div id="menuDiv">
+				<Topbar />
 				<div id="menu_wrap" className="bg_white">
-					<div className="option">
-							<div id="form">
-								<input type="text" value={search} id="keyword" onChange={onchangeSearch} />
-								<button type="submit" id="submit_btn">
-									<span>검색</span>
-								</button>
+					<form className="flex items-center" id="form">
+						<label htmlFor="keyword" className="sr-only">
+							Search
+						</label>
+						<div className="relative" id="searchBarContainer">
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<svg
+									aria-hidden="true"
+									className="w-5 h-5 text-gray-500 dark:text-gray-400"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										fillRule="evenodd"
+										d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+										clipRule="evenodd"
+									></path>
+								</svg>
 							</div>
-					</div>
+							<input
+								type="text"
+								value={search}
+								id="keyword"
+								onChange={onchangeSearch}
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								placeholder="Search"
+								required
+							/>
+						</div>
+						<button
+							type="submit"
+							id="submit_btn"
+							className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						>
+							<svg
+								className="w-5 h-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+								></path>
+							</svg>
+							<span className="sr-only">Search</span>
+						</button>
+					</form>
+
+					{/* <div className="option">
+						<div id="form">
+							<input type="text" value={search} id="keyword" onChange={onchangeSearch} />
+							<button type="submit" id="submit_btn">
+								<span>검색</span>
+							</button>
+						</div>
+					</div> */}
 					<ul id="placesList"></ul>
 					<div id="pagination"></div>
 				</div>
 			</div>
 			<div id="map" />
-			<div id="test" />
+			<div id="test" onClick={goDetailpage}/>
 		</div>
 	);
 };

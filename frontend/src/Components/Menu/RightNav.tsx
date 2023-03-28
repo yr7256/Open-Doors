@@ -11,7 +11,7 @@ function RightNav(props: Props) {
 		<>
 			<Ul open={props.open}>
 				<NavLink
-					to="/menu1"
+					to="/myloc"
 					style={({ isActive }) => ({
 						fontWeight: isActive ? 'bold' : '',
 						color: isActive ? '#0DADEA' : '',
@@ -29,7 +29,7 @@ function RightNav(props: Props) {
 					<Li>장소 등록하기</Li>
 				</NavLink>
 				<NavLink
-					to="/menu3"
+					to="/donation"
 					style={({ isActive }) => ({
 						fontWeight: isActive ? 'bold' : '',
 						color: isActive ? '#0DADEA' : '',
@@ -38,7 +38,7 @@ function RightNav(props: Props) {
 					<Li>기부하기</Li>
 				</NavLink>
 				<NavLink
-					to="/menu4"
+					to="/help"
 					style={({ isActive }) => ({
 						fontWeight: isActive ? 'bold' : '',
 						color: isActive ? '#0DADEA' : '',
@@ -49,11 +49,11 @@ function RightNav(props: Props) {
 			</Ul>
 
 			<Routes>
-				<Route path="/menu1" />
+				<Route path="/myloc" />
 				<Route path="/map/newlocation" />
-				<Route path="/menu3" />
-				<Route path="/menu4" />
-				<Route element={<Navigate replace to="/menu1" />} />
+				<Route path="/donation" />
+				<Route path="/help" />
+				{/* <Route element={<Navigate replace to="/menu1" />} /> */}
 			</Routes>
 		</>
 	);

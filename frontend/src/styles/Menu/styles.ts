@@ -8,7 +8,7 @@ export const StyledBurger = styled.div<INav>`
 	width: 2rem;
 	height: 2rem;
 	position: fixed;
-	top: 15px;
+	top: 2vh;
 	right: 20px;
 	z-index: 20;
 	display: none;

@@ -86,9 +86,10 @@ const NewLocation = () => {
 		dispatch(RegisterMapAction.addTospotTelNumber(event.target.value));
 	};
 
-	const goBackPage = () => {
+	const goMainPage = () => {
 		console.log('reset');
 		persistor.purge();
+		navigate('/map');
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -153,7 +154,7 @@ const NewLocation = () => {
 					// onClick={() => {
 					// 	navigate('/map');
 					// }}
-					onClick={goBackPage}
+					onClick={goMainPage}
 				>
 					&lt;
 				</h1>
