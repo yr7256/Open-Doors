@@ -8,11 +8,13 @@ import NewLocation from './Components/Kakao/NewLocation';
 import SearchAddress from './Components/Kakao/SearchAddress';
 import SearchAddressMain from './Components/Kakao/SearchAddressMain';
 import SearchAddressMap from './Components/Kakao/SearchAddressMap';
+import Test from './Components/Traffic/Test';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+				<Route path="/*" element={<Test />} />
 				<Route path="/map/*" element={<Map />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
