@@ -20,6 +20,7 @@ const Kakao = () => {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 5,
 			maxLevel: 13,
+			// scrollwheel: false,
 		};
 
 		const container = document.getElementById('map');

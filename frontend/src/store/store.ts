@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';

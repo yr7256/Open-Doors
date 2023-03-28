@@ -42,9 +42,9 @@ function LoginInput() {
 		console.log(loginPayload);
 
 		const loginPost = {
-			url: '',
+			url: `http://192.168.31.134:8080/api/login?username=${id}&password=${password}`,
 			method: 'POST',
-			data: JSON.stringify(loginPayload),
+			// data: JSON.stringify(loginPayload),
 		};
 		try {
 			const loginRequest = await axios(loginPost);

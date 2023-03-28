@@ -4,13 +4,15 @@ import { RegisterMapAction } from '../../store/RegisterMapSlice'
 
 const Checkbox = ({ id, label }: any) => {
   const dispatch = useDispatch();
-  // const checked = useSelector(state => state.registerMap.checkedList.includes(id));
   const checked = useSelector((state: any) => state.registerMap.checkedList.includes(id));
+  const data = useSelector((s: any) => s.registerMap.checkedList);
 
   
-  const handleChange = () => {
+  const handleChange = () =>
+  {
     dispatch(RegisterMapAction.toggleChecked(id));
-  };
+    console.log(data)
+  }
 
   return (
     <div>
