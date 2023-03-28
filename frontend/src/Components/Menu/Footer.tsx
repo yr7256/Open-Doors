@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PickCategory from '../Recommend/PickCategory';
 import Recomendation from '../../assets/img/recomendation.png';
 import Bookmark from '../../assets/img/Bookmark.png';
 import Transportation from '../../assets/img/transportation.png';
@@ -12,6 +13,7 @@ function Footer() {
 	const moveToMy = () => {
 		navigate('/Mypage');
 	};
+
 	return (
 		<>
 			<FooterPlace>

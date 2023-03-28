@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Label, Condition, BarrierLabel } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 
@@ -28,9 +29,33 @@ function ChangeBarrierFree() {
 		}
 	};
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log(selectedFacilities);
+	};
+
+	const changeBarrierFree = async () => {
+		const accessToken = localStorage.getItem('accessToken');
+		const requestInfo = {
+			url: '',
+			method: '',
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			},
+			data: {},
+		};
+		try {
+			const submitReviewForm = await axios(requestInfo);
+			console.log(submitReviewForm);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<br />
 				<BarrierLabel>배리어프리 여부(중복선택 가능)</BarrierLabel>
 				<br />
@@ -48,7 +73,9 @@ function ChangeBarrierFree() {
 					</div>
 				))}
 				<br />
-				<Button type="submit">변경하기</Button>
+				<Button type="submit" onClick={changeBarrierFree}>
+					변경하기
+				</Button>
 			</form>
 		</>
 	);

@@ -15,7 +15,12 @@ function Logout() {
 		navigate('/Login');
 
 		const logoutGet = () => {
-			axios.get('').then((res) => console.log(res.data));
+			const accessToken = localStorage.getItem('accessToken');
+			axios
+				.get('', {
+					headers: { Authorization: `Bearer ${accessToken}` },
+				})
+				.then((res) => console.log(res.data));
 		};
 		logoutGet();
 	};

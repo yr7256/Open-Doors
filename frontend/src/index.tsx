@@ -10,6 +10,10 @@ import { Provider } from 'react-redux';
 // redux store 위치
 import store from './store/store';
 import GlobalStyles from './styles/GlobalStyle';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
 
 export const persistor = persistStore(store);
 

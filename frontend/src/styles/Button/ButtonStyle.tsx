@@ -33,3 +33,14 @@ export const MiniButton = styled.button`
 		color: #ffffff;
 	}
 `;
+
+export const PhotoButton = styled.button`
+	border: 1px solid #abb5be;
+	width: 100%;
+	height: 52px;
+	color: #abb5be;
+	/* margin-left: 28px; */
+	margin-bottom: 32px;
+	margin-top: 12px;
+	font-size: 24px;
+`;
