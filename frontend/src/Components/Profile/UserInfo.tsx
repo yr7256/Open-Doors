@@ -1,4 +1,5 @@
 import React from 'react';
+import { CenterP } from '../../styles/Profile/MyPagestyle';
 import { useSelector } from 'react-redux';
 
 type UserState = {
@@ -14,8 +15,8 @@ function UserInfo() {
 
 	return (
 		<>
-			<p>{userName}</p>
-			<p>{name}</p>
+			<CenterP>{userName}</CenterP>
+			<CenterP>{name}</CenterP>
 		</>
 	);
 }
