@@ -52,11 +52,13 @@ function ChangePassword() {
 	};
 
 	const changePassword = async () => {
+		const accessToken = localStorage.getItem('accessToken');
 		const changePasswordRequest = {
 			url: '',
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
 			},
 			data: {
 				password: password,

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Head, BannerLine } from '../../styles/Menu/NavStyle';
 import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle';
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
@@ -45,9 +44,9 @@ function LoginInput() {
 		console.log(loginPayload);
 
 		const loginPost = {
-			url: '',
+			url: 'http://192.168.31.27:8080/api/auth/authenticate',
 			method: 'POST',
-			data: JSON.stringify(loginPayload),
+			data: loginPayload,
 		};
 		try {
 			const loginRequest = await axios(loginPost);
@@ -55,7 +54,7 @@ function LoginInput() {
 
 			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
 			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
-			const accessToken = loginRequest.data.access_token;
+			const accessToken = loginRequest.data.token;
 			const refreshToken = loginRequest.data.refresh_token;
 
 			// 로컬 스토리지에 액세스 토큰 저장

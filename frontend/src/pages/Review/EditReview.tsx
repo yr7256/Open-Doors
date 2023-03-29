@@ -1,5 +1,7 @@
 import React from 'react';
 import GoBackPage from '../../Components/Menu/goBackPage';
+import ReviewInput from '../../Components/Review/ReviewInput';
+import StarInput from '../../Components/Review/StarInput';
 import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 
 function EditReview() {
@@ -16,6 +18,7 @@ function EditReview() {
 				</div>
 			</Head>
 			<Line />
+			<ReviewInput></ReviewInput>
 		</>
 	);
 }

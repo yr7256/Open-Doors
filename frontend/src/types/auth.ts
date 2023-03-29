@@ -9,3 +9,9 @@ export interface Birth {
 	birthMonth: string;
 	birthDay: string;
 }
+
+export type UserState = {
+	user: {
+		password: string;
+	};
+};

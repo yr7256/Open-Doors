@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -17,8 +18,23 @@ import MyReview from './pages/Profile/MyReview';
 import ChangePasswordPage from './pages/Profile/ChangePasswordPage';
 import ChangeBarrierFreePage from './pages/Profile/ChangeBarrierFreePage';
 import EditReview from './pages/Review/EditReview';
+import { logout } from './store/Cookie';
+import { logoutAccount } from './store/AuthSlice';
 
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		// const accessToken = localStorage.getItem('accessToken');
+		const cookies = new Cookies();
+		const refreshToken = cookies.get('refresh_token');
+		if (!refreshToken) {
+			dispatch(logoutAccount);
+			logout();
+			console.log('로그아웃이라구');
+		}
+	}, [dispatch]);
+
 	useEffect(() => {
 		const cookies = new Cookies();
 		const refreshToken = cookies.get('refresh_token');
