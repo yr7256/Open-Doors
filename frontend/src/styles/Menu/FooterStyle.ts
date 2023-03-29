@@ -10,7 +10,10 @@ export const FooterPlace = styled.div`
 	left: 0;
 	bottom: 0;
 	width: 100%;
+	height: 9vh;
 	text-align: center;
+	background-color: white;
+	z-index: 18;
 `;
 
 export const Image = styled.img`

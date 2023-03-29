@@ -1,15 +1,25 @@
 import { Ul, Li } from '../../styles/Menu/styles';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import basicimg from '../../assets/img/basicimg.png';
 
 type Props = {
 	open: boolean;
 };
 
+type UserState = {
+	user: {
+		userImg: string;
+	};
+};
+
 function RightNav(props: Props) {
+	const userImg = useSelector((state: UserState) => state.user.userImg);
 	return (
 		<>
 			<Ul open={props.open}>
+				{userImg ? userImg : <img src={basicimg} alt="noImg" />}
 				<NavLink
 					to="/myloc"
 					style={({ isActive }) => ({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PickCategory from '../Recommend/PickCategory';
 import Recomendation from '../../assets/img/recomendation.png';
@@ -7,8 +7,20 @@ import Transportation from '../../assets/img/transportation.png';
 import My from '../../assets/img/My.png';
 import { FooterBlock, FooterPlace, Image, FooterP, Line } from '../../styles/Menu/FooterStyle';
 
+// let clickedOverlay = false;
+
 function Footer() {
 	const navigate = useNavigate();
+	const [isOpen, setIsOpen] = useState(false);
+
+	const modalHandler = () => {
+		if (!isOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'scroll';
+		}
+		setIsOpen((prev) => !prev);
+	};
 
 	const moveToMy = () => {
 		navigate('/Mypage');
@@ -28,9 +40,12 @@ function Footer() {
 							<Image src={Bookmark} />
 							<FooterP>즐겨찾기</FooterP>
 						</div>
-						<div className="col-start-7 col-end-10">
-							<Image src={Transportation} />
-							<FooterP>교통정보</FooterP>
+						{isOpen ? <PickCategory modalHandler={modalHandler} /> : null}
+						<div className="col-start-7 col-end-10" id="traffic">
+							<div onClick={modalHandler}>
+								<Image src={Transportation} />
+								<FooterP>교통정보</FooterP>
+							</div>
 						</div>
 						<div className="col-start-10 col-end-13" onClick={moveToMy}>
 							<Image src={My} />
@@ -39,6 +54,7 @@ function Footer() {
 					</div>
 				</FooterBlock>
 			</FooterPlace>
+			<div id="trafficInfo" />
 		</>
 	);
 }

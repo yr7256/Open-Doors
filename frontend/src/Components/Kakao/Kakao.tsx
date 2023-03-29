@@ -203,18 +203,6 @@ const Kakao = () => {
 				position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
 			});
 
-			// const content = `<div class="inactive infowindow"><span>${data.spotName}</span></div>`;
-
-			// const infowindow = new kakao.maps.CustomOverlay({
-			// disableAutoPan: true,
-			// position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
-			// zIndex: 1,
-			// content: `<div id="popup_map" class="inactive infowindow"><span>${data.spotName}</span></div>`,
-			// content: content,
-			// removable: true,
-			// map: map,
-			// });
-
 			const closeBtn = document.createElement('button');
 			closeBtn.className = 'closeBtn';
 			closeBtn.innerHTML = '닫기';
@@ -230,13 +218,12 @@ const Kakao = () => {
 				if (clickedOverlay) {
 					// clickedOverlay.setMap(null);
 					// test!.textContent = null;
-					clickedOverlay = false;
+					// clickedOverlay = false;
 					test.style.display = 'none';
 					setDetailData([]);
 				}
 				// infowindow.setMap(map);
 				// clickedOverlay = infowindow;
-				else clickedOverlay = true;
 				setDetailData(data);
 				test.innerHTML = `<p class="spotname">이곳의 이름은 ${data.spotName} 입니다.</p>
 				<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
@@ -244,7 +231,8 @@ const Kakao = () => {
 				<p>전화번호는 여기에 넣습니다.</p>
 				<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>`;
 				test.style.display = 'block';
-				test?.appendChild(closeBtn);
+				// test?.appendChild(closeBtn);
+				clickedOverlay = !clickedOverlay;
 			});
 		};
 
@@ -259,7 +247,7 @@ const Kakao = () => {
 	}, []);
 
 	return (
-		<div id="wrap">
+		<>
 			<div id="menuDiv">
 				<Topbar />
 				<div id="menu_wrap" className="bg_white">
@@ -330,7 +318,7 @@ const Kakao = () => {
 			</div>
 			<div id="map" />
 			<div id="test" onClick={goDetailpage} />
-		</div>
+		</>
 	);
 };
 

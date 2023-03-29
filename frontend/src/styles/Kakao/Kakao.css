@@ -17,14 +17,15 @@
 #test {
   width: 100vw;
   height: 30vh;
-  border-radius: 15px 15px 0 0;
+  border-radius: 25px 25px 0 0;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
   background-color: white;
   display: none;
   position: absolute;
   /* top: 75vh; */
-  bottom:0px;
+  bottom: 9vh;
   z-index: 10;
+  padding: 3vh 0 0 0;
 }
 
 #test > p {
