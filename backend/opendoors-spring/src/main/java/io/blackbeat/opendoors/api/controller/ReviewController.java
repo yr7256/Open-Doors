@@ -73,7 +73,7 @@ public class ReviewController {
             reviewService.saveReview(review);
             spotService.saveSpot(spot);
             userService.saveUser(user);
-            return CommonDto.of("200", "장소등록이 성공적으로 완료되었습니다.", review.getUsername() + review.getSpotId() + review.getReviewContent());
+            return CommonDto.of("200", "리뷰등록이 성공적으로 완료되었습니다.", review.getUsername() + review.getSpotId() + review.getReviewContent());
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
