@@ -75,3 +75,19 @@ export const Div = styled.div`
 	margin-top: 8px;
 	margin-bottom: 8px;
 `;
+
+export const ChangeInput = styled.input`
+	height: 52px;
+	width: 304px;
+	border: 1px solid #d9d9d9;
+	margin-left: 28px;
+	margin-top: 12px;
+	margin-bottom: 24px;
+`;
+
+export const BarrierLabel = styled.label`
+	margin-left: 28px;
+	font-size: 24px;
+	font-weight: bold;
+	margin-top: 8px;
+`;

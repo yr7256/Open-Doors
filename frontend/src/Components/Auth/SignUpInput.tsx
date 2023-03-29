@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Head, Line } from '../../styles/Nav/NavStyle';
+import { Head, Line } from '../../styles/Menu/NavStyle';
 import {
 	Input,
 	Label,
@@ -221,8 +221,6 @@ function SignUpInput() {
 	};
 	return (
 		<>
-			<Head>회원가입</Head>
-			<Line />
 			<form onSubmit={handleSubmit}>
 				<Label htmlFor="id">아이디</Label>
 				<br />
@@ -235,6 +233,7 @@ function SignUpInput() {
 					<Input
 						id="password"
 						name="password"
+						type="password"
 						value={password}
 						onChange={onChangePassword}
 						placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
@@ -246,6 +245,7 @@ function SignUpInput() {
 					<Input
 						id="passwordConfirm"
 						name="passwordConfirm"
+						type="password"
 						value={passwordCheck}
 						onChange={onChangePasswordConfirm}
 						placeholder={'  비밀번호 확인'}

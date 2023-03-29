@@ -1,9 +1,10 @@
 import React from 'react';
-import LoginInput from '../../Components/Auth/LoginInput';
 import GoBackPage from '../../Components/Menu/goBackPage';
-import { Head, BannerLine, Title } from '../../styles/Menu/NavStyle';
+import ReviewInput from '../../Components/Review/ReviewInput';
+import StarInput from '../../Components/Review/StarInput';
+import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 
-function Login() {
+function EditReview() {
 	return (
 		<>
 			<Head>
@@ -12,13 +13,14 @@ function Login() {
 						<GoBackPage></GoBackPage>
 					</div>
 					<div className="col-start-4 col-end-8">
-						<Title>로그인</Title>
+						<Title>리뷰 쓰기</Title>
 					</div>
 				</div>
 			</Head>
-			<BannerLine />
-			<LoginInput></LoginInput>
+			<Line />
+			<ReviewInput></ReviewInput>
 		</>
 	);
 }
-export default Login;
+
+export default EditReview;

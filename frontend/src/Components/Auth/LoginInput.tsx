@@ -2,20 +2,23 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Head, BannerLine } from '../../styles/Nav/NavStyle';
 import { Banner, Img, P, Notyet, Input } from '../../styles/Auth/LoginInputstyle';
 import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
+import { loginAccount } from '../../store/AuthSlice';
+import { setCookie } from '../../store/Cookie';
 
 function LoginInput() {
 	//Login 초기값
-	const [id, setId] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setId(event.target.value);
+		setUsername(event.target.value);
 	};
 
 	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,54 +26,65 @@ function LoginInput() {
 	};
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		dispatch(loginAccount({ username: username, password: password }));
 		event.preventDefault();
 		if (isChecked) {
-			console.log(id, password);
+			console.log(username, password);
 		} else {
-			console.log(id, password);
+			console.log(username, password);
 		}
 	};
-
-	const dispatch = useDispatch();
 
 	// 로그인 post 보내기
 	const submitLogin = async () => {
 		const loginPayload = {
-			username: id,
+			username: username,
 			password: password,
 		};
 		console.log(loginPayload);
 
 		const loginPost = {
-			url: `http://192.168.31.134:8080/api/login?username=${id}&password=${password}`,
+			url: 'http://192.168.31.27:8080/api/auth/authenticate',
 			method: 'POST',
-			// data: JSON.stringify(loginPayload),
+			data: loginPayload,
 		};
 		try {
 			const loginRequest = await axios(loginPost);
 			console.log(loginRequest);
+
+			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
+			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
+			const accessToken = loginRequest.data.token;
+			const refreshToken = loginRequest.data.refresh_token;
+
+			// 로컬 스토리지에 액세스 토큰 저장
+			localStorage.setItem('accessToken', accessToken);
+			setCookie(refreshToken);
+
+			navigate('/MyPage');
 			console.log('로그인이 완료되었습니다.');
-		} catch (err) {
+		} catch (err: any) {
 			console.log('로그인 안됐다');
+			if (err.response) {
+				// 서버에서 반환된 에러 메시지를 사용자에게 표시
+				console.log(err.response.data.message);
+			} else {
+				console.log('네트워크 오류로 인해 로그인에 실패했습니다.');
+			}
 			console.log(err);
 		}
 	};
 
-	const navigate = useNavigate();
 	const moveSignup = () => {
 		navigate('/Signup');
 	};
 
 	return (
 		<>
-			<Head>
-				<h1>로그인</h1>
-			</Head>
-			<BannerLine />
 			<Banner>
-				<div>
-					<P>로그인을 하시면,</P>
-					<Img src={Loginimg} />
+				<div className="grid grid-cols-8 gap-1">
+					<P className="col-start-1 col-span-4">로그인을 하시면,</P>
+					<Img className="col-start-5 col-span-1" src={Loginimg}></Img>
 				</div>
 				<P>더 많은 서비스를 이용할 수 있습니다.</P>
 			</Banner>
@@ -81,7 +95,13 @@ function LoginInput() {
 				</div>
 				<div>
 					<Label>비밀번호</Label>
-					<Input id="password" name="password" placeholder={'   비밀번호'} onChange={handlePasswordChange} />
+					<Input
+						id="password"
+						name="password"
+						type="password"
+						placeholder={'   비밀번호'}
+						onChange={handlePasswordChange}
+					/>
 				</div>
 				<Button onClick={submitLogin}>로그인</Button>
 			</form>

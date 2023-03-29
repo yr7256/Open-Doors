@@ -2,9 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	isLogged: false,
-	user_name: null,
-	user_id: null,
+	username: null,
+	password: null,
+	name: null,
 	accessToken: null,
+	sfInfoIds: null,
+	userImg: null,
 };
 
 export const AuthSlice = createSlice({
@@ -13,15 +16,21 @@ export const AuthSlice = createSlice({
 	reducers: {
 		loginAccount(state, action) {
 			state.isLogged = true;
-			state.user_name = action.payload.user_name;
-			state.user_id = action.payload.user_id;
+			state.username = action.payload.username;
+			state.password = action.payload.password;
+			state.name = action.payload.password;
 			state.accessToken = action.payload.accessToken;
+			state.sfInfoIds = action.payload.sfInfoIds;
+			state.userImg = action.payload.userImg;
 		},
 		logoutAccount(state) {
 			state.isLogged = false;
-			state.user_name = null;
-			state.user_id = null;
+			state.username = null;
+			state.password = null;
+			state.name = null;
 			state.accessToken = null;
+			state.sfInfoIds = null;
+			state.userImg = null;
 		},
 	},
 });

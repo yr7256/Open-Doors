@@ -23,7 +23,8 @@
   },
   "plugins": [
       "react",
-      "import"
+      "import",
+      "@typescript-eslint"
   ],
   "rules": {
     "no-unused-vars": "off",
