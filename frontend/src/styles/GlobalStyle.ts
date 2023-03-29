@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
         font-size: 28px;
     }
     h2 {
-        font-family: SUIT-Bold, 'sans-serif';
+        font-family: 'SUIT-Bold', 'sans-serif';
         font-size: 24px;
     }
     h3 {
