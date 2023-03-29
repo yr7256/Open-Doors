@@ -7,6 +7,8 @@ import { RegisterMapAction } from '../../store/RegisterMapSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Checkbox from './Checkbox';
 import { persistor } from '../../index';
+import { Button } from '../../styles/Button/ButtonStyle';
+
 
 const NewLocation = () => {
 	const navigate = useNavigate();
@@ -27,11 +29,11 @@ const NewLocation = () => {
 		{ id: '8', sfName: '가족/어린이 이용에 적합' },
 	];
 
-	const [name, setName] = useState('');
+	// const [name, setName] = useState('');
 	// const [address, setAddress] = useState('');
-	const [addressdetail, setAddressdetail] = useState('');
-	const [category, setCategory] = useState('');
-	const [telnum, setTelnum] = useState('');
+	// const [addressdetail, setAddressdetail] = useState('');
+	// const [category, setCategory] = useState('');
+	// const [telnum, setTelnum] = useState('');
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	// const [selectedFiles, setSelectedFiles] = useState([]);
 	// const [checkedList, setCheckedList] = useState<string[]>([]);
@@ -40,18 +42,18 @@ const NewLocation = () => {
 		const filesArray = Array.from(event.target.files || []);
 		setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...filesArray]);
 		dispatch(RegisterMapAction.addTospotImages(selectedFiles));
-		console.log(registerData.registerMap.spotImages);
+		// console.log(registerData.registerMap.spotImages);
 	};
 
 	const handleFileDelete = (fileIndex: number) => {
 		setSelectedFiles((prevSelectedFiles) => prevSelectedFiles.filter((_, index) => index !== fileIndex));
 		dispatch(RegisterMapAction.addTospotImages(selectedFiles));
-		console.log(registerData.registerMap.spotImages);
+		// console.log(registerData.registerMap.spotImages);
 	};
 
 	const handleFileUpload = () => {
 		// do something with the selected files
-		console.log(selectedFiles);
+		// console.log(selectedFiles);
 	};
 
 	// const checkListHandler = (data: string, isChecked: boolean) => {
@@ -67,27 +69,23 @@ const NewLocation = () => {
 	};
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setName(event.target.value);
 		dispatch(RegisterMapAction.addTospotName(event.target.value));
 	};
 
 	const handleDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setAddressdetail(event.target.value);
 		dispatch(RegisterMapAction.addTospotBuildingName(event.target.value));
 	};
 
 	const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setCategory(event.target.value);
 		dispatch(RegisterMapAction.addTospotCategory(event.target.value));
 	};
 
 	const handleTelnumChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setTelnum(event.target.value);
 		dispatch(RegisterMapAction.addTospotTelNumber(event.target.value));
 	};
 
 	const goMainPage = () => {
-		console.log('reset');
+		// console.log('reset');
 		persistor.purge();
 		navigate('/map');
 	};
@@ -108,46 +106,28 @@ const NewLocation = () => {
 				},
 				sfInfos: registerData.registerMap.checkedList,
 			};
-			// formData.append('spotImages', registerData.registerMap.spotImages);
 			Array.from(selectedFiles).forEach((temp) => formData.append('spotImages', temp));
-			// formData.append('spotDto', JSON.stringify(body));
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
 			formData.append('spotDto', blob);
 			const response = await axios.post(
 				'http://192.168.31.134:8080/api/spot/save',
 				formData,
-				// {
-				// 	// spotImages: formdata.registerMap.spotImages,
-				// 	spotDto: {
-				// 		spot: {
-				// 			spotName: formdata.registerMap.spotName,
-				// 			spotAddress: state?.address,
-				// 			spotBuildingName: formdata.registerMap.spotBuildingName,
-				// 			spotCategory: formdata.registerMap.spotCategory,
-				// 			spotTelNumber: formdata.registerMap.spotTelNumber,
-				// 			spotLat: state?.lat,
-				// 			spotLng: state?.lng,
-				// 		},
-				// 		sfInfos: formdata.registerMap.checkedList,
-				// 	},
-				// },
 				{
 					headers: {
 						'Content-Type': 'multipart/form-data',
-						// "Content-Type": "application/json",
-						Authorization: 123,
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 					},
 				}
 			);
-			console.log(response);
+			// console.log(response);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
 	return (
-		<>
+		<div id='wrap'>
 			<Head>
 				<h1
 					className="back"
@@ -203,14 +183,16 @@ const NewLocation = () => {
 						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">사진등록</label>
 					</div>
 					<div className="md:w-2/3 filebox">
-						<label htmlFor="file">파일찾기</label>
-						<input
-							type="file"
-							className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-							id="file"
-							multiple
-							onChange={handleFileSelect}
-						/>
+						<Button>
+							<label htmlFor="file">파일찾기</label>
+							<input
+								type="file"
+								className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+								id="file"
+								multiple
+								onChange={handleFileSelect}
+							/>
+						</Button>
 						{selectedFiles.length > 0 && (
 							<ul>
 								{selectedFiles.map((file, index) => (
@@ -282,20 +264,17 @@ const NewLocation = () => {
 				</div>
 				<div className="md:flex md:items-center">
 					<div className="md:w-1/3"></div>
-					<div className="md:w-2/3">
-						<button
-							className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+					<div className="md:w-2/3 mb-8">
+						<Button
+							// className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
 							type="submit"
 						>
 							등록완료
-						</button>
+						</Button>
 					</div>
 				</div>
 			</form>
-			<Routes>
-				<Route path="/map/newlocation" />
-			</Routes>
-		</>
+		</div>
 	);
 };
 

@@ -9,13 +9,14 @@ import SearchAddress from './Components/Kakao/SearchAddress';
 import SearchAddressMain from './Components/Kakao/SearchAddressMain';
 import SearchAddressMap from './Components/Kakao/SearchAddressMap';
 import Test from './Components/Traffic/Test';
+import Detail from './Components/DetailPage/Detail';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/*" element={<Test />} />
 				<Route path="/map/*" element={<Map />} />
+				<Route path='map/detail/:id' element={<Detail />}/>
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/map/newlocation/*" element={<NewLocation />} />

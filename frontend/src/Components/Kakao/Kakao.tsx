@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import mapdata from '../../csvjson.json';
 import '../../styles/Kakao/Kakao.css';
 import Topbar from '../Topbar/Topbar';
+import { Link, useNavigate, Route, Routes } from 'react-router-dom';
+import Detail from '../DetailPage/Detail';
 
 const { kakao } = window;
 
@@ -9,14 +11,17 @@ let clickedOverlay = false;
 
 const Kakao = () => {
 	const [search, setSearch] = useState('');
+	const [detailData, setDetailData] = useState([]) as any;
+	const navigate = useNavigate();
 
 	const onchangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(event?.target.value);
 	};
 
 	const goDetailpage = () => {
-		console.log('1');
-	}
+		navigate(`/map/detail/${detailData?.spotSeq}`);
+		// <Link to={`/map/${detailData.spotPlaceId}`} />
+	};
 
 	useEffect(() => {
 		const test = document.getElementById('test') as HTMLElement;
@@ -227,10 +232,12 @@ const Kakao = () => {
 					// test!.textContent = null;
 					clickedOverlay = false;
 					test.style.display = 'none';
+					setDetailData([]);
 				}
 				// infowindow.setMap(map);
 				// clickedOverlay = infowindow;
 				else clickedOverlay = true;
+				setDetailData(data);
 				test.innerHTML = `<p class="spotname">이곳의 이름은 ${data.spotName} 입니다.</p>
 				<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
 				<p class="spotaddress">이곳의 주소는 ${data.spotAddress} 입니다.</p>
@@ -322,7 +329,7 @@ const Kakao = () => {
 				</div>
 			</div>
 			<div id="map" />
-			<div id="test" onClick={goDetailpage}/>
+			<div id="test" onClick={goDetailpage} />
 		</div>
 	);
 };

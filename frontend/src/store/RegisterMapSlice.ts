@@ -63,8 +63,8 @@ export const RegisterMapSlice = createSlice({
 			if (itemIndex === -1) {
 				state.checkedList.push(action.payload);
 				// state.checkedList.push(bfList[action.payload-1]);
-				console.log(bfList[action.payload - 1]);
-				console.log(action.payload);
+				// console.log(bfList[action.payload - 1]);
+				// console.log(action.payload);
 			} else {
 				state.checkedList.splice(itemIndex, 1);
 			}

@@ -18,7 +18,7 @@ async function getData() {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xml, 'application/xml');
     const items = xmlDoc.getElementsByTagName('itemList');
-    console.log(items);
+    // console.log(items);
 	} catch (error) {
 		console.error(error);
 	}
