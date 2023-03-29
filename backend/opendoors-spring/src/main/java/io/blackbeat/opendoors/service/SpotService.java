@@ -18,5 +18,6 @@ public interface SpotService {
     void addMenu(Menu menu , Long spotId);
     List<Spot> getSpots();
     Spot getSpotById(Long id);
+    Spot getSpotByName(String spotName);
 
 }

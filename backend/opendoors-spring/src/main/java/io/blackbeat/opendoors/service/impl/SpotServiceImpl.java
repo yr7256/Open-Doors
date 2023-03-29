@@ -89,5 +89,10 @@ public class SpotServiceImpl implements SpotService {
         return spotRepo.findById(id).orElseThrow();
     }
 
+    @Override
+    public Spot getSpotByName(String spotName) {
+        return spotRepo.findBySpotName(spotName);
+    }
+
 
 }
