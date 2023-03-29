@@ -8,6 +8,7 @@ import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.Resource.Image;
+import io.blackbeat.opendoors.db.repository.SfInfoRepo;
 import io.blackbeat.opendoors.service.SpotService;
 import io.blackbeat.opendoors.service.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.List;
 public class SpotController {
     private final SpotService spotService;
     private final StorageService storageService;
+    private final SfInfoRepo sfInfoRepo;
     @GetMapping("/spots")
     public ResponseEntity<List<Spot>>getSpots(){return ResponseEntity.ok().body(spotService.getSpots());}
 
@@ -58,27 +60,25 @@ public class SpotController {
     }
 
     @PostMapping(value = "/spot/save")
-    public CommonDto<Object> saveSpot(@RequestPart SpotDto spotDto , @RequestPart(value = "spotImages") List<MultipartFile> images) {
+    public CommonDto<Object> saveSpot(@RequestPart SpotDto spotDto , @RequestPart(value = "spotImages" ,required = false) List<MultipartFile> images) {
         ModelMapper modelMapper = new ModelMapper();
         Spot spot = modelMapper.map(spotDto.getSpot() , Spot.class);
-//        List<SpotSfInfo> spotSfInfos = spotDto.get
         List<String> imageLocations = new ArrayList<>();
-        List<Image> imageList = new ArrayList<>();
-        List<String> results = new ArrayList<>();
         try{
             spotService.saveSpot(spot);
             String postName = spot.getSpotName();
-            results = storageService.saveFiles(images, postName);
-            for(String result : results){
-                imageLocations.add("/"+postName+"/"+result);
+            List<String> results  = storageService.saveFiles(images, postName);
+            for (String result : results) {
+                imageLocations.add("/" + postName + "/" + result);
                 Image img = new Image();
-                img.setPathName("/"+postName+"/"+result);
+                img.setPathName("/" + postName + "/" + result);
                 spot.getImages().add(img);
             }
-            for (SfInfo sfInfo: spotDto.getSfInfos()) {
+            System.out.println(spotDto.getSfInfos().toString());
+            for (Long sfInfoId: spotDto.getSfInfos()) {
                 SpotSfInfo spotSfInfo = new SpotSfInfo();
                 spotSfInfo.setSpot(spot);
-                spotSfInfo.setSfInfo(sfInfo);
+                spotSfInfo.setSfInfo(sfInfoRepo.findById(sfInfoId).orElseThrow());
                 spotService.saveSpotSfInfo(spotSfInfo);
             }
 
