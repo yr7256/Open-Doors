@@ -1,14 +1,14 @@
 package io.blackbeat.opendoors.db.entity.Static;
 
+import io.blackbeat.opendoors.db.entity.Resource.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -23,5 +23,8 @@ public class Review {
     private Long spotId;
     private double reviewScore;
     private String reviewContent;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Image> images = new ArrayList<>();
 
 }
