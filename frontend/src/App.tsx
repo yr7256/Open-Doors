@@ -12,6 +12,7 @@ import NewLocation from './Components/Kakao/NewLocation';
 import SearchAddress from './Components/Kakao/SearchAddress';
 import SearchAddressMain from './Components/Kakao/SearchAddressMain';
 import SearchAddressMap from './Components/Kakao/SearchAddressMap';
+import Detail from './Components/DetailPage/Detail';
 import MyDonation from './pages/Profile/MyDonation';
 import MyInfoManage from './pages/Profile/MyInfoManage';
 import MyReview from './pages/Profile/MyReview';
@@ -56,6 +57,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/map/*" element={<Map />} />
+				<Route path='map/detail/:id' element={<Detail />}/>
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/EditReview" element={<EditReview />} />

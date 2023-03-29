@@ -8,7 +8,7 @@ export const StyledBurger = styled.div<INav>`
 	width: 2rem;
 	height: 2rem;
 	position: fixed;
-	top: 15px;
+	top: 2vh;
 	right: 20px;
 	z-index: 20;
 	display: none;
@@ -96,7 +96,8 @@ export const Li = styled.li`
 	padding: 0 0 0 16px;
 	outline: none;
 	font-size: 24px;
-	margin-top: 28px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	@media {
 		color: #000;
 		margin-right: 34px;
