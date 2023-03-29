@@ -3,7 +3,7 @@ import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 import { ThickLine, Ptag, Div, Withdraw, Gray } from '../../styles/Profile/MyPagestyle';
 import Withdrawal from '../../Components/Auth/Withdrawal';
 import GoBackPage from '../../Components/Menu/goBackPage';
-import MyImg from '../../Components/Profile/MyImg';
+import MyImgEdit from '../../Components/Profile/MyImgEdit';
 import Footer from '../../Components/Menu/Footer';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ function MyInfoManage() {
 				</div>
 			</Head>
 			<Line />
-			<MyImg />
+			<MyImgEdit />
 			<ThickLine />
 			<Div onClick={moveChangePassword}>
 				<Ptag>비밀번호 변경</Ptag>

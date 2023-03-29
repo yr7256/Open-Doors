@@ -39,27 +39,52 @@ function ReviewInput() {
 		console.log(review, selectedFiles, starScore);
 	};
 
-	const reviewRegister = async () => {
-		const requestInfo = {
-			url: '',
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json',
-			},
-			data: {
-				spotId: '',
-				username: username,
+	const reviewRegister = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		try {
+			const formData = new FormData();
+			const body = {
+				spotId: 2,
+				username: 'ssafy8878',
 				reviewScore: starScore,
 				reviewContent: review,
-			},
-		};
-		try {
-			const submitReviewForm = await axios(requestInfo);
-			console.log(submitReviewForm);
+			};
+			Array.from(selectedFiles).forEach((img) => formData.append('reviewImages', img));
+			const json = JSON.stringify(body);
+			const blob = new Blob([json], { type: 'application/json' });
+			formData.append('reviewDto', blob);
+			const response = await axios.post('http://192.168.31.134:8080/api/review/save', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+				},
+			});
+			console.log(response);
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
+	// 	const requestInfo = {
+	// 		url: 'http://192.168.31.134:8080/api/review/save',
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-type': 'application/json',
+	// 		},
+	// 		data: {
+	// 			spotId: 2,
+	// 			username: 'ssafy8878',
+	// 			reviewScore: starScore,
+	// 			reviewContent: review,
+	// 		},
+	// 	};
+	// 	try {
+	// 		const submitReviewForm = await axios(requestInfo);
+	// 		console.log(submitReviewForm);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 
 	return (
 		<>

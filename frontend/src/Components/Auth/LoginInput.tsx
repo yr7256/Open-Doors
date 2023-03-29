@@ -13,6 +13,7 @@ function LoginInput() {
 	//Login 초기값
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [userDispatch, setUserDispatch] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -26,7 +27,6 @@ function LoginInput() {
 	};
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		dispatch(loginAccount({ username: username, password: password }));
 		event.preventDefault();
 		if (isChecked) {
 			console.log(username, password);
@@ -60,6 +60,13 @@ function LoginInput() {
 			// 로컬 스토리지에 액세스 토큰 저장
 			localStorage.setItem('accessToken', accessToken);
 			setCookie(refreshToken);
+
+			// dispatch를 위해 get해서 유저정보 불러오기
+			const userInfo = axios.get('').then((response) => {
+				setUserDispatch(response.data);
+				console.log(response.data);
+				dispatch(loginAccount({ username: response.data.id, password: response.data.id, name: response.data.name }));
+			});
 
 			navigate('/MyPage');
 			console.log('로그인이 완료되었습니다.');

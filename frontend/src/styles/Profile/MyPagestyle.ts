@@ -45,3 +45,7 @@ export const Withdraw = styled.div`
 export const Gray = styled.p`
 	color: #969696;
 `;
+
+export const CenterP = styled.div`
+	text-align: center;
+`;
