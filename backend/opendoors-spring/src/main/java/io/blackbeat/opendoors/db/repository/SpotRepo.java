@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface SpotRepo extends JpaRepository<Spot, Long> {
     Spot findBySpotName(String spotName);
     List<Spot> findAllByUsername(String username);
+    List<Spot> findAllById(Long id);
     Optional<Spot> findById(Long id);
 }

@@ -42,7 +42,7 @@ public class Spot {
     private double spotLng;
 
     //카테고리
-    private String spotCategory;
+    private int spotCategory;
 
     //배팟 준팟 공팟
     private String spotRate;
