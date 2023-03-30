@@ -34,6 +34,14 @@ import Help from './Components/Help/Help';
 function App() {
 	const dispatch = useDispatch();
 
+	function setScreenSize() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  useEffect(() => {
+    setScreenSize();
+  });
+
 	useEffect(() => {
 		// const accessToken = localStorage.getItem('accessToken');
 		const cookies = new Cookies();
