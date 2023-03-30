@@ -44,6 +44,7 @@ public class ReviewController {
         review.setReviewContent(reviewDto.getReviewContent());
         review.setSpotId(reviewDto.getSpotId());
         review.setUsername(reviewDto.getUsername());
+        review.setUserId(userRepo.findByUsername(reviewDto.getUsername()).getId());
 
         Spot spot = spotRepo.findById(review.getSpotId()).orElseThrow();
         spot.getReviews().add(review);

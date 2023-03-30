@@ -44,10 +44,10 @@ public class StorageService {
     }
 
     public List<String> saveFiles(List<MultipartFile> files, String postName) throws IOException {
-        String randomStr = getRandomStr();
+//        String randomStr = getRandomStr();
         List<String> fileNames = new ArrayList<>();
         for(MultipartFile file : files) {
-            fileNames.add(randomStr + StringUtils.cleanPath(file.getOriginalFilename()));
+            fileNames.add(StringUtils.cleanPath(file.getOriginalFilename()));
         }
         Path uploadPath = Paths.get(this.uploadPath+"/"+postName);
         if(!Files.exists(uploadPath)) {
@@ -84,11 +84,13 @@ public class StorageService {
         }
     }
 
-    public Resource loadFileAsResource(String userName, String fileName) {
-        Path uploadPath = Paths.get(this.uploadPath+"/"+userName);
+    public Resource loadFileAsResource(String id, String fileName) {
+        Path uploadPath = Paths.get(this.uploadPath+"/"+id);
+        System.out.println(uploadPath);
         try {
             Path filePath = uploadPath.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
+            System.out.println(resource);
             if(resource.exists()) {
                 return resource;
             } else {

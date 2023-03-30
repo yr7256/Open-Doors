@@ -5,14 +5,14 @@ import io.blackbeat.opendoors.db.entity.User;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Data
 public class SpotForDjangoDto {
-    private List<Spot> spotList;
-    private List<User> userList;
-    private User user;
+    private Collection<Spot> spotList = new ArrayList<>();
     private double spotLat;
     private double spotLng;
+    private Spot userSpot;
     private Long userSpotId;
 }

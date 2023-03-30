@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RecommendCollabDto {
+public class HybridDto {
     private String username;
-    private List<Long> spotCategory;
+    private List<Long> categoryIds;
     private double userLat;
     private double userLng;
 }

@@ -1,14 +1,18 @@
 package io.blackbeat.opendoors.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.blackbeat.opendoors.api.request.RecommendCollabDto;
 import io.blackbeat.opendoors.api.request.RecommendContentDto;
-import io.blackbeat.opendoors.api.response.SpotForDjangoDto;
-import io.blackbeat.opendoors.api.response.UserForContent;
+import io.blackbeat.opendoors.api.response.ResponseSpotDto;
+import io.blackbeat.opendoors.api.response.SfinfoIdsDto;
+import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
+import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.User;
 import io.blackbeat.opendoors.db.repository.SpotRepo;
 import io.blackbeat.opendoors.db.repository.UserRepo;
 import io.blackbeat.opendoors.service.RecommendService;
-import io.blackbeat.opendoors.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -27,20 +31,59 @@ public class RecommendServiceImpl implements RecommendService {
     private final SpotRepo spotRepo;
 
     @Override
-    public JSONObject getContentBasedData(RecommendContentDto recommendContentDto) throws JSONException {
-        User temp = userRepo.findByUsername(recommendContentDto.getUsername());
-        UserForContent user = new UserForContent();
-        user.setUserLat(recommendContentDto.getSpotLat());
-        user.setUserLng(recommendContentDto.getSpotLat());
-        user.setUsername(recommendContentDto.getUsername());
-        user.setId(temp.getId());
+    public JSONObject getContentBasedData(RecommendContentDto recommendContentDto) throws JSONException, JsonProcessingException {
         Spot userSpot = spotRepo.findBySpotName(recommendContentDto.getSpotName());
-        List<Spot> spots = spotRepo.findAllById(userSpot.getId());
-        JSONObject json = new JSONObject();
-        json.put("user" , user);
-        json.put("userSpot" , userSpot);
-        json.put("spots" , spots);
+        List<Spot> spots = spotRepo.findAll();
+        List<ResponseSpotDto> resultSpot  = new ArrayList<>();
+        ResponseSpotDto userSpotDto = new ResponseSpotDto();
+        for(int i =0; i< spots.size(); i++){
+            if(spots.get(i).getId() == userSpot.getId()){
+                userSpotDto.setSpotLng(userSpot.getSpotLng());
+                userSpotDto.setSpotLat(userSpot.getSpotLat());
+                userSpotDto.setSpotId(userSpot.getId());
+                userSpotDto.setReviewScore(userSpot.getReviewScore());
+                userSpotDto.setReviewCount(userSpot.getReviewCount());
+                List<Long> ids = new ArrayList<>();
+                for(SpotSfInfo sfInfo : spots.get(i).getSpotSfInfos()){
+                    ids.add(sfInfo.getSfInfo().getId());
+                }
+                userSpotDto.setSpotCategory(userSpot.getSpotCategory());
+                userSpotDto.setSfInfoIds(ids);
+                continue;
+            }
+            ResponseSpotDto temp = new ResponseSpotDto();
+            temp.setSpotLat(spots.get(i).getSpotLat());
+            temp.setSpotLng(spots.get(i).getSpotLng());
+            temp.setSpotId(spots.get(i).getId());
+            temp.setReviewScore(spots.get(i).getReviewScore());
+            temp.setReviewCount(spots.get(i).getReviewCount());
+            temp.setSpotCategory(spots.get(i).getSpotCategory());
+            List<Long> ids = new ArrayList<>();
+            for(SpotSfInfo sfInfo : spots.get(i).getSpotSfInfos()){
+                ids.add(sfInfo.getSfInfo().getId());
+            }
+            temp.setSfInfoIds(ids);
+            resultSpot.add(temp);
 
+        }
+        JSONObject json = new JSONObject();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userSpotJson = objectMapper.writeValueAsString(userSpotDto).replaceAll("\\\\", "");
+        String resultJson = objectMapper.writeValueAsString(resultSpot).replaceAll("\\\\", "");
+        json.put("userSpot" , userSpotJson);
+        json.put("spots" , resultJson);
         return json;
+    }
+
+    @Override
+    public JSONObject getHybridData(RecommendCollabDto recommendCollabDto) {
+        
+        Spot userSpot = spotRepo.findBySpotName(recommendCollabDto.getSpotName());
+        List<Spot> spots = spotRepo.findAll();
+        List<User> users = userRepo.findAll();
+        List<Long> ids = recommendCollabDto.getSpotCategory();
+        List<ResponseSpotDto> resultSpot  = new ArrayList<>();
+        ResponseSpotDto userSpotDto = new ResponseSpotDto();
+        return null;
     }
 }

@@ -6,6 +6,5 @@ import lombok.Data;
 public class UserForContent {
     private Long id;
     private String username;
-    private double userLat;
-    private double userLng;
+    private String spotName;
 }
