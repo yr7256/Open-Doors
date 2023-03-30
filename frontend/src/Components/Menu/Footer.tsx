@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import PickCategory from '../Recommend/PickCategory';
-// import TrafficInfo from '../Traffic/TrafficInfo';
 import Recomendation from '../../assets/img/recomendation.png';
 import Bookmark from '../../assets/img/Bookmark.png';
 import Transportation from '../../assets/img/transportation.png';
@@ -28,6 +26,7 @@ const Footer: React.FC = () => {
 	const closeModal = (modalId: string) => {
 		setModalState({ ...modalState, [modalId]: false });
 	};
+	
 	const navigate = useNavigate();
 	const moveToMy = () => {
 		navigate('/Mypage');

@@ -4,15 +4,21 @@ import '../../styles/Kakao/Kakao.css';
 import Topbar from '../Topbar/Topbar';
 import { Link, useNavigate, Route, Routes } from 'react-router-dom';
 import Detail from '../DetailPage/Detail';
+import Modal from '../Menu/Modal';
 
 const { kakao } = window;
-
-let clickedOverlay = false;
 
 const Kakao = () => {
 	const [search, setSearch] = useState('');
 	const [detailData, setDetailData] = useState([]) as any;
+	const [modalState, setModalState] = useState(false);
 	const navigate = useNavigate();
+	const openModal = () => {
+		setModalState(true);
+	};
+	const closeModal = () => {
+		setModalState(false);
+	};
 
 	const onchangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(event?.target.value);
@@ -24,7 +30,6 @@ const Kakao = () => {
 	};
 
 	useEffect(() => {
-		const test = document.getElementById('test') as HTMLElement;
 		const options = {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 5,
@@ -203,36 +208,16 @@ const Kakao = () => {
 				position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
 			});
 
-			const closeBtn = document.createElement('button');
-			closeBtn.className = 'closeBtn';
-			closeBtn.innerHTML = '닫기';
-			closeBtn.onclick = function () {
-				// infowindow.setMap(null);
-				test.style.display = 'none';
-			};
-
 			markers.push(marker);
 			// console.log(markers);
 
 			kakao.maps.event.addListener(marker, 'click', function () {
-				if (clickedOverlay) {
-					// clickedOverlay.setMap(null);
-					// test!.textContent = null;
-					// clickedOverlay = false;
-					test.style.display = 'none';
+				if (modalState) {
+					closeModal();
 					setDetailData([]);
 				}
-				// infowindow.setMap(map);
-				// clickedOverlay = infowindow;
+				openModal();
 				setDetailData(data);
-				test.innerHTML = `<p class="spotname">이곳의 이름은 ${data.spotName} 입니다.</p>
-				<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
-				<p class="spotaddress">이곳의 주소는 ${data.spotAddress} 입니다.</p>
-				<p>전화번호는 여기에 넣습니다.</p>
-				<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>`;
-				test.style.display = 'block';
-				// test?.appendChild(closeBtn);
-				clickedOverlay = !clickedOverlay;
 			});
 		};
 
@@ -242,8 +227,22 @@ const Kakao = () => {
 
 		clusterer.addMarkers(markers);
 
-		const position = new kakao.maps.LatLng(36.350475, 127.384834);
-		map.setCenter(position);
+		if (navigator.geolocation) {
+			// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			navigator.geolocation.getCurrentPosition(function (position) {
+				const lat = position.coords.latitude, // 위도
+					lon = position.coords.longitude; // 경도
+				const locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+				map.setCenter(locPosition);
+			});
+		} else {
+			const locPosition = new kakao.maps.LatLng(36.350475, 127.384834);
+			map.setCenter(locPosition);
+		}
+
+		// const position = new kakao.maps.LatLng(36.350475, 127.384834);
+		// map.setCenter(position);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -303,21 +302,22 @@ const Kakao = () => {
 							<span className="sr-only">Search</span>
 						</button>
 					</form>
-
-					{/* <div className="option">
-						<div id="form">
-							<input type="text" value={search} id="keyword" onChange={onchangeSearch} />
-							<button type="submit" id="submit_btn">
-								<span>검색</span>
-							</button>
-						</div>
-					</div> */}
 					<ul id="placesList"></ul>
 					<div id="pagination"></div>
 				</div>
 			</div>
 			<div id="map" />
-			<div id="test" onClick={goDetailpage} />
+			<div onClick={goDetailpage}>
+				<Modal id={detailData.spotName} title="" show={modalState} handleClose={() => closeModal()}>
+					<div>
+						<p className="spotname">이곳의 이름은 {detailData.spotName} 입니다.</p>
+						<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
+						<p className="spotaddress">이곳의 주소는 {detailData.spotAddress} 입니다.</p>
+						<p>전화번호는 여기에 넣습니다.</p>
+						<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>
+					</div>
+				</Modal>
+			</div>
 		</>
 	);
 };

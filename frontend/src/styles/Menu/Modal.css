@@ -3,7 +3,7 @@
   left: 0;
   bottom: 9vh;
   width: 100%;
-  height: 80%;
+  /* height: 80%; */
   background-color: white;
   z-index: 130;
   overflow: auto;
@@ -22,8 +22,24 @@
 .resize-handle-top {
   cursor: row-resize;
   height: 10px;
+  width: 80vw;
   position: absolute;
+  background-color: black;
+  top: 0;
+  left: 50%;
+  transform:translateX(-50%);
+  /* right: 0; */
+}
+/* 
+.modal-wrapper {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-}
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+} */
