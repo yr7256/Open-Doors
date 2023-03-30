@@ -7,13 +7,8 @@ interface INav {
 export const StyledBurger = styled.div<INav>`
 	width: 2rem;
 	height: 2rem;
-	position: fixed;
-	top: 2vh;
-	right: 20px;
-	z-index: 20;
-	display: none;
+	margin-right: 2vh;
 	cursor: pointer;
-	font-family: 'Zilla Slab', sans-serif;
 	@media {
 		display: flex;
 		justify-content: space-around;
@@ -106,40 +101,3 @@ export const Li = styled.li`
 		}
 	}
 `;
-
-// export const Logo = styled.img`
-// 	margin: 20px 50px 20px 7%;
-// 	width: 160px;
-// 	height: 70px;
-// 	object-fit: contain;
-// 	@media (max-width: 1250px) {
-// 		margin: 20px 50px 20px 5%;
-// 	}
-// `;
-
-// export const LogoUl = styled.img`
-// 	margin: 20px 50px 20px 5%;
-// 	display: none;
-// 	@media (max-width: 768px) {
-// 		display: flex;
-// 		width: 160px;
-// 		height: 70px;
-// 		object-fit: contain;
-// 	}
-// `;
-
-// export const Icon = styled.div`
-// 	width: 100vw;
-// 	height: calc(100vh - 112px);
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// `;
-
-// export const Image = styled.img`
-// 	width: 150px;
-// 	height: 150px;
-// 	pointer-events: none;
-// 	object-fit: contain;
-// 	animation: Spin infinite 20s linear;
-// `;

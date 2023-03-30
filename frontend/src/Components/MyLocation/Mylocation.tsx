@@ -1,7 +1,10 @@
 import React, {useEffect} from "react";
+import { Head, Line } from '../../styles/Kakao/SearchAddress';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Mylocation = () => {
+  const navigate = useNavigate();
   const getData = async () => {
     // event.preventDefault();
     try {
@@ -22,7 +25,20 @@ const Mylocation = () => {
     getData();
   }, [])
 
-  return <div>1</div>
+  return <>
+			<Head>
+				<h1
+					className="back"
+					onClick={() => {
+						navigate('/map');
+					}}
+				>
+					&lt;
+				</h1>
+				<h1>내가 등록한 장소</h1>
+			</Head>
+			<Line />
+  </>
 }
 
 export default Mylocation

@@ -22,6 +22,9 @@ import EditReview from './pages/Review/EditReview';
 import { logout } from './store/Cookie';
 import { logoutAccount } from './store/AuthSlice';
 import Mylocation from './Components/MyLocation/Mylocation';
+import Donation from './Components/Donation/Donation';
+import NotFound from './Components/Error/NotFound';
+import Help from './Components/Help/Help';
 
 function App() {
 	const dispatch = useDispatch();
@@ -57,12 +60,14 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+				<Route path='/*' element={<NotFound />} />
 				<Route path="/map/*" element={<Map />} />
-				<Route path='map/detail/:id' element={<Detail />}/>
+				<Route path='map/detail/:id' element={<Detail />} />
 				<Route path='/myloc' element={<Mylocation />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/EditReview" element={<EditReview />} />
+				<Route path="/donation" element={<Donation />} />
 				<Route path="/Mypage" element={<MyPage />} />
 				<Route path="/Mypage/Donation" element={<MyDonation />} />
 				<Route path="/Mypage/MyInfoManage" element={<MyInfoManage />} />
@@ -75,6 +80,7 @@ function App() {
 					<Route path="main" element={<SearchAddressMain />} />
 					<Route path="marker" element={<SearchAddressMap />} />
 				</Route>
+				<Route path='/help' element={<Help />} />
 			</Routes>
 		</BrowserRouter>
 	);
