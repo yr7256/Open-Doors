@@ -40,3 +40,11 @@
 #searchBarContainer {
   width: 60vw;
 }
+
+#menuDiv {
+  /* position: fixed; */
+  display: inline-flex;
+  justify-content: space-between; 
+  top: 0;
+  z-index: 100;
+}

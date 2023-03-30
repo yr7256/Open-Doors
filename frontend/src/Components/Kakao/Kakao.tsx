@@ -248,7 +248,6 @@ const Kakao = () => {
 	return (
 		<>
 			<div id="menuDiv">
-				<Topbar />
 				<div id="menu_wrap" className="bg_white">
 					<form className="flex items-center" id="form">
 						<label htmlFor="keyword" className="sr-only">
@@ -302,10 +301,13 @@ const Kakao = () => {
 							<span className="sr-only">Search</span>
 						</button>
 					</form>
-					<ul id="placesList"></ul>
-					<div id="pagination"></div>
+				</div>
+				<div className="flex items-center">
+					<Topbar />
 				</div>
 			</div>
+			<ul id="placesList"></ul>
+			<div id="pagination"></div>
 			<div id="map" />
 			<div onClick={goDetailpage}>
 				<Modal id={detailData.spotName} title="" show={modalState} handleClose={() => closeModal()}>

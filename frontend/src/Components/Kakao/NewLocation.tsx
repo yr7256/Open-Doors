@@ -275,6 +275,7 @@ const NewLocation = () => {
 				</div>
 			</form>
 		</div>
+
 	);
 };
 
