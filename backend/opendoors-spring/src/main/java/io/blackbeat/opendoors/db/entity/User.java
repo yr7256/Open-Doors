@@ -1,19 +1,18 @@
 package io.blackbeat.opendoors.db.entity;
 
 
-import com.sun.istack.NotNull;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Static.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
@@ -21,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -42,4 +41,28 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Review> reviews = new ArrayList<>();
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
