@@ -26,7 +26,7 @@ function MyEditImg() {
 		const reader = new FileReader();
 		reader.onload = () => {
 			if (reader.readyState === 2) {
-				setMyImage(reader.result);
+				setMyImage(reader.result as string);
 			}
 		};
 		reader.readAsDataURL(e.target.files[0]);

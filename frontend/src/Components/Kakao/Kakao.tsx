@@ -3,7 +3,7 @@ import mapdata from '../../csvjson.json';
 import '../../styles/Kakao/Kakao.css';
 import Topbar from '../Topbar/Topbar';
 import { Link, useNavigate, Route, Routes } from 'react-router-dom';
-import Detail from '../DetailPage/Detail';
+// import Detail from '../DetailPage/Detail';
 import Modal from '../Menu/Modal';
 
 const { kakao } = window;

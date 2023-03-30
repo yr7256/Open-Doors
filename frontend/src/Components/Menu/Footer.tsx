@@ -18,16 +18,17 @@ const Footer: React.FC = () => {
 		trafficinfo: false,
 	};
 	const [modalState, setModalState] = useState(initialModalState);
-  const openModal = (modalId: string) => {
-    const newModalState = { ...initialModalState, [modalId]: true };
-    setModalState(newModalState);
-  };
+	const openModal = (modalId: string) => {
+		const newModalState = { ...initialModalState, [modalId]: true };
+		setModalState(newModalState);
+	};
 
 	const closeModal = (modalId: string) => {
 		setModalState({ ...modalState, [modalId]: false });
 	};
-	
+
 	const navigate = useNavigate();
+
 	const moveToMy = () => {
 		navigate('/Mypage');
 	};

@@ -1,0 +1,34 @@
+import React, { useCallback, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import dummy from '../../csvjson.json';
+import dummyimage from '../../assets/img/dummyimage.jpg';
+import { Img, H2, Line } from '../../styles/MapDetail/MapDetailstyle';
+
+// component
+import PlaceNav from '../../Components/PlaceInfo/PlaceNav';
+import Footer from '../../Components/Menu/Footer';
+
+function MapDetail() {
+	const [category, setCategory] = useState<any>('Home');
+	const { id } = useParams();
+	const spotName = dummy.map((spot: any) => {
+		if (spot.spotSeq === id) return spot.spotName;
+	});
+
+	const onSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+		const selectedCategory = e.target.value;
+		setCategory(selectedCategory);
+	}, []);
+
+	return (
+		<>
+			<Img src={dummyimage} alt="place-image" />
+			<H2>{spotName}</H2>
+			<Line />
+			<PlaceNav category={category} onSelect={onSelect} />
+			<Footer />
+		</>
+	);
+}
+
+export default MapDetail;
