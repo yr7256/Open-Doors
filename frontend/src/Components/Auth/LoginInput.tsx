@@ -44,9 +44,10 @@ function LoginInput() {
 		console.log(loginPayload);
 
 		const loginPost = {
-			url: 'http://192.168.31.27:8080/api/auth/authenticate',
+			// url: 'http://192.168.31.134:8080/api/auth/authenticate',
+			url: `http://192.168.31.134:8080/api/login?username=${username}&password=${password}`,
 			method: 'POST',
-			data: loginPayload,
+			// data: loginPayload,
 		};
 		try {
 			const loginRequest = await axios(loginPost);

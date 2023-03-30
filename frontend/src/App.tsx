@@ -21,6 +21,7 @@ import ChangeBarrierFreePage from './pages/Profile/ChangeBarrierFreePage';
 import EditReview from './pages/Review/EditReview';
 import { logout } from './store/Cookie';
 import { logoutAccount } from './store/AuthSlice';
+import Mylocation from './Components/MyLocation/Mylocation';
 
 function App() {
 	const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
 			<Routes>
 				<Route path="/map/*" element={<Map />} />
 				<Route path='map/detail/:id' element={<Detail />}/>
+				<Route path='/myloc' element={<Mylocation />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/EditReview" element={<EditReview />} />
