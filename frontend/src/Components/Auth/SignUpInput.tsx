@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Head, Line } from '../../styles/Menu/NavStyle';
 import {
 	Input,
 	Label,

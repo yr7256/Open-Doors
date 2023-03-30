@@ -1,12 +1,6 @@
 import React, { useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Line } from '../../styles/MapDetail/MapDetailstyle';
-
-// component
-import DetailHome from '../../Components/PlaceInfo/PlaceDetail/DetailHome';
-import DetailPhoto from '../../Components/PlaceInfo/PlaceDetail/DetailPhoto';
-import DetailRecommend from '../../Components/PlaceInfo/PlaceDetail/DetailRecommend';
-import DetailReview from '../../Components/PlaceInfo/PlaceDetail/DetailReview';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Line, Link } from '../../styles/MapDetail/MapDetailstyle';
 
 type NavProps = {
 	onSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
