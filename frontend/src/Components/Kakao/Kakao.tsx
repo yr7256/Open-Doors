@@ -9,8 +9,12 @@ import axios from 'axios';
 
 const { kakao } = window;
 
-const Kakao = () => {
-	const [mapdata, setMapdata] = useState([]);
+interface MapProps {
+	mapdata: any;
+}
+
+const Kakao = (props: MapProps) => {
+	const { mapdata } = props;
 	const [search, setSearch] = useState('');
 	const [detailData, setDetailData] = useState([]) as any;
 	const [modalState, setModalState] = useState(false);
@@ -29,16 +33,6 @@ const Kakao = () => {
 	const goDetailpage = () => {
 		navigate(`/map/detail/${detailData?.spotSeq}`);
 		// <Link to={`/map/${detailData.spotPlaceId}`} />
-	};
-
-	const getData = async () => {
-		try {
-			const response = await axios.get('http://172.20.10.2:8080/api/spots');
-			console.log(response.data.spots);
-			setMapdata(response.data.spots);
-		} catch (error) {
-			console.log(error);
-		}
 	};
 
 	useEffect(() => {
@@ -255,10 +249,6 @@ const Kakao = () => {
 		// const position = new kakao.maps.LatLng(36.350475, 127.384834);
 		// map.setCenter(position);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		getData();
 	}, []);
 
 	return (

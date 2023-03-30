@@ -4,11 +4,16 @@ import Kakao from "../../Components/Kakao/Kakao";
 import '../../styles/Kakao/Kakao.css';
 import Footer from "../../Components/Menu/Footer";
 
-function Map() {
+interface MapProps {
+	mapdata: any;
+}
+
+function Map(props: MapProps) {
+	const { mapdata } = props;
 	return (
 		<div id='wrap'>
 			{/* <Topbar /> */}
-			<Kakao />
+			<Kakao mapdata={mapdata}/>
 			<Footer />
 		</div>
 	);
