@@ -191,7 +191,7 @@ function SignUpInput() {
 		// }
 
 		const requestInfo = {
-			url: 'http://192.168.31.134:8080/api/user/save',
+			url: 'http://localhost:8080/api/user/save',
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',

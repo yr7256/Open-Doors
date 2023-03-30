@@ -45,7 +45,7 @@ function LoginInput() {
 
 		const loginPost = {
 			// url: 'http://192.168.31.134:8080/api/auth/authenticate',
-			url: `http://192.168.31.134:8080/api/login?username=${username}&password=${password}`,
+			url: `http://localhost:8080/api/login?username=${username}&password=${password}`,
 			method: 'POST',
 			// data: loginPayload,
 		};
