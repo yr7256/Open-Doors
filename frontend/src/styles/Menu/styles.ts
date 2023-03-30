@@ -5,10 +5,13 @@ interface INav {
 }
 
 export const StyledBurger = styled.div<INav>`
+	position: fixed;
+	top: 1.7vh;
 	width: 2rem;
 	height: 2rem;
-	margin-right: 2vh;
+	right: 2vh;
 	cursor: pointer;
+	z-index: 50;
 	@media {
 		display: flex;
 		justify-content: space-around;
@@ -101,3 +104,14 @@ export const Li = styled.li`
 		}
 	}
 `;
+
+export const Image = styled.img`
+	width: 120px;
+	height: 120px;
+`
+
+export const MenuImg = styled.div`
+	display: flex;
+	justify-content: center;
+	margin-bottom: 5vh;
+`

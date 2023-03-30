@@ -9,6 +9,7 @@ export const FooterPlace = styled.div`
 	position: fixed;
 	left: 0;
 	bottom: 0;
+	// top: 91vh;
 	width: 100%;
 	height: 9vh;
 	text-align: center;

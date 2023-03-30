@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import mapdata from '../../csvjson.json';
+// import mapdata from '../../csvjson.json';
 import '../../styles/Kakao/Kakao.css';
 import Topbar from '../Topbar/Topbar';
 import { Link, useNavigate, Route, Routes } from 'react-router-dom';
 // import Detail from '../DetailPage/Detail';
 import Modal from '../Menu/Modal';
+import axios from 'axios';
 
 const { kakao } = window;
 
 const Kakao = () => {
+	const [mapdata, setMapdata] = useState([]);
 	const [search, setSearch] = useState('');
 	const [detailData, setDetailData] = useState([]) as any;
 	const [modalState, setModalState] = useState(false);
@@ -27,6 +29,16 @@ const Kakao = () => {
 	const goDetailpage = () => {
 		navigate(`/map/detail/${detailData?.spotSeq}`);
 		// <Link to={`/map/${detailData.spotPlaceId}`} />
+	};
+
+	const getData = async () => {
+		try {
+			const response = await axios.get('http://172.20.10.2:8080/api/spots');
+			console.log(response.data.spots);
+			setMapdata(response.data.spots);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -245,8 +257,13 @@ const Kakao = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<>
+			<Topbar />
 			<div id="menuDiv">
 				<div id="menu_wrap" className="bg_white">
 					<form className="flex items-center" id="form">
@@ -301,9 +318,6 @@ const Kakao = () => {
 							<span className="sr-only">Search</span>
 						</button>
 					</form>
-				</div>
-				<div className="flex items-center">
-					<Topbar />
 				</div>
 			</div>
 			<ul id="placesList"></ul>
