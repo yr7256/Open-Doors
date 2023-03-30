@@ -39,8 +39,7 @@ function ReviewInput() {
 		console.log(review, selectedFiles, starScore);
 	};
 
-	const reviewRegister = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const reviewRegister = async () => {
 		try {
 			const formData = new FormData();
 			const body = {
@@ -53,7 +52,7 @@ function ReviewInput() {
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
 			formData.append('reviewDto', blob);
-			const response = await axios.post('http://192.168.31.134:8080/api/review/save', formData, {
+			const response = await axios.post('http://localhost:8080/api/review/save', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

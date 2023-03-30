@@ -12,7 +12,12 @@ import NewLocation from './Components/Kakao/NewLocation';
 import SearchAddress from './Components/Kakao/SearchAddress';
 import SearchAddressMain from './Components/Kakao/SearchAddressMain';
 import SearchAddressMap from './Components/Kakao/SearchAddressMap';
-import Detail from './Components/DetailPage/Detail';
+import MapDetail from './pages/MapDetail/MapDetail';
+import DetailHome from './Components/PlaceInfo/PlaceDetail/DetailHome';
+import DetailPhoto from './Components/PlaceInfo/PlaceDetail/DetailPhoto';
+import DetailRecommend from './Components/PlaceInfo/PlaceDetail/DetailRecommend';
+import DetailReview from './Components/PlaceInfo/PlaceDetail/DetailReview';
+import DetailMap from './Components/PlaceInfo/PlaceDetail/DetailMap';
 import MyDonation from './pages/Profile/MyDonation';
 import MyInfoManage from './pages/Profile/MyInfoManage';
 import MyReview from './pages/Profile/MyReview';
@@ -21,6 +26,7 @@ import ChangeBarrierFreePage from './pages/Profile/ChangeBarrierFreePage';
 import EditReview from './pages/Review/EditReview';
 import { logout } from './store/Cookie';
 import { logoutAccount } from './store/AuthSlice';
+import Mylocation from './Components/MyLocation/Mylocation';
 
 function App() {
 	const dispatch = useDispatch();
@@ -57,7 +63,15 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/map/*" element={<Map />} />
-				<Route path='map/detail/:id' element={<Detail />}/>
+				<Route path="/map/detail/:id/*" element={<MapDetail />}>
+					<Route index element={<DetailHome />} />
+					<Route path="Home" element={<DetailHome />} />
+					<Route path="Photo" element={<DetailPhoto />} />
+					<Route path="Recommend" element={<DetailRecommend />} />
+					<Route path="Review" element={<DetailReview />} />
+					<Route path="Map" element={<DetailMap />} />
+				</Route>
+				<Route path="/myloc" element={<Mylocation />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
 				<Route path="/EditReview" element={<EditReview />} />

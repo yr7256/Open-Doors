@@ -16,7 +16,7 @@ type Category = {
 	active: boolean;
 };
 
-function PickCategory(modalHandler: any) {
+function PickCategory() {
 	const [restaurantActive, setRestaurantActive] = useState(false);
 	const [cafeActive, setCafeActive] = useState(false);
 	const [movieActive, setMovieActive] = useState(false);
@@ -64,9 +64,6 @@ function PickCategory(modalHandler: any) {
 	};
 
 	const pickCategory = async () => {
-		const handleClose = () => {
-			modalHandler?.();
-		};
 		const picks: any = [];
 		for (const category of categoriesList) {
 			if (category.active) {
