@@ -31,14 +31,7 @@ import Donation from './Components/Donation/Donation';
 import NotFound from './Components/Error/NotFound';
 import Help from './Components/Help/Help';
 
-interface DataItem {
-  id: number;
-  lat: number;
-  lng: number;
-}
-
 const App: React.FC = () => {
-	const [mapdata, setMapdata] = useState<any>(null);
 	const dispatch = useDispatch();
 
 	function setScreenSize() {
@@ -77,9 +70,11 @@ const App: React.FC = () => {
 		getAccessToken();
 	}, []);
 
+	const [mapdata, setMapdata] = useState([]);
+
 	const getData = async () => {
 		try {
-			const response = await axios.get('http://172.20.10.2:8080/api/spots');
+			const response = await axios.get('/api/spots');
 			console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {

@@ -93,58 +93,50 @@ function PickCategory() {
 		<>
 			<Fotter>
 				<form onSubmit={handleSubmit}>
-					<br />
 					<h4>원하는 활동을 선택하세요.</h4>
-					<br />
 					<div className="grid grid-cols-8 gap-3">
 						<div className="col-start-2 col-span-2">
 							<Active className={restaurantActive ? ' active' : ''} onClick={toggleRestaurantActive}>
 								<img src={restaurant} alt="restaurant" />
 							</Active>
-							<br />
 							{selectedLabel[0]}
 						</div>
 						<div className="col-start-4 col-span-2">
 							<Active className={cafeActive ? ' active' : ''} onClick={toggleCafeActive}>
 								<img src={cafe} alt="cafe" />
 							</Active>
-							<br />
 							{selectedLabel[1]}
 						</div>
 						<div className="col-start-6 col-span-2">
 							<Active className={movieActive ? ' active' : ''} onClick={toggleMovieActive}>
 								<img src={movie} alt="movie" />
 							</Active>
-							<br />
 							{selectedLabel[2]}
 						</div>
 					</div>
-					<br />
 					<div className="grid grid-cols-8 gap-1">
 						<div className="col-start-2 col-span-2">
 							<Active className={readActive ? ' active' : ''} onClick={toggleReadActive}>
 								<img src={read} alt="read" />
 							</Active>
-							<br />
 							{selectedLabel[3]}
 						</div>
 						<div className="col-start-4 col-span-2">
 							<Active className={picnicActive ? ' active' : ''} onClick={togglePicnicActive}>
 								<img src={picnic} alt="picnic" />
 							</Active>
-							<br />
 							{selectedLabel[4]}
 						</div>
 						<div className="col-start-6 col-span-2">
 							<Active className={cultureActive ? ' active' : ''} onClick={toggleCultureActive}>
 								<img src={culture} alt="culture" />
 							</Active>
-							<br />
 							{selectedLabel[5]}
 						</div>
 					</div>
-					<br />
-					<Button onClick={pickCategory}>추천 받기</Button>
+					<div>
+						<Button onClick={pickCategory}>추천 받기</Button>
+					</div>
 				</form>
 			</Fotter>
 		</>

@@ -9,7 +9,7 @@ const Mylocation = () => {
     // event.preventDefault();
     try {
       const response = await axios.get(
-        'http://192.168.31.134:8080/api/spots',
+        '/api/spots',
         // {
         //   headers: {
         //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

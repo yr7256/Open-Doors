@@ -5,7 +5,6 @@ import Topbar from '../Topbar/Topbar';
 import { Link, useNavigate, Route, Routes } from 'react-router-dom';
 // import Detail from '../DetailPage/Detail';
 import Modal from '../Menu/Modal';
-import axios from 'axios';
 
 const { kakao } = window;
 
@@ -16,7 +15,7 @@ interface MapProps {
 const Kakao = (props: MapProps) => {
 	const { mapdata } = props;
 	const [search, setSearch] = useState('');
-	const [detailData, setDetailData] = useState([]) as any;
+	const [detailData, setDetailData] = useState([]) as any[];
 	const [modalState, setModalState] = useState(false);
 	const navigate = useNavigate();
 	const openModal = () => {
@@ -31,7 +30,7 @@ const Kakao = (props: MapProps) => {
 	};
 
 	const goDetailpage = () => {
-		navigate(`/map/detail/${detailData?.spotSeq}`);
+		navigate(`/map/detail/${detailData?.id}`);
 		// <Link to={`/map/${detailData.spotPlaceId}`} />
 	};
 
@@ -40,198 +39,209 @@ const Kakao = (props: MapProps) => {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 5,
 			maxLevel: 13,
-			// scrollwheel: false,
 		};
 
 		const container = document.getElementById('map');
 		const map = new kakao.maps.Map(container, options);
-		const clusterer = new kakao.maps.MarkerClusterer({
-			map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-			averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-			minLevel: 6, // 클러스터 할 최소 지도 레벨
-		});
+		// kakao.maps.event.addListener(map, 'tilesloaded', () => {
 
-		// 마커들을 저장할 변수 생성(마커 클러스터러 관련)
-		let markers: kakao.maps.Marker[] = [];
+		let listenerFired = false;
 
-		const ps = new kakao.maps.services.Places();
+		const listener = kakao.maps.event.addListener(map, "idle", () => {
+			if (!listenerFired) {
+				listenerFired = true;
+			const clusterer = new kakao.maps.MarkerClusterer({
+				map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+				averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+				minLevel: 6, // 클러스터 할 최소 지도 레벨
+			});
 
-		const searchForm = document.getElementById('submit_btn');
-		searchForm?.addEventListener('click', function (e) {
-			e.preventDefault();
-			searchPlaces();
-		});
+			// 마커들을 저장할 변수 생성(마커 클러스터러 관련)
+			let markers: kakao.maps.Marker[] = [];
 
-		const placesSearchCB = (data: any, status: kakao.maps.services.Status, pagination: string) => {
-			if (status === kakao.maps.services.Status.OK) {
-				displayPlaces(data);
+			const ps = new kakao.maps.services.Places();
 
-				displayPagination(pagination);
+			const searchForm = document.getElementById('submit_btn');
+			searchForm?.addEventListener('click', function (e) {
+				e.preventDefault();
+				// searchPlaces();
+				console.log('검색');
+			});
 
-				const bounds = new kakao.maps.LatLngBounds();
-				for (let i = 0; i < data.length; i++) {
-					displayMarker(data[i], i);
-					// bounds.extend(new kakao.maps.LatLng(data[i].spotLat, data[i].spotLng));
-					bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+			// const placesSearchCB = (data: any, status: kakao.maps.services.Status, pagination: string) => {
+			// 	if (status === kakao.maps.services.Status.OK) {
+			// 		displayPlaces(data);
+
+			// 		displayPagination(pagination);
+
+			// 		const bounds = new kakao.maps.LatLngBounds();
+			// 		for (let i = 0; i < data.length; i++) {
+			// 			displayMarker(data[i], i);
+			// 			// bounds.extend(new kakao.maps.LatLng(data[i].spotLat, data[i].spotLng));
+			// 			bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+			// 		}
+
+			// 		map.setBounds(bounds);
+			// 	} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+			// 		alert('검색 결과가 존재하지 않습니다.');
+			// 	} else if (status === kakao.maps.services.Status.ERROR) {
+			// 		alert('검색 결과 중 오류가 발생했습니다.');
+			// 	}
+			// };
+
+			// const searchPlaces = () => {
+			// 	const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
+
+			// 	if (!keyword.replace(/^\s+|\s+$/g, '')) {
+			// 		alert('키워드를 입력해주세요!');
+			// 		return false;
+			// 	}
+
+			// 	// 여기서 검색 들어감
+			// 	ps.keywordSearch(keyword, placesSearchCB);
+			// };
+
+			// const displayPlaces = (places: any) => {
+			// 	const listEl = document.getElementById('placesList') as HTMLElement;
+			// 	const menuEl = document.getElementById('menu_wrap') as HTMLElement;
+			// 	const fragment = document.createDocumentFragment();
+			// 	removeAllChildNods(listEl);
+			// 	removeMarker();
+			// 	for (let i = 0; i < places.length; i++) {
+			// 		// const placePosition = new kakao.maps.LatLng(places[i].spotLat, places[i].spotLng);
+			// 		const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+			// 		const marker = addMarker(placePosition, i);
+			// 		const itemEl = getListItem(i, places[i]);
+
+			// 		fragment.appendChild(itemEl);
+			// 	}
+
+			// 	listEl?.appendChild(fragment);
+			// 	menuEl.scrollTop = 0;
+			// };
+
+			// const getListItem = (index: number, places: any) => {
+			// 	const el = document.createElement('li');
+
+			// 	let itemStr =
+			// 		'<span class="markerbg marker_' +
+			// 		(index + 1) +
+			// 		'">' +
+			// 		(index + 1) +
+			// 		'</span>' +
+			// 		'<div class="info">' +
+			// 		'   <h5>' +
+			// 		'이름 :' +
+			// 		places.place_name +
+			// 		'</h5>';
+
+			// 	if (places.road_address_name) {
+			// 		itemStr += '    <span>' + '주소 :' + places.road_address_name + '</span>';
+			// 	} else {
+			// 		itemStr += '    <span>' + places.address_name + '</span>';
+			// 	}
+
+			// 	itemStr += '  <span class="tel">' + '전화번호 : ' + places.phone + '</span>' + '</div>';
+
+			// 	el.innerHTML = itemStr;
+			// 	el.className = 'item';
+
+			// 	return el;
+			// };
+
+			// const addMarker = (position: kakao.maps.LatLng, idx: number) => {
+			// 	const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+			// 	const imageSize = new kakao.maps.Size(36, 37);
+			// 	const imgOptions = {
+			// 		spriteSize: new kakao.maps.Size(36, 691),
+			// 		spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10),
+			// 		offset: new kakao.maps.Point(13, 37),
+			// 	};
+
+			// 	const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+
+			// 	const marker = new kakao.maps.Marker({
+			// 		position,
+			// 		image: markerImage,
+			// 	});
+
+			// 	marker.setMap(map);
+			// 	markers.push(marker);
+
+			// 	return marker;
+			// };
+
+			const removeMarker = () => {
+				for (let i = 0; i < markers.length; i++) {
+					markers[i].setMap(null);
 				}
-
-				map.setBounds(bounds);
-			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-				alert('검색 결과가 존재하지 않습니다.');
-			} else if (status === kakao.maps.services.Status.ERROR) {
-				alert('검색 결과 중 오류가 발생했습니다.');
-			}
-		};
-
-		const searchPlaces = () => {
-			const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
-
-			if (!keyword.replace(/^\s+|\s+$/g, '')) {
-				alert('키워드를 입력해주세요!');
-				return false;
-			}
-
-			// 여기서 검색 들어감
-			ps.keywordSearch(keyword, placesSearchCB);
-		};
-
-		const displayPlaces = (places: any) => {
-			const listEl = document.getElementById('placesList') as HTMLElement;
-			const menuEl = document.getElementById('menu_wrap') as HTMLElement;
-			const fragment = document.createDocumentFragment();
-			removeAllChildNods(listEl);
-			removeMarker();
-			for (let i = 0; i < places.length; i++) {
-				// const placePosition = new kakao.maps.LatLng(places[i].spotLat, places[i].spotLng);
-				const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-				const marker = addMarker(placePosition, i);
-				const itemEl = getListItem(i, places[i]);
-
-				fragment.appendChild(itemEl);
-			}
-
-			listEl?.appendChild(fragment);
-			menuEl.scrollTop = 0;
-		};
-
-		const getListItem = (index: number, places: any) => {
-			const el = document.createElement('li');
-
-			let itemStr =
-				'<span class="markerbg marker_' +
-				(index + 1) +
-				'">' +
-				(index + 1) +
-				'</span>' +
-				'<div class="info">' +
-				'   <h5>' +
-				'이름 :' +
-				places.place_name +
-				'</h5>';
-
-			if (places.road_address_name) {
-				itemStr += '    <span>' + '주소 :' + places.road_address_name + '</span>';
-			} else {
-				itemStr += '    <span>' + places.address_name + '</span>';
-			}
-
-			itemStr += '  <span class="tel">' + '전화번호 : ' + places.phone + '</span>' + '</div>';
-
-			el.innerHTML = itemStr;
-			el.className = 'item';
-
-			return el;
-		};
-
-		const addMarker = (position: kakao.maps.LatLng, idx: number) => {
-			const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
-			const imageSize = new kakao.maps.Size(36, 37);
-			const imgOptions = {
-				spriteSize: new kakao.maps.Size(36, 691),
-				spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10),
-				offset: new kakao.maps.Point(13, 37),
+				markers = [];
+				// console.log(markers);
 			};
 
-			const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+			// const displayPagination = (pagination: any) => {
+			// 	const paginationEl = document.getElementById('pagination') as HTMLElement;
+			// 	const fragment = document.createDocumentFragment();
+			// 	while (paginationEl?.hasChildNodes()) {
+			// 		const lastChild = paginationEl.lastChild as ChildNode;
+			// 		paginationEl.removeChild(lastChild);
+			// 	}
 
-			const marker = new kakao.maps.Marker({
-				position,
-				image: markerImage,
-			});
+			// 	for (let i = 1; i <= pagination.last; i++) {
+			// 		const el = document.createElement('a');
+			// 		el.href = '#';
+			// 		el.innerHTML = String(i);
 
-			marker.setMap(map);
-			markers.push(marker);
+			// 		if (i === pagination.current) {
+			// 			el.className = 'on';
+			// 		} else {
+			// 			el.onclick = (function (page: number) {
+			// 				return function () {
+			// 					pagination.gotoPage(page);
+			// 				};
+			// 			})(i);
+			// 		}
 
-			return marker;
-		};
+			// 		fragment.appendChild(el);
+			// 	}
+			// 	paginationEl?.appendChild(fragment);
+			// };
 
-		const removeMarker = () => {
-			for (let i = 0; i < markers.length; i++) {
-				markers[i].setMap(null);
+			// const removeAllChildNods = (el: HTMLElement) => {
+			// 	while (el.hasChildNodes()) {
+			// 		const lastChild = el.lastChild as ChildNode;
+			// 		el.removeChild(lastChild);
+			// 	}
+			// }
+
+			const displayMarker = (data: any, idx: number) => {
+				const marker = new kakao.maps.Marker({
+					map: map,
+					position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
+				});
+
+				markers.push(marker);
+				// console.log(markers);
+
+				kakao.maps.event.addListener(marker, 'click', () => {
+					// console.log(data);
+					if (modalState) {
+						closeModal();
+						setDetailData([]);
+					}
+					setDetailData(data);
+					openModal();
+				});
+			};
+
+			for (let i = 0; i < mapdata.length; i++) {
+				console.log(mapdata[i]);
+				displayMarker(mapdata[i], i);
 			}
-			markers = [];
-			// console.log(markers);
-		};
 
-		const displayPagination = (pagination: any) => {
-			const paginationEl = document.getElementById('pagination') as HTMLElement;
-			const fragment = document.createDocumentFragment();
-			while (paginationEl?.hasChildNodes()) {
-				const lastChild = paginationEl.lastChild as ChildNode;
-				paginationEl.removeChild(lastChild);
-			}
-
-			for (let i = 1; i <= pagination.last; i++) {
-				const el = document.createElement('a');
-				el.href = '#';
-				el.innerHTML = String(i);
-
-				if (i === pagination.current) {
-					el.className = 'on';
-				} else {
-					el.onclick = (function (page: number) {
-						return function () {
-							pagination.gotoPage(page);
-						};
-					})(i);
-				}
-
-				fragment.appendChild(el);
-			}
-			paginationEl?.appendChild(fragment);
-		};
-
-		function removeAllChildNods(el: HTMLElement) {
-			while (el.hasChildNodes()) {
-				const lastChild = el.lastChild as ChildNode;
-				el.removeChild(lastChild);
-			}
+			clusterer.addMarkers(markers);
 		}
-
-		const displayMarker = (data: any, idx: number) => {
-			const marker = new kakao.maps.Marker({
-				map: map,
-				position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
-			});
-
-			markers.push(marker);
-			// console.log(markers);
-
-			kakao.maps.event.addListener(marker, 'click', function () {
-				if (modalState) {
-					closeModal();
-					setDetailData([]);
-				}
-				openModal();
-				setDetailData(data);
-			});
-		};
-
-		for (let i = 0; i < mapdata.length; i++) {
-			displayMarker(mapdata[i], i);
-		}
-
-		clusterer.addMarkers(markers);
+		});
 
 		if (navigator.geolocation) {
 			// GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -245,11 +255,8 @@ const Kakao = (props: MapProps) => {
 			const locPosition = new kakao.maps.LatLng(36.350475, 127.384834);
 			map.setCenter(locPosition);
 		}
-
-		// const position = new kakao.maps.LatLng(36.350475, 127.384834);
-		// map.setCenter(position);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [mapdata]);
 
 	return (
 		<>
@@ -314,7 +321,7 @@ const Kakao = (props: MapProps) => {
 			<div id="pagination"></div>
 			<div id="map" />
 			<div onClick={goDetailpage}>
-				<Modal id={detailData.spotName} title="" show={modalState} handleClose={() => closeModal()}>
+				<Modal id={detailData.id} title="" show={modalState} handleClose={() => closeModal()}>
 					<div>
 						<p className="spotname">이곳의 이름은 {detailData.spotName} 입니다.</p>
 						<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
