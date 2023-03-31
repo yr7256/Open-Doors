@@ -34,28 +34,29 @@ public class RecomController {
     private final RecommendService recommendService;
     @PostMapping("/recommend")
     public ResponseEntity<String> getRecommendation(@RequestBody RecommendContentDto recommendContentDto) throws Exception{
+        System.out.println("추천 진입");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         JSONObject json = recommendService.getContentBasedData(recommendContentDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:8081/content_based", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://172.20.10.5:8081/content_based", request, String.class);
 
         // Return the response from Django to the client
         return response;
     }
 
-    @GetMapping("/hybrid")
-    public JSONObject getRecommendationHybrid(@RequestBody RecommendCollabDto recommendCollabDto) throws Exception{
+    @PostMapping("/hybrid")
+    public ResponseEntity<String> getRecommendationHybrid(@RequestBody RecommendCollabDto recommendCollabDto) throws Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         JSONObject json = recommendService.getHybridData(recommendCollabDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:8081/post_test/", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://172.20.10.5:8081/hybrid", request, String.class);
 
         // Return the response from Django to the client
-        return json;
+        return response;
     }
 }
 

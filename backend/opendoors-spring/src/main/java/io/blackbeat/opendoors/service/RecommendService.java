@@ -9,5 +9,5 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 public interface RecommendService {
     JSONObject getContentBasedData(RecommendContentDto recommendContentDto) throws JSONException, JsonProcessingException;
 //    JSONObject getCollabData()
-    JSONObject getHybridData(RecommendCollabDto recommendCollabDto);
+    JSONObject getHybridData(RecommendCollabDto recommendCollabDto) throws JsonProcessingException, JSONException;
 }

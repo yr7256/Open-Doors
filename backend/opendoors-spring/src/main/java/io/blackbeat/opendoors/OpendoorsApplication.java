@@ -34,19 +34,19 @@ public class OpendoorsApplication {
 	@Bean
 	CommandLineRunner run(UserService userService, SpotService spotService){
 		return agrs -> {
-//			userService.saveRole(new Role(null, "ROLE_USER"));
-//			userService.saveRole(new Role(null, "ROLE_MANAGER"));
-//			userService.saveRole(new Role(null, "ROLE_ADMIN"));
-//			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
-//
-//			spotService.saveSfInfo(new SfInfo(null , "WheelChair" ));
-//			spotService.saveSfInfo(new SfInfo(null , "Guide Dog" ));
-//			spotService.saveSfInfo(new SfInfo(null , "WheelChair Elevator" ));
-//			spotService.saveSfInfo(new SfInfo(null , "Free Parking"));
-//			spotService.saveSfInfo(new SfInfo(null , "Disabled Toilet" ));
-//			spotService.saveSfInfo(new SfInfo(null , "Elevator" ));
-//			spotService.saveSfInfo(new SfInfo(null , "Several people"));
-//			spotService.saveSfInfo(new SfInfo(null , "First Floor" ));
+			userService.saveRole(new Role(null, "ROLE_USER"));
+			userService.saveRole(new Role(null, "ROLE_MANAGER"));
+			userService.saveRole(new Role(null, "ROLE_ADMIN"));
+			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+
+			spotService.saveSfInfo(new SfInfo(null , "WheelChair" ));
+			spotService.saveSfInfo(new SfInfo(null , "Guide Dog" ));
+			spotService.saveSfInfo(new SfInfo(null , "WheelChair Elevator" ));
+			spotService.saveSfInfo(new SfInfo(null , "Free Parking"));
+			spotService.saveSfInfo(new SfInfo(null , "Disabled Toilet" ));
+			spotService.saveSfInfo(new SfInfo(null , "Elevator" ));
+			spotService.saveSfInfo(new SfInfo(null , "Several people"));
+			spotService.saveSfInfo(new SfInfo(null , "First Floor" ));
 
 //			Spot test = new Spot();
 //			test.setSpotAddress("대전광역시 서구 도마3길 46");
