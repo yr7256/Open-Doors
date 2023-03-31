@@ -1,6 +1,6 @@
 #map {
-  /* width: 100vw; */
-  /* height: 100%; */
+  width: 100vw;
+  /* height: 83vh; */
   min-height: 50vh;
   /* position: absolute; */
   display: flex;
@@ -41,10 +41,10 @@
   width: 60vw;
 }
 
-#menuDiv {
-  /* position: fixed; */
+/* #menuDiv {
+  position: absolute;
   display: inline-flex;
   justify-content: space-between; 
   top: 0;
-  z-index: 100;
-}
+  z-index: 150;
+} */

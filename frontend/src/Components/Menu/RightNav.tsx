@@ -1,5 +1,5 @@
-import { Ul, Li } from '../../styles/Menu/styles';
-import React from 'react';
+import { Ul, Li, Image, MenuImg } from '../../styles/Menu/styles';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import basicimg from '../../assets/img/basicimg.png';
@@ -15,11 +15,13 @@ type UserState = {
 };
 
 function RightNav(props: Props) {
-	const userImg = useSelector((state: UserState) => state.user.userImg);
+	const [myImage, setMyImage] = useState(`${basicimg}`);
 	return (
 		<>
 			<Ul open={props.open}>
-				{userImg ? userImg : <img src={basicimg} alt="noImg" />}
+				<MenuImg>
+					<Image src={myImage} alt="my-image" />
+				</MenuImg>
 				<NavLink
 					to="/myloc"
 					style={({ isActive }) => ({

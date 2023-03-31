@@ -53,10 +53,10 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 				onResize={handleResize}
 			>
 				<div>
-					<span className="close" onClick={handleClose}>
+					{/* <span className="close" onClick={handleClose}>
 						×
 					</span>
-					<h3>{title}</h3>
+					<h3>{title}</h3> */}
 					{children}
 					{id === 'recommend' ? <PickCategory /> : null}
 					{id === 'bookmark' ? <Bookmark /> : null}

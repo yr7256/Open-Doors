@@ -42,6 +42,14 @@ function App() {
 	const dispatch = useDispatch();
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
+	function setScreenSize() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  useEffect(() => {
+    setScreenSize();
+  });
+
 	useEffect(() => {
 		// const accessToken = localStorage.getItem('accessToken');
 		const cookies = new Cookies();
@@ -73,11 +81,27 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLogged]);
 
+	const [mapdata, setMapdata] = useState([]);
+
+	const getData = async () => {
+		try {
+			const response = await axios.get('/api/spots');
+			console.log(response.data.spots);
+			setMapdata(response.data.spots);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/*" element={<NotFound />} />
-				<Route path="/map/*" element={<Map />} />
+				<Route path='/*' element={<NotFound />} />
+				<Route path="/map/*" element={<Map mapdata={mapdata}/>} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
