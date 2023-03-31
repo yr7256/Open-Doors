@@ -56,8 +56,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 					{/* <span className="close" onClick={handleClose}>
 						×
 					</span>
-					<h3>{title}</h3>
-					{children} */}
+					<h3>{title}</h3> */}
+					{children}
 					{id === 'recommend' ? <PickCategory /> : null}
 					{id === 'bookmark' ? <Bookmark /> : null}
 					{id === 'trafficinfo' ? <TrafficInfo /> : null}

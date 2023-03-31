@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 
 export const Fotter = styled.div`
-	// position: absolute;
 	background-color: white;
-	// width: 100vw;
-	// height: 45vh;
-	// border-radius: 24px 24px 0 0;
-	// bottom: 9vh;
 	z-index: 10;
 	margin: 0 auto;
 	display: flex;
@@ -19,6 +14,12 @@ export const Fotter = styled.div`
 		display: flex;
 		justify-content: center;
 		flex-direction: column;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	& > form > * {
+		margin-top: 8px;
+		margin-bottom: 8px;
 	}
 `;
 

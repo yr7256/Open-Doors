@@ -52,7 +52,7 @@ function ReviewInput() {
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
 			formData.append('reviewDto', blob);
-			const response = await axios.post('http://localhost:8080/api/review/save', formData, {
+			const response = await axios.post('/api/review/save', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

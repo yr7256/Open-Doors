@@ -31,7 +31,7 @@ import Donation from './Components/Donation/Donation';
 import NotFound from './Components/Error/NotFound';
 import Help from './Components/Help/Help';
 
-function App() {
+const App: React.FC = () => {
 	const dispatch = useDispatch();
 
 	function setScreenSize() {
@@ -70,11 +70,27 @@ function App() {
 		getAccessToken();
 	}, []);
 
+	const [mapdata, setMapdata] = useState([]);
+
+	const getData = async () => {
+		try {
+			const response = await axios.get('/api/spots');
+			console.log(response.data.spots);
+			setMapdata(response.data.spots);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path='/*' element={<NotFound />} />
-				<Route path="/map/*" element={<Map />} />
+				<Route path="/map/*" element={<Map mapdata={mapdata}/>} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />

@@ -111,7 +111,7 @@ const NewLocation = () => {
 			const blob = new Blob([json], { type: 'application/json' });
 			formData.append('spotDto', blob);
 			const response = await axios.post(
-				'http://192.168.31.134:8080/api/spot/save',
+				'/api/spot/save',
 				formData,
 				{
 					headers: {
