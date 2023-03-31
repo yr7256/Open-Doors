@@ -15,6 +15,7 @@ function MapDetail() {
 	const [placeImage, setPlaceImage] = useState<any>([]);
 	const [category, setCategory] = useState<any>('Home');
 	const { id } = useParams();
+
 	// const spotName = dummy.map((spot: any) => {
 	// 	if (spot.spotSeq === id) return spot.spotName;
 	// });
@@ -25,7 +26,7 @@ function MapDetail() {
 	}, []);
 
 	useEffect(() => {
-		axios.get('http://192.168.31.134:8080/api/spot/4').then((res) => {
+		axios.get(`http://192.168.31.134:8080/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
 			console.log(res.data);
 			const imgArr: any[] = [];
@@ -36,7 +37,7 @@ function MapDetail() {
 				// 	setPlaceImage([...placeImage, response.config.url]);
 				// });
 				const a = async () => {
-					const b = await axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`);
+					const b = await axios.get(`http://192.168.31.134:8080/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
 					if (index === res.data.data.images.length - 1) {
 						setPlaceImage(imgArr);
@@ -69,7 +70,6 @@ function MapDetail() {
 			{/* <H2>{spotName}</H2> */}
 			<Line />
 			<PlaceNav category={category} onSelect={onSelect} />
-
 			<Footer />
 		</>
 	);

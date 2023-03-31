@@ -1,9 +1,19 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import React, { useState, ChangeEvent } from 'react';
 import { Input, Label, Message, ChangeInput } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 
+type UserState = {
+	user: {
+		username: string;
+	};
+};
+
 function ChangePassword() {
+	const userId = useSelector((state: UserState) => state.user.username);
+	console.log(userId);
 	const [isChecked, setIsChecked] = useState(false);
 	const [password, setPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -12,6 +22,7 @@ function ChangePassword() {
 	const [passwordCheckMessage, setPasswordCheckMessage] = useState('');
 	const [isPassword, setIsPassword] = useState(false);
 	const [isPasswordCheck, setIsPasswordCheck] = useState(false);
+	const navigate = useNavigate();
 
 	const handleCurrentInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const currentPassword = e.target.value;
@@ -54,7 +65,7 @@ function ChangePassword() {
 	const changePassword = async () => {
 		const accessToken = localStorage.getItem('accessToken');
 		const changePasswordRequest = {
-			url: '',
+			url: `http://j8b205.p.ssafy.io:8080/api/user/${userId}`,
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
@@ -69,6 +80,7 @@ function ChangePassword() {
 			const changePasswordResult = await axios(changePasswordRequest);
 			console.log(changePasswordResult);
 			console.log('비밀번호 변경이 완료되었습니다.');
+			navigate('/MyInfoManage');
 		} catch (err) {
 			console.log('비밀번호 변경 에러다');
 		}

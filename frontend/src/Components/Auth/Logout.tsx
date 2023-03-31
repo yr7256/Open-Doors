@@ -17,7 +17,7 @@ function Logout() {
 		const logoutGet = () => {
 			const accessToken = localStorage.getItem('accessToken');
 			axios
-				.get('', {
+				.get('http://j8b205.p.ssafy.io:8080/api/users/logout', {
 					headers: { Authorization: `Bearer ${accessToken}` },
 				})
 				.then((res) => console.log(res.data));

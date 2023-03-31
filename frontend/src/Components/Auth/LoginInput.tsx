@@ -44,10 +44,9 @@ function LoginInput() {
 		console.log(loginPayload);
 
 		const loginPost = {
-			// url: 'http://192.168.31.134:8080/api/auth/authenticate',
-			url: `/api/login?username=${username}&password=${password}`,
+			url: 'http://j8b205.p.ssafy.io:8080/api/user/login',
 			method: 'POST',
-			// data: loginPayload,
+			data: loginPayload,
 		};
 		try {
 			const loginRequest = await axios(loginPost);
@@ -55,17 +54,18 @@ function LoginInput() {
 
 			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
 			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
-			const accessToken = loginRequest.data.token;
-			const refreshToken = loginRequest.data.refresh_token;
+			const accessToken = loginRequest.data.accessToken;
+			// const refreshToken = loginRequest.data.refresh_token;
 
 			// 로컬 스토리지에 액세스 토큰 저장
 			localStorage.setItem('accessToken', accessToken);
-			setCookie(refreshToken);
+			// setCookie(refreshToken);
 
 			// dispatch를 위해 get해서 유저정보 불러오기
-			const userInfo = axios.get('').then((response) => {
+			const userInfo = axios.get(`http://j8b205.p.ssafy.io:8080/api/user/${username}`).then((response) => {
 				setUserDispatch(response.data);
 				console.log(response.data);
+				console.log(userInfo);
 				dispatch(loginAccount({ username: response.data.id, password: response.data.id, name: response.data.name }));
 			});
 

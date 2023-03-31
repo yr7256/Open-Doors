@@ -14,19 +14,26 @@ type Props = {
 
 type UserState = {
 	user: {
+		username: string;
 		password: string;
 	};
 };
 
 function Withdrawal({ title, alert, closeModal }: Props) {
+	const userId = useSelector((state: UserState) => state.user.username);
 	const password = useSelector((state: UserState) => state.user.password);
 	const dispatch = useDispatch();
 
 	const DeleteUser = () => {
 		const accessToken = localStorage.getItem('accessToken');
 		axios
-			.delete(`/api/user/${password}`, {
-				headers: { Authorization: `Bearer ${accessToken}` },
+			.delete(`/api/user/${userId}`, {
+				data: {
+					password: password,
+				},
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
 			})
 			.then(() => {
 				console.log('회원탈퇴라니');

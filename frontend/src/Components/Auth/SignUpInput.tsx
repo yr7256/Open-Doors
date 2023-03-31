@@ -190,7 +190,7 @@ function SignUpInput() {
 		// }
 
 		const requestInfo = {
-			url: '/api/user/save',
+			url: 'http://j8b205.p.ssafy.io:8080/api/user/save',
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',
