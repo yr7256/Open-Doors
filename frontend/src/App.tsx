@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -31,8 +32,15 @@ import Donation from './Components/Donation/Donation';
 import NotFound from './Components/Error/NotFound';
 import Help from './Components/Help/Help';
 
+type UserState = {
+	user: {
+		isLogged: boolean;
+	};
+};
+
 function App() {
 	const dispatch = useDispatch();
+	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
 	useEffect(() => {
 		// const accessToken = localStorage.getItem('accessToken');
@@ -48,24 +56,27 @@ function App() {
 	useEffect(() => {
 		const cookies = new Cookies();
 		const refreshToken = cookies.get('refresh_token');
-		const getAccessToken = async () => {
-			try {
-				const response = await axios.post('', {
-					refreshToken: refreshToken,
-				});
-				// 로컬 스토리지에 엑세스 토큰 저장
-				localStorage.setItem('accessToken', response.data.accessToken);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		getAccessToken();
-	}, []);
+		if (isLogged) {
+			const getAccessToken = async () => {
+				try {
+					const response = await axios.post('', {
+						refreshToken: refreshToken,
+					});
+					// 로컬 스토리지에 엑세스 토큰 저장
+					localStorage.setItem('accessToken', response.data.accessToken);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			getAccessToken();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isLogged]);
 
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/*' element={<NotFound />} />
+				<Route path="/*" element={<NotFound />} />
 				<Route path="/map/*" element={<Map />} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
@@ -92,7 +103,7 @@ function App() {
 					<Route path="main" element={<SearchAddressMain />} />
 					<Route path="marker" element={<SearchAddressMap />} />
 				</Route>
-				<Route path='/help' element={<Help />} />
+				<Route path="/help" element={<Help />} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -26,7 +26,7 @@ function DetailRecommend() {
 			.then((res) => {
 				res.data.map((name: any) =>
 					axios
-						.get(`http://172.20.10.2:8080/api/spot/${name[0]}`)
+						.get(`http://192.168.31.134:8080//api/spot/${name[0]}`)
 						.then((response) => setRecommendPlace(response.data))
 						.catch((err) => console.log(err))
 				);
