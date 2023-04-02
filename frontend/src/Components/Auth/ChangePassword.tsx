@@ -88,34 +88,44 @@ function ChangePassword() {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<div>
-					<Label>현재 비밀번호</Label>
-					<ChangeInput id="currentpassword" onChange={handleCurrentInput}></ChangeInput>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-6">
+						<Label>현재 비밀번호</Label>
+						<ChangeInput id="currentpassword" onChange={handleCurrentInput}></ChangeInput>
+					</div>
 				</div>
-				<div>
-					<Label>새 비밀번호</Label>
-					<Input
-						id="newwpassword"
-						value={newPassword}
-						onChange={onChangePassword}
-						placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
-					></Input>
-					<Message className="message">{passwordMessage}</Message>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-6">
+						<Label>새 비밀번호</Label>
+						<Input
+							id="newwpassword"
+							value={newPassword}
+							onChange={onChangePassword}
+							placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
+						></Input>
+						<Message className="message">{passwordMessage}</Message>
+					</div>
 				</div>
-				<div>
-					<Label>비밀번호 확인</Label>
-					<Input
-						id="confirmpassword"
-						value={passwordCheck}
-						onChange={onChangePasswordConfirm}
-						placeholder={'   비밀번호 확인'}
-					></Input>
-					<Message className="message">{passwordCheckMessage}</Message>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-6">
+						<Label>비밀번호 확인</Label>
+						<Input
+							id="confirmpassword"
+							value={passwordCheck}
+							onChange={onChangePasswordConfirm}
+							placeholder={'   비밀번호 확인'}
+						></Input>
+						<Message className="message">{passwordCheckMessage}</Message>
+					</div>
 				</div>
 				<br />
-				<Button type="submit" onClick={changePassword}>
-					변경하기
-				</Button>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-6">
+						<Button type="submit" onClick={changePassword}>
+							변경하기
+						</Button>
+					</div>
+				</div>
 			</form>
 		</>
 	);

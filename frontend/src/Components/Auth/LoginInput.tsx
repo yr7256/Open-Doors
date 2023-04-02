@@ -7,7 +7,6 @@ import { Label } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
 import Loginimg from '../../assets/img/login.png';
 import { loginAccount } from '../../store/AuthSlice';
-import { setCookie } from '../../store/Cookie';
 
 function LoginInput() {
 	//Login 초기값
@@ -97,24 +96,32 @@ function LoginInput() {
 				<P>더 많은 서비스를 이용할 수 있습니다.</P>
 			</Banner>
 			<form onSubmit={handleSubmit}>
-				<div>
-					<Label>아이디</Label>
-					<Input id="id" name="id" placeholder={'   아이디'} onChange={handleIdChange} />
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-5">
+						<Label>아이디</Label>
+
+						<Input id="id" name="id" placeholder={'   아이디'} onChange={handleIdChange} />
+
+						<Label>비밀번호</Label>
+
+						<Input
+							id="password"
+							name="password"
+							type="password"
+							placeholder={'   비밀번호'}
+							onChange={handlePasswordChange}
+						/>
+
+						<div className="grid grid-cols-16 gap-1">
+							<div className="col-start-2 col-end-12">
+								<Button onClick={submitLogin}>로그인</Button>
+								<Notyet>아직 가입을 하지 않으셨나요?</Notyet>
+								<Button onClick={moveSignup}>가입 하러가기</Button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div>
-					<Label>비밀번호</Label>
-					<Input
-						id="password"
-						name="password"
-						type="password"
-						placeholder={'   비밀번호'}
-						onChange={handlePasswordChange}
-					/>
-				</div>
-				<Button onClick={submitLogin}>로그인</Button>
 			</form>
-			<Notyet>아직 가입을 하지 않으셨나요?</Notyet>
-			<Button onClick={moveSignup}>가입 하러가기</Button>
 		</>
 	);
 }

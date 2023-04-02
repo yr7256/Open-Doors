@@ -221,77 +221,111 @@ function SignUpInput() {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<Label htmlFor="id">아이디</Label>
-				<br />
-				<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />
-				<Message className="message">
-					{idMessage} {idValidMessage}
-				</Message>
-				<div className="form-el">
-					<Label htmlFor="password">비밀번호</Label> <br />
-					<Input
-						id="password"
-						name="password"
-						type="password"
-						value={password}
-						onChange={onChangePassword}
-						placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
-					/>
-					<Message className="message">{passwordMessage}</Message>
-				</div>
-				<div className="form-el">
-					<Label htmlFor="passwordConfirm">비밀번호 확인</Label> <br />
-					<Input
-						id="passwordConfirm"
-						name="passwordConfirm"
-						type="password"
-						value={passwordCheck}
-						onChange={onChangePasswordConfirm}
-						placeholder={'  비밀번호 확인'}
-					/>
-					<Message className="message">{passwordCheckMessage}</Message>
-				</div>
-				<Label htmlFor="name">이름</Label> <br />
-				<Input id="name" name="name" value={realName} onChange={onChangeName} placeholder={'  이름'} />
-				<Message className="message">{nameMessage}</Message>
-				<div className="form-el">
-					<Label>생년월일</Label>
-					<br />
-					<BirtYearinput type="number" name="birthYear" value={formBirth.birthYear} onChange={handleBirthInput} />
-					년
-					<Birthinput type="number" name="birthMonth" value={formBirth.birthMonth} onChange={handleBirthInput} />
-					월
-					<Birthinput type="number" name="birthDay" value={formBirth.birthDay} onChange={handleBirthInput} />일
-				</div>
-				<Label>성별</Label>
-				<br />
-				<Checkbox type="checkbox" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
-				남성
-				<Checkbox type="checkbox" value="female" checked={gender === 'female'} onChange={() => setGender('female')} />
-				여성
-				<br />
-				<br />
-				<Label>배리어프리 여부(중복선택 가능)</Label>
-				<Div>
-					<Ptag2>선택하신 조건은</Ptag2>
-					<Ptag2>가입 후, 마이페이지에서 변경 가능 합니다.</Ptag2>
-				</Div>
-				{facilitiesList.map((facility) => (
-					<div key={facility.id}>
-						<Label>
-							<Condition
-								type="checkbox"
-								checked={selectedFacilities.some((f) => f.id === facility.id)}
-								onChange={() => toggleCheckbox(facility)}
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-7">
+						<Label htmlFor="id">아이디</Label>
+						<br />
+						<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />
+						<Message className="message">
+							{idMessage} {idValidMessage}
+						</Message>
+						<div className="form-el">
+							<Label htmlFor="password">비밀번호</Label> <br />
+							<Input
+								id="password"
+								name="password"
+								type="password"
+								value={password}
+								onChange={onChangePassword}
+								placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
 							/>
-							{facility.label}
-						</Label>
+							<Message className="message">{passwordMessage}</Message>
+						</div>
+						<div className="form-el">
+							<Label htmlFor="passwordConfirm">비밀번호 확인</Label> <br />
+							<Input
+								id="passwordConfirm"
+								name="passwordConfirm"
+								type="password"
+								value={passwordCheck}
+								onChange={onChangePasswordConfirm}
+								placeholder={'  비밀번호 확인'}
+							/>
+							<Message className="message">{passwordCheckMessage}</Message>
+						</div>
+						<Label htmlFor="name">이름</Label> <br />
+						<Input id="name" name="name" value={realName} onChange={onChangeName} placeholder={'  이름'} />
+						<Message className="message">{nameMessage}</Message>
 					</div>
-				))}
+				</div>
+				<div className="form-el">
+					<div className="grid grid-cols-12 gap-1">
+						<div className="col-start-2 col-end-5">
+							<Label>생년월일</Label>
+						</div>
+					</div>
+					<br />
+					<div className="grid grid-cols-12 gap-1">
+						<div className="col-start-2 col-end-5">
+							<BirtYearinput type="number" name="birthYear" value={formBirth.birthYear} onChange={handleBirthInput} />년
+						</div>
+						<div className="col-start-6 col-end-9">
+							<Birthinput type="number" name="birthMonth" value={formBirth.birthMonth} onChange={handleBirthInput} />월
+						</div>
+						<div className="col-start-9 col-end-12">
+							<Birthinput type="number" name="birthDay" value={formBirth.birthDay} onChange={handleBirthInput} />일
+						</div>
+					</div>
+				</div>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-5">
+						<Label>성별</Label>
+					</div>
+				</div>
 				<br />
-				<Button type="submit" disabled={isSignUpButtonDisabled} onClick={submitRegister}>
-					가입하기
-				</Button>
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-5">
+						<Checkbox type="checkbox" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
+						남성
+					</div>
+					<div className="col-start-5 col-end-9">
+						<Checkbox
+							type="checkbox"
+							value="female"
+							checked={gender === 'female'}
+							onChange={() => setGender('female')}
+						/>
+						여성
+					</div>
+				</div>
+				<br />
+				<div className="grid grid-cols-12 gap-1">
+					<div className="col-start-2 col-end-11">
+						<Label>배리어프리 여부(중복선택 가능)</Label>
+						<Div>
+							<Ptag2>선택하신 조건은</Ptag2>
+							<Ptag2>가입 후, 마이페이지에서 변경 가능 합니다.</Ptag2>
+						</Div>
+						{facilitiesList.map((facility) => (
+							<div key={facility.id}>
+								<Label>
+									<Condition
+										type="checkbox"
+										checked={selectedFacilities.some((f) => f.id === facility.id)}
+										onChange={() => toggleCheckbox(facility)}
+									/>
+									{facility.label}
+								</Label>
+							</div>
+						))}
+						<br />
+						<Button type="submit" disabled={isSignUpButtonDisabled} onClick={submitRegister}>
+							가입하기
+						</Button>
+						<br />
+						<br />
+					</div>
+				</div>
 			</form>
 		</>
 	);
