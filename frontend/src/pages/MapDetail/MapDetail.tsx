@@ -1,7 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Img, H1, Line } from '../../styles/MapDetail/MapDetailstyle';
+import { useNavigate } from 'react-router-dom';
+import { Img, H1, Line, MainImage, BackIcon, CancelIcon } from '../../styles/MapDetail/MapDetailstyle';
+import back from '../../assets/img/back.png';
+import whitecancel from '../../assets/img/whitecancel.png';
 
 // component
 import PlaceNav from '../../Components/PlaceInfo/PlaceNav';
@@ -15,6 +18,7 @@ function MapDetail() {
 	const [placeImage, setPlaceImage] = useState<any>([]);
 	const [category, setCategory] = useState<any>('Home');
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	// const spotName = dummy.map((spot: any) => {
 	// 	if (spot.spotSeq === id) return spot.spotName;
@@ -64,10 +68,12 @@ function MapDetail() {
 
 	return (
 		<>
-			{/* {placeImage.map((img: any, idx: number) => ( */}
-			<Img src={placeImage[0]} alt="home-image"></Img>
-			{/* ))} */}
-			<GoBackPage></GoBackPage>
+			<MainImage>
+				<BackIcon onClick={() => navigate(-1)} src={back} />
+				<CancelIcon onClick={() => navigate('/map')} src={whitecancel} />
+				<Img src={placeImage[0]} alt="home-image"></Img>
+			</MainImage>
+			<br />
 			<H1>{placeName}</H1>
 			<Line />
 			<PlaceNav category={category} onSelect={onSelect} />

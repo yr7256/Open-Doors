@@ -1,7 +1,7 @@
-import react from 'React';
+import React from 'react';
 
 function DonationPage() {
-	return <div />;
+	return <div>기부하기</div>;
 }
 
-export default DonationPage();
+export default DonationPage;
