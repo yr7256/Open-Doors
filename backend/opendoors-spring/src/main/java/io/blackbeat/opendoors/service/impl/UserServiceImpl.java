@@ -120,5 +120,8 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
-
+    @Override
+    public Boolean existsByUsername(String username) {
+        return userRepo.existsByUsername(username);
+    }
 }

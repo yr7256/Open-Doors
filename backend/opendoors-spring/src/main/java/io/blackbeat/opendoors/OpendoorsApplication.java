@@ -1,9 +1,7 @@
 package io.blackbeat.opendoors;
 
 import io.blackbeat.opendoors.config.FileStorageProperties;
-import io.blackbeat.opendoors.db.entity.Place.Menu;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
-import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.service.SpotService;
 import io.blackbeat.opendoors.service.UserService;
@@ -37,32 +35,6 @@ public class OpendoorsApplication {
             spotService.saveSfInfo(new SfInfo(null, "Elevator"));
             spotService.saveSfInfo(new SfInfo(null, "Several people"));
             spotService.saveSfInfo(new SfInfo(null, "First Floor"));
-
-//			Spot test = new Spot();
-//			test.setSpotAddress("대전광역시 서구 도마3길 46");
-//			test.setSpotAveragePoint(3);
-//			test.setSpotLat(36.396659269055);
-//			test.setSpotLng(127.40273836514);
-//			test.setZipcode(34052);
-//			test.setSpotBuildingName("test빌딩");
-//			test.setSpotAveragePoint(3);
-//			test.setSpotTelNumber("0507-1387-8680");
-//			test.setSpotName("카페 B 307308");
-//			test.setSpotRate("bf");
-//			test.setReviewScore(4.49);
-//			test.setReviewCount(244);
-//			Menu menu = new Menu();
-//			menu.setPrice("1500");
-//			menu.setTitle("아메리카노");
-//			test.getMenus().add(menu);
-//			spotService.addMenu(menu , 1L);
-//			menu = new Menu();
-//			menu.setPrice("2000");
-//			menu.setTitle("콜드브루");
-//			test.getMenus().add(menu);
-//			spotService.addMenu(menu , 1L);
-//			spotService.saveSpot(test);
-//			spotService.addSfInfo("카페 B 307308"  , "WheelChair");
-		};
-	}
+        };
+    }
 }
