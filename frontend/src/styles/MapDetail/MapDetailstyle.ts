@@ -25,3 +25,20 @@ export const Link = styled(NavLink)`
 		color: #4a6e98;
 	}
 `;
+
+export const H1 = styled.h1`
+	text-align: center;
+`;
+
+export const Photo = styled.img`
+	object-fit: cover;
+	width: 160px;
+	height: 160px;
+	margin-left: 1rem;
+`;
+
+export const H4 = styled.h4`
+	margin-top: 20px;
+	text-align: center;
+	margin-bottom: 20px;
+`;

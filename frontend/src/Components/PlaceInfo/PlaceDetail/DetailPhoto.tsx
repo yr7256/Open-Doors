@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Photo, H4 } from '../../../styles/MapDetail/MapDetailstyle';
 
 function DetailPhoto() {
+	const { id } = useParams();
 	const [placeImage, setPlaceImage] = useState<any>([]);
 
 	useEffect(() => {
-		axios.get('http://192.168.31.134:8080/api/spot/4').then((res) => {
+		axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/${id}`).then((res) => {
 			console.log(res.data);
 			const imgArr: any[] = [];
 			res.data.data.images.map((img: any, index: any) => {
 				const a = async () => {
-					const b = await axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`);
+					const b = await axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
 					if (index === res.data.data.images.length - 1) {
 						setPlaceImage(imgArr);
@@ -25,9 +28,9 @@ function DetailPhoto() {
 
 	return (
 		<>
-			<p>사진이다.</p>
+			<H4>배리어프리 관련 사진을 볼 수 있습니다.</H4>
 			{placeImage.map((img: any, idx: number) => (
-				<img key={img} src={placeImage[idx]} alt="home-image"></img>
+				<Photo key={img} src={placeImage[idx]} alt="home-image"></Photo>
 			))}
 		</>
 	);

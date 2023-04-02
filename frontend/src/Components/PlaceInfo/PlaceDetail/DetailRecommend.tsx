@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import dummy from '../../../csvjson.json';
 import axios from 'axios';
 
 // type Spot = {
@@ -14,16 +13,14 @@ function DetailRecommend() {
 	const [recommendPlace, setRecommendPlace] = useState<any[]>([]);
 	const { id } = useParams();
 
-	const spotPlace = dummy.filter((spot) => spot.spotSeq === id);
-	console.log(spotPlace[0].spotName, spotPlace[0].spotLat, spotPlace[0].spotLng);
-
 	// 추천 누르자마자 추천 정보 10개 뜸
 	useEffect(() => {
 		axios
-			.post('http://172.20.10.2:8080/api/recommend', {
-				spotId: 4,
+			.post(`http://j8b205.p.ssafy.io:8080/api/recommend`, {
+				spotId: id,
 			})
 			.then((res) => {
+				console.log(res);
 				res.data.map((name: any) =>
 					axios
 						.get(`http://192.168.31.134:8080//api/spot/${name[0]}`)
@@ -32,6 +29,7 @@ function DetailRecommend() {
 				);
 			})
 			.catch((err) => console.log(err));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
