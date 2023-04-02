@@ -36,11 +36,23 @@ export const MiniButton = styled.button`
 
 export const PhotoButton = styled.button`
 	border: 1px solid #abb5be;
-	width: 100%;
+	width: 300px;
 	height: 52px;
-	color: #abb5be;
+	color: black;
 	/* margin-left: 28px; */
 	margin-bottom: 32px;
 	margin-top: 12px;
-	font-size: 24px;
+	/* font-size: 28px; */
+`;
+
+export const PhotoIcon = styled.img`
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+`;
+
+export const CancelIcon = styled.img`
+	width: 20px;
+	height: 20px;
+	margin: 0px;
 `;

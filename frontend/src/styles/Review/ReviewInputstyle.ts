@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
-export const Form = styled.input.attrs({
-	placeholder: '여러분의 후기를 입력해주세요!',
-})`
+export const Form = styled.textarea`
 	width: 100%;
 	height: 124px;
 	border-color: #d9d9d9;
 	box-shadow: 2px 4px 1px 1px #d9d9d9;
 	margin-top: 20px;
 	margin-bottom: 44px;
+	padding: 1rem;
 `;
 
 export const P = styled.p`
