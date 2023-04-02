@@ -34,13 +34,17 @@ import Help from './Components/Help/Help';
 const App: React.FC = () => {
 	const dispatch = useDispatch();
 
-	function setScreenSize() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
-  useEffect(() => {
-    setScreenSize();
-  });
+	const handleResize = () => {
+		const vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty("--vh", `${vh}px`); 
+	};
+	
+	useEffect(() => {
+		handleResize();
+		window.addEventListener("resize", handleResize);
+	
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	useEffect(() => {
 		// const accessToken = localStorage.getItem('accessToken');

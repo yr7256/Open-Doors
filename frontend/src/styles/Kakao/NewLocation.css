@@ -35,3 +35,21 @@
 #wrap {
   width: 100vw;
 }
+
+.box {
+  margin: 15px 0 15px 0;
+}
+
+.addressName {
+  font-size: 18px;
+  color: rgb(156 163 175);
+  text-align: left;
+}
+
+.mapbtn {
+  background-color: #6393CB;
+  height: 40px;
+  width: 64px;
+  color: white;
+  border-radius: 5px;
+}
