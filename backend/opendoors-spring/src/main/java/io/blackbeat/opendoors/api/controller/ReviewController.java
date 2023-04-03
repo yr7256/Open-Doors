@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.api.controller;
 import io.blackbeat.opendoors.api.request.ReviewDto;
 import io.blackbeat.opendoors.api.request.SpotDto;
 import io.blackbeat.opendoors.api.response.CommonDto;
+import io.blackbeat.opendoors.api.response.ResponseReview;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
@@ -62,19 +63,20 @@ public class ReviewController {
         User user = userRepo.findByUsername(reviewDto.getUsername());
         user.getReviews().add(review);
         try {
-            if(images.size() > 0)
-            {
+
+
                 List<String> imageLocations = new ArrayList<>();
                 String postName = String.valueOf(user.getId());
+                if(images != null) {
                 List<String> results  = storageService.saveFiles(images, postName);
+
                 for (String result : results) {
                     imageLocations.add(result);
                     Image img = new Image();
                     img.setPathName(result);
                     review.getImages().add(img);
                 }
-
-            }
+                }
             reviewService.saveReview(review);
             spotService.saveSpot(spot);
             userService.saveUser(user);
@@ -84,11 +86,25 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("review/{spotId}")
+    @GetMapping(value = "review/{spotId}")
     public CommonDto<Object> getReviewbySpot(@PathVariable Long spotId){
         try {
             Spot spot = spotService.getSpotById(spotId);
-            return CommonDto.of("200", "리뷰등록이 성공적으로 완료되었습니다.", spot.getReviews());
+            List<ResponseReview> responseReviews = new ArrayList<>();
+            for(Review review : spot.getReviews()){
+                ResponseReview responseReview =new ResponseReview();
+                responseReview.setReviewContent(review.getReviewContent());
+                responseReview.setReviewScore(review.getReviewScore());
+                List<Long> ids = new ArrayList<>();
+                for(SfInfo sfInfo : userRepo.findByUsername(review.getUsername()).getSfInfoIds()){
+                    ids.add(sfInfo.getId());
+                }
+                responseReview.setSfInfoIds(ids);
+                responseReview.setUsername(review.getUsername());
+                responseReview.setSpotId(review.getSpotId());
+                responseReviews.add(responseReview);
+            }
+            return CommonDto.of("200", "리뷰등록을 조회합니다.", responseReviews);
         }catch (Exception e) {
         return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
