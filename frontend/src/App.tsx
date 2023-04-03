@@ -60,6 +60,7 @@ function App() {
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
+			console.log('로그아웃됐다');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);

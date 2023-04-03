@@ -68,8 +68,7 @@ function ChangePassword() {
 
 	const changePassword = async () => {
 		const changePasswordRequest = {
-			// url: 'http://j8b205.p.ssafy.io:8080/api/user/change/password',
-			url: 'http://localhost:8080/api/user/change/password',
+			url: 'https://j8b205.p.ssafy.io/api/user/change/password',
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
@@ -86,7 +85,7 @@ function ChangePassword() {
 			console.log('비밀번호 변경이 완료되었습니다.');
 			navigate('/Mypage/MyInfoManage');
 			axios
-				.get('http://j8b205.p.ssafy.io:8080/api/user/', {
+				.get('https://j8b205.p.ssafy.io/api/user/', {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					},
