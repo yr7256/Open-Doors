@@ -2,15 +2,19 @@ import React, { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Form, P, Img } from '../../styles/Review/ReviewInputstyle';
-import { Button, PhotoButton } from '../../styles/Button/ButtonStyle';
+import { Button, PhotoButton, CancelIcon } from '../../styles/Button/ButtonStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { StarContainer } from '../../styles/Review/ReviewInputstyle';
+import cancel from '../../assets/img/cancel.png';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type UserState = {
 	user: {
 		username: string;
+		accessToken: string;
 	};
 };
 
@@ -20,8 +24,12 @@ function ReviewInput() {
 	const [starScore, setStarScore] = useState(3);
 	const score = [1, 2, 3, 4, 5];
 	const username = useSelector((state: UserState) => state.user.username);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
+	const { id } = useParams();
+	const navigate = useNavigate();
+	// console.log(id);
 
-	const onChangeReview = (e: ChangeEvent<HTMLInputElement>) => {
+	const onChangeReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const currentReview = e.target.value;
 		setReview(currentReview);
 	};
@@ -36,29 +44,30 @@ function ReviewInput() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(review, selectedFiles, starScore);
 	};
 
 	const reviewRegister = async () => {
 		try {
 			const formData = new FormData();
 			const body = {
-				spotId: 2,
-				username: 'ssafy8878',
+				spotId: id,
+				username: username,
 				reviewScore: starScore,
 				reviewContent: review,
 			};
 			Array.from(selectedFiles).forEach((img) => formData.append('reviewImages', img));
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
+			console.log(id, username, starScore, review);
 			formData.append('reviewDto', blob);
-			const response = await axios.post('/api/review/save', formData, {
+			const response = await axios.post('http://192.168.31.134:8080/api/review/save', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
-					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			});
 			console.log(response);
+			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
 			console.log(err);
 		}
@@ -92,7 +101,7 @@ function ReviewInput() {
 					<div className="col-start-2 col-span-2">
 						<P>별점주기</P>
 					</div>
-					<div className="col-start-4 col-span-2">{starScore}.0</div>
+					{/* <div className="col-start-4 col-span-2">{starScore}.0</div> */}
 				</div>
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-2">
@@ -113,33 +122,42 @@ function ReviewInput() {
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-6">
 						<P>리뷰 작성하기</P>
-						<Form onChange={onChangeReview}></Form>
+						<Form placeholder="여러분의 후기를 적어주세요!" onChange={onChangeReview}></Form>
 					</div>
 				</div>
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-6">
-						<label htmlFor="add-image">
-							<P>사진 등록</P>
-						</label>
+						<P>사진 등록</P>
 						<PhotoButton>
-							사진 추가
-							<input type="file" multiple onChange={handleFileSelect} id="add-image" />
+							<label htmlFor="add-image">사진 추가</label>
+							<input
+								type="file"
+								multiple
+								className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+								onChange={handleFileSelect}
+								id="add-image"
+								accept="image/jpg,impge/png,image/jpeg"
+								style={{ display: 'none' }}
+							/>
 						</PhotoButton>
 						{selectedFiles.length > 0 && (
 							<ul>
 								{selectedFiles.map((file, index) => (
 									<li key={index}>
 										<Img src={URL.createObjectURL(file)} alt={file.name} />
-										<button onClick={() => handleFileDelete(file)}>Delete</button>
+										<button onClick={() => handleFileDelete(file)}>
+											<CancelIcon src={cancel} alt="cancel" />
+										</button>
 									</li>
 								))}
 							</ul>
 						)}
+
+						<Button type="submit" onClick={reviewRegister} id="register-review">
+							리뷰 등록하기
+						</Button>
 					</div>
 				</div>
-				<Button type="submit" onClick={reviewRegister} id="register-review">
-					리뷰 등록하기
-				</Button>
 			</form>
 		</>
 	);

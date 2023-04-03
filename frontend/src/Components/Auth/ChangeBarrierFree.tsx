@@ -57,25 +57,34 @@ function ChangeBarrierFree() {
 		<>
 			<form onSubmit={handleSubmit}>
 				<br />
-				<BarrierLabel>배리어프리 여부(중복선택 가능)</BarrierLabel>
-				<br />
-				<br />
-				{facilitiesList.map((facility) => (
-					<div key={facility.id}>
-						<Label>
-							<Condition
-								type="checkbox"
-								checked={selectedFacilities.some((f) => f.id === facility.id)}
-								onChange={() => toggleCheckbox(facility)}
-							/>
-							{facility.label}
-						</Label>
+				<div className="grid grid-cols-16 gap-1">
+					<div className="col-start-2 col-end-14">
+						<BarrierLabel>배리어프리 여부(중복선택 가능)</BarrierLabel>
+						<br />
+						<br />
+						{facilitiesList.map((facility) => (
+							<div key={facility.id}>
+								<Label>
+									<Condition
+										type="checkbox"
+										checked={selectedFacilities.some((f) => f.id === facility.id)}
+										onChange={() => toggleCheckbox(facility)}
+									/>
+									{facility.label}
+								</Label>
+							</div>
+						))}
+
+						<br />
+						<div className="grid grid-cols-16 gap-1">
+							<div className="col-start-1 col-end-14">
+								<Button type="submit" onClick={changeBarrierFree}>
+									변경하기
+								</Button>
+							</div>
+						</div>
 					</div>
-				))}
-				<br />
-				<Button type="submit" onClick={changeBarrierFree}>
-					변경하기
-				</Button>
+				</div>
 			</form>
 		</>
 	);

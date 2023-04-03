@@ -57,6 +57,7 @@ function MyEditImg() {
 								imageInput.current?.click();
 							}}
 						/>
+						<ButtonImage src={addImage} />
 					</ProfileImage>
 					<input
 						type="file"

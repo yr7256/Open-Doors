@@ -1,8 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import dummyimage from '../../assets/img/dummyimage.jpg';
-import { Img, H2, Line } from '../../styles/MapDetail/MapDetailstyle';
+import { useNavigate } from 'react-router-dom';
+import { Img, H1, Line, MainImage, BackIcon, CancelIcon } from '../../styles/MapDetail/MapDetailstyle';
+import back from '../../assets/img/back.png';
+import whitecancel from '../../assets/img/whitecancel.png';
 
 // component
 import PlaceNav from '../../Components/PlaceInfo/PlaceNav';
@@ -12,9 +14,12 @@ import Footer from '../../Components/Menu/Footer';
 function MapDetail() {
 	const [imageUrl, setImageUrl] = useState<any>([]);
 	const [placeDetail, setPlaceDetail] = useState<[]>([]);
+	const [placeName, setPlaceName] = useState('');
 	const [placeImage, setPlaceImage] = useState<any>([]);
 	const [category, setCategory] = useState<any>('Home');
 	const { id } = useParams();
+	const navigate = useNavigate();
+
 	// const spotName = dummy.map((spot: any) => {
 	// 	if (spot.spotSeq === id) return spot.spotName;
 	// });
@@ -25,8 +30,9 @@ function MapDetail() {
 	}, []);
 
 	useEffect(() => {
-		axios.get('http://192.168.31.134:8080/api/spot/4').then((res) => {
+		axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
+			setPlaceName(res.data.data.spotName);
 			console.log(res.data);
 			const imgArr: any[] = [];
 			res.data.data.images.map((img: any, index: any) => {
@@ -36,7 +42,7 @@ function MapDetail() {
 				// 	setPlaceImage([...placeImage, response.config.url]);
 				// });
 				const a = async () => {
-					const b = await axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`);
+					const b = await axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
 					if (index === res.data.data.images.length - 1) {
 						setPlaceImage(imgArr);
@@ -62,14 +68,15 @@ function MapDetail() {
 
 	return (
 		<>
-			{/* {placeImage.map((img: any, idx: number) => ( */}
-			<Img src={placeImage[0]} alt="home-image"></Img>
-			{/* ))} */}
-			<GoBackPage></GoBackPage>
-			{/* <H2>{spotName}</H2> */}
+			<MainImage>
+				<BackIcon onClick={() => navigate(-1)} src={back} />
+				<CancelIcon onClick={() => navigate('/map')} src={whitecancel} />
+				<Img src={placeImage[0]} alt="home-image"></Img>
+			</MainImage>
+			<br />
+			<H1>{placeName}</H1>
 			<Line />
 			<PlaceNav category={category} onSelect={onSelect} />
-
 			<Footer />
 		</>
 	);

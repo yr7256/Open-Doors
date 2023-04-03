@@ -28,8 +28,10 @@ export const ButtonBackground = styled.div`
 
 export const ButtonImage = styled.img`
 	position: absolute;
-	width: 80%;
-	right: 10%;
-	top: 10%;
+	width: 30%;
+	right: 35%;
+	top: 35%;
 	opacity: 0.7;
 `;
+
+export const AddImage = styled.img``;

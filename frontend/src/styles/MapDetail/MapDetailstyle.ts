@@ -25,3 +25,48 @@ export const Link = styled(NavLink)`
 		color: #4a6e98;
 	}
 `;
+
+export const H1 = styled.h1`
+	text-align: center;
+`;
+
+export const Photo = styled.img`
+	object-fit: cover;
+	width: 160px;
+	height: 160px;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+`;
+
+export const H4 = styled.h4`
+	margin-top: 20px;
+	text-align: center;
+	margin-bottom: 20px;
+`;
+
+export const PhotoContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`;
+
+export const MainImage = styled.div`
+	height: 25vh;
+	width: 100%;
+	position: relative;
+`;
+
+export const BackIcon = styled.img`
+	weight: 32px;
+	height: 32px;
+	margin: 1rem;
+	position: absolute;
+`;
+
+export const CancelIcon = styled.img`
+	weight: 40px;
+	height: 40px;
+	margin: 0.9rem;
+	position: absolute;
+	right: 0.5%;
+	padding: 0;
+`;

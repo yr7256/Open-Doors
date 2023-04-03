@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../../Components/Menu/Footer';
 import GoBackPage from '../../Components/Menu/goBackPage';
+import Myreview from '../../Components/Profile/MyReview';
 import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 
 function MyReview() {
@@ -17,7 +18,7 @@ function MyReview() {
 				</div>
 			</Head>
 			<Line />
-			<p>리뷰내역</p>
+			<Myreview></Myreview>
 			<Footer />
 		</>
 	);
