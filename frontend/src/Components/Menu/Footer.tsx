@@ -49,23 +49,21 @@ const Footer: React.FC = () => {
 			<FooterPlace>
 				<Line />
 				<FooterBlock>
-					<div className="grid grid-cols-4">
-						<div onClick={() => openModal(Object.keys(initialModalState)[0])}>
-							<Image src={Recomendation} />
-							<FooterP>추천</FooterP>
-						</div>
-						<div onClick={() => openModal(Object.keys(initialModalState)[1])}>
-							<Image src={Bookmark} />
-							<FooterP>즐겨찾기</FooterP>
-						</div>
-						<div onClick={() => openModal(Object.keys(initialModalState)[2])}>
-							<Image src={Transportation} />
-							<FooterP>교통정보</FooterP>
-						</div>
-						<div onClick={moveToMy}>
-							<Image src={My} />
-							<FooterP>MY</FooterP>
-						</div>
+					<div onClick={() => openModal(Object.keys(initialModalState)[0])}>
+						<Image src={Recomendation} />
+						<FooterP>추천</FooterP>
+					</div>
+					<div onClick={() => openModal(Object.keys(initialModalState)[1])}>
+						<Image src={Bookmark} />
+						<FooterP>즐겨찾기</FooterP>
+					</div>
+					<div onClick={() => openModal(Object.keys(initialModalState)[2])}>
+						<Image src={Transportation} />
+						<FooterP>교통정보</FooterP>
+					</div>
+					<div onClick={moveToMy}>
+						<Image src={My} />
+						<FooterP>MY</FooterP>
 					</div>
 				</FooterBlock>
 			</FooterPlace>

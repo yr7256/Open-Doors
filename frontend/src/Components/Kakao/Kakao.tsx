@@ -38,7 +38,7 @@ const Kakao = (props: MapProps) => {
 		const options = {
 			center: new kakao.maps.LatLng(36.350475, 127.384834),
 			level: 5,
-			maxLevel: 13,
+			maxLevel: 8,
 		};
 
 		const container = document.getElementById('map');
@@ -320,17 +320,24 @@ const Kakao = (props: MapProps) => {
 			<ul id="placesList"></ul>
 			<div id="pagination"></div>
 			<div id="map" />
-			<div onClick={goDetailpage}>
-				<Modal id={detailData.id} title="" show={modalState} handleClose={() => closeModal()}>
+			<Modal id="marker" title={detailData.id} show={modalState} handleClose={() => closeModal()}>
+				<div className="modalInfo" onClick={goDetailpage}>
+					<p className="spotname">{detailData.spotName}</p>
+					<p>
+						{detailData.reviewScore} | 리뷰수 : {detailData.reviewCount}
+					</p>
+					<p className="spotaddress">{detailData.spotAddress}</p>
+					<p>{detailData.spotTelNumber}</p>
+					<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>
 					<div>
-						<p className="spotname">이곳의 이름은 {detailData.spotName} 입니다.</p>
-						<p>별점은 여기에 넣습니다. | 리뷰수는 여기에 넣습니다.</p>
-						<p className="spotaddress">이곳의 주소는 {detailData.spotAddress} 입니다.</p>
-						<p>전화번호는 여기에 넣습니다.</p>
-						<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>
+						{detailData?.spotSfInfos?.map((item: any) => (
+							<div key={item.id}>
+								<p>{item.sfInfo.sfName}</p>
+							</div>
+						))}
 					</div>
-				</Modal>
-			</div>
+				</div>
+			</Modal>
 		</>
 	);
 };
