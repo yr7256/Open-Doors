@@ -12,7 +12,7 @@ interface MapProps {
 function Map(props: MapProps) {
 	const { mapdata } = props
 	return (
-		<div id='wrap'>
+		<div id="wrap">
 			{/* <Topbar /> */}
 			<Kakao mapdata={mapdata}/>
 			<Footer />

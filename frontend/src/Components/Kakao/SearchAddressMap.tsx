@@ -7,11 +7,10 @@ const SearchAddressMap = () => {
 	const [lng, setLng] = useState<number>();
 	const [address, setAddress] = useState();
 
-
 	const navigate = useNavigate();
 
 	const goregister = () => {
-		navigate('/map/newlocation', { state: {address, lat, lng} });
+		navigate('/map/newlocation', { state: { address, lat, lng } });
 	};
 
 	useEffect(() => {
@@ -49,27 +48,24 @@ const SearchAddressMap = () => {
 				// console.log(center);
 			});
 			kakao.maps.event.addListener(map, 'idle', function () {
-				searchDetailAddrFromCoords(
-					map.getCenter(),
-					function (result: any, status: kakao.maps.services.Status) {
-						if (status === kakao.maps.services.Status.OK) {
-							const detailAddr = result[0].road_address
-								? result[0].road_address.address_name
-								: result[0].address.address_name;
-							// detailAddr += result[0].address.address_name;
-							// console.log(result[0])
+				searchDetailAddrFromCoords(map.getCenter(), function (result: any, status: kakao.maps.services.Status) {
+					if (status === kakao.maps.services.Status.OK) {
+						const detailAddr = result[0].road_address
+							? result[0].road_address.address_name
+							: result[0].address.address_name;
+						// detailAddr += result[0].address.address_name;
+						// console.log(result[0])
 
-							const content = '<div class="bAddr">' + detailAddr + '</div>';
+						const content = '<div class="bAddr">' + detailAddr + '</div>';
 
-							// 마커를 클릭한 위치에 표시합니다
-							marker.setPosition(map.getCenter());
-							// console.log(content);
-							setLat(marker.getPosition().getLat());
-							setLng(marker.getPosition().getLng());
-							setAddress(detailAddr);
-						}
+						// 마커를 클릭한 위치에 표시합니다
+						marker.setPosition(map.getCenter());
+						// console.log(content);
+						setLat(marker.getPosition().getLat());
+						setLng(marker.getPosition().getLng());
+						setAddress(detailAddr);
 					}
-				);
+				});
 			});
 		}
 
@@ -93,9 +89,12 @@ const SearchAddressMap = () => {
 		<Container className="container">
 			<p>지도를 움직여 아이콘을 원하는 위치로 옮기세요.</p>
 			<div id="map" />
+			{/* <p>{address}</p> */}
 			<Bottom>
 				<p>{address}</p>
-				<button onClick={goregister}>변경</button>
+				<button className="mapbtn" onClick={goregister}>
+					변경
+				</button>
 			</Bottom>
 			<Outlet />
 		</Container>

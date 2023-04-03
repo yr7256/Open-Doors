@@ -29,30 +29,33 @@ export const Menu = styled.div`
 `;
 
 export const Container = styled.div`
+	display: flex;
+	flex-direction: column;
 	width: 100vw;
+	flex-grow: 1;
 	& > p {
 		margin: 3vh auto;
 		text-align: center;
 		font-size: 18px;
 	}
 	& > #map {
-		width: 100%;
+		width: 100vw;
 		height: 60vh;
 	}
 `; 
 
 export const Bottom = styled.div`
-	& > p {
-		font-size: 18px;
-		position: absolute;
-		left: 3vh;
-		bottom: 3vh;
-		width: 80vw;
-		height: 18px;
-	}
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 6vh 0 0 0;
 	& > button {
 		position: absolute;
-		right: 3vh;
-		bottom: 3vh;
+		right: 6vw;
 	}
-`;
+	& > p {
+		position: absolute;
+		left: 6vw;
+	}
+`
