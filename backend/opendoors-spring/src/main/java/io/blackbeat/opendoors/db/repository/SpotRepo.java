@@ -11,4 +11,5 @@ public interface SpotRepo extends JpaRepository<Spot, Long> {
     List<Spot> findAllByUsername(String username);
     List<Spot> findAllById(Long id);
     Optional<Spot> findById(Long id);
+    Optional<List<Spot>> findAllBySpotNameContaining(String spotName);
 }
