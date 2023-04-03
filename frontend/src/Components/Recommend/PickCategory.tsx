@@ -9,6 +9,8 @@ import movie from '../../assets/img/movie.png';
 import culture from '../../assets/img/culture.png';
 import picnic from '../../assets/img/picnic.png';
 import read from '../../assets/img/read.png';
+import { UserRecommendAction } from '../../store/UserRecommend';
+import { useDispatch } from 'react-redux';
 
 type Category = {
 	id: number;
@@ -18,6 +20,7 @@ type Category = {
 };
 
 function PickCategory() {
+	const dispatch = useDispatch();
 	const [restaurantActive, setRestaurantActive] = useState(false);
 	const [cafeActive, setCafeActive] = useState(false);
 	const [movieActive, setMovieActive] = useState(false);
@@ -72,6 +75,7 @@ function PickCategory() {
 			}
 		}
 		console.log(picks);
+		dispatch(UserRecommendAction.recommend());
 
 		// const requestInfo = {
 		// 	url: '',

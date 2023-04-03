@@ -1,7 +1,8 @@
 import React from 'react';
+import Donation from '../../Components/Donation/Donation';
 
 function DonationPage() {
-	return <div>기부하기</div>;
+	return <Donation />;
 }
 
 export default DonationPage;

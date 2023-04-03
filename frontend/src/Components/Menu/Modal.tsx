@@ -5,6 +5,8 @@ import '../../styles/Menu/Modal.css';
 import TrafficInfo from '../Traffic/TrafficInfo';
 import PickCategory from '../Recommend/PickCategory';
 import Bookmark from '../Bookmark/Bookmark';
+import { useSelector } from 'react-redux';
+import TodayRecommend from '../Recommend/TodayRecommend';
 
 // const ResizableBoxWithRef = React.forwardRef<HTMLDivElement, any>(
 //   (props, ref) => (
@@ -27,7 +29,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
 	const [height, setHeight] = useState(window.innerHeight * 0.45);
 	const [width, setWidth] = useState(window.innerWidth);
-
+	const isRecommend: any = useSelector((s: any) => s.userRecommend.isRecommend);
+	// console.log(isRecommend);
 	// const handleResize = (event: any, data: any) => {
 	// 	const { deltaY } = data;
 	// 	setHeight((prevHeight) => prevHeight - deltaY);
@@ -102,7 +105,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
             ×
           </span>
 					{children}
-					{id === 'recommend' ? <PickCategory /> : null}
+					{(id === 'recommend' && isRecommend) ? <TodayRecommend /> : null}
+					{(id === 'recommend' && !isRecommend) ? <PickCategory /> : null}
 					{id === 'bookmark' ? <Bookmark /> : null}
 					{id === 'trafficinfo' ? <TrafficInfo /> : null}
 				</div>
