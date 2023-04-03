@@ -68,7 +68,8 @@ function ChangePassword() {
 
 	const changePassword = async () => {
 		const changePasswordRequest = {
-			url: `http://j8b205.p.ssafy.io:8080/api/user/change/password`,
+			// url: 'http://j8b205.p.ssafy.io:8080/api/user/change/password',
+			url: 'http://localhost:8080/api/user/change/password',
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',

@@ -32,7 +32,7 @@ function Withdrawal({ title, alert, closeModal }: Props) {
 
 	const DeleteUser = () => {
 		axios
-			.delete('http://j8b205.p.ssafy.io:8080/api/user/delete', {
+			.delete('http://localhost:8080/api/user/delete', {
 				data: {
 					password: password,
 				},

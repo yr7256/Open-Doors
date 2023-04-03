@@ -103,8 +103,8 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/*" element={<NotFound />} />
-				<Route path="/map/*" element={<Map mapdata={mapdata} />} />
+				{/* <Route path="/*" element={<NotFound />} /> */}
+				<Route path="/*" element={<Map mapdata={mapdata} />} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
