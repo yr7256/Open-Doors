@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../styles/Button/ButtonStyle';
 import { Fotter, Active } from '../../styles/Recommend/PickCategorystyle';
 import restaurant from '../../assets/img/restaurant.png';

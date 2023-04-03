@@ -16,14 +16,14 @@ function DetailRecommend() {
 	// 추천 누르자마자 추천 정보 10개 뜸
 	useEffect(() => {
 		axios
-			.post(`http://j8b205.p.ssafy.io:8080/api/recommend`, {
+			.post(`https://j8b205.p.ssafy.io/api/recommend`, {
 				spotId: id,
 			})
 			.then((res) => {
 				console.log(res);
 				res.data.map((name: any) =>
 					axios
-						.get(`http://192.168.31.134:8080//api/spot/${name[0]}`)
+						.get(`https://j8b205.p.ssafy.io/api/spot/${name[0]}`)
 						.then((response) => setRecommendPlace(response.data))
 						.catch((err) => console.log(err))
 				);
