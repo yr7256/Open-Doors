@@ -45,7 +45,6 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Review> reviews = new ArrayList<>();
 
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<LikeSpot> likeSpot = new ArrayList<>();
 

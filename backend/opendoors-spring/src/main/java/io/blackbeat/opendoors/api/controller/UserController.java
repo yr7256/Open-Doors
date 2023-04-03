@@ -74,6 +74,10 @@ public class UserController {
 
     @PostMapping("/user/save")
     public CommonDto<Object> saveUser(@RequestBody RegistDto registDto) {
+        if (userRepo.existsByUsername(registDto.getUser().getUsername())) {
+            throw new IllegalArgumentException("이미 가입된 아이디입니다.");
+        }
+
         ModelMapper modelMapper = new ModelMapper();
         User user = modelMapper.map(registDto.getUser(), User.class);
         user.setRoles(new ArrayList<>());
