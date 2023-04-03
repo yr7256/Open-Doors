@@ -50,7 +50,7 @@ function DetailHome() {
 
 			setPlaceMenus(res.data.menus);
 			if (res.data.data.spotTelNumber === '') {
-				setPhoneNumber('장소 번호가 없습니다.');
+				setPhoneNumber('전화 번호가 없습니다.');
 			} else {
 				setPhoneNumber(res.data.data.spotTelNumber);
 			}
@@ -99,19 +99,21 @@ function DetailHome() {
 	const barrierFree = BarrierFreeList.map((v: any) => {
 		mapBarrierFree.map((i: any) => {
 			if (v.id === i) {
-				console.log(v.image);
+				return v.sfName;
 			}
 		});
 	});
-	// const SameBarrierFree = BarrierFreeList.filter((data => data.id === ))
+	console.log(barrierFree);
 
-	// console.log(SameBarrierFree);
 	// 리뷰 개수, 리뷰 별점 가져오기
 	useEffect(() => {
-		axios.get(`https://j8b205.p.ssafy.io/api/review/${id}`).then((res) => {
-			setPlaceReviewRate(res.data);
-			console.log(res.data);
-		});
+		axios
+			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
+			.then((res) => {
+				setPlaceReviewRate(res.data);
+				console.log(res.data);
+			})
+			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
