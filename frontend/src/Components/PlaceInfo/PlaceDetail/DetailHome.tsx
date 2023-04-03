@@ -44,10 +44,21 @@ function DetailHome() {
 			setPlaceDetail(res.data);
 			console.log(res.data);
 
+			if (res.data.data.spotAddress === '') {
+				setPlaceLocation('위치 정보가 없습니다.');
+			} else {
+				setPlaceLocation(res.data.data.spotAddress);
+			}
+
 			setPlaceLocation(res.data.data.spotAddress);
 			setPlaceMenus(res.data.menus);
-			setPhoneNumber(res.data.data.spotTelNumber);
+			if (res.data.data.spotTelNumber === '') {
+				setPhoneNumber('장소 번호가 없습니다.');
+			} else {
+				setPhoneNumber(res.data.data.spotTelNumber);
+			}
 			setPlaceBarrierFree(res.data.data.spotSfInfos);
+			console.log(res.data.data.spotSfInfos);
 			if (res.data.data.openHours !== null) {
 				setPlaceTime(res.data.data.openHours);
 			}
@@ -73,21 +84,32 @@ function DetailHome() {
 
 	// barrierfree 종류
 	const BarrierFreeList = [
-		{ id: '1', sfName: '휠체어 접근 가능', image: wheelchair },
-		{ id: '2', sfName: '해당 장소가 1층에 위치함', image: firstFloor },
-		{ id: '3', sfName: '장애인 화장실 있음', image: toilet },
-		{ id: '4', sfName: '애완견/도우미견 출입가능', image: guideDog },
-		{ id: '5', sfName: '장애인 엘리베이터 있음', image: disabledElv },
-		{ id: '6', sfName: '엘리베이터 있음', image: elevator },
-		{ id: '7', sfName: '건물 내 무료주차 가능', image: parking },
-		{ id: '8', sfName: '가족/어린이 이용에 적합', image: family },
+		{ id: 1, sfName: '휠체어 접근 가능', image: wheelchair },
+		{ id: 2, sfName: '해당 장소가 1층에 위치함', image: firstFloor },
+		{ id: 3, sfName: '장애인 화장실 있음', image: toilet },
+		{ id: 4, sfName: '애완견/도우미견 출입가능', image: guideDog },
+		{ id: 5, sfName: '장애인 엘리베이터 있음', image: disabledElv },
+		{ id: 6, sfName: '엘리베이터 있음', image: elevator },
+		{ id: 7, sfName: '건물 내 무료주차 가능', image: parking },
+		{ id: 8, sfName: '가족/어린이 이용에 적합', image: family },
 	];
 
 	// 일치하는 barrierfree만 출력
-	const oneBarrierFree = placeBarrierFree.map((idx: any) => {
-		return <div key={idx}>{idx.sfInfo.sfName}</div>;
+	const mapBarrierFree = placeBarrierFree.map((idx: any) => {
+		// return <div key={idx}>{idx}</div>;
+		return idx.sfInfo.id;
 	});
-	console.log(oneBarrierFree);
+	console.log(mapBarrierFree);
+	const [barrierFreeImage, setBarrierFreeImage] = useState('');
+	const barrierFree = BarrierFreeList.map((v: any) => {
+		mapBarrierFree.map((i: any) => {
+			if (v.id === i) {
+				console.log(v.image);
+				return v.image;
+			}
+		});
+	});
+	console.log(barrierFree);
 	// const SameBarrierFree = BarrierFreeList.filter((data => data.id === ))
 
 	// console.log(SameBarrierFree);
@@ -100,11 +122,9 @@ function DetailHome() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	console.log();
-
 	return (
 		<>
-			<div className="grid grid-cols-16 gap-1">
+			<div className="grid grid-cols-12 gap-1">
 				<div className="col-start-2 col-span-1">
 					<Img src={location} alt="location" />
 				</div>
@@ -113,7 +133,7 @@ function DetailHome() {
 				</div>
 			</div>
 			<br />
-			<div className="grid grid-cols-16 gap-1">
+			<div className="grid grid-cols-12 gap-1">
 				<div className="col-start-2 col-span-1">
 					<Img src={call} alt="call" />
 				</div>

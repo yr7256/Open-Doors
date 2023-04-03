@@ -5,6 +5,7 @@ import { ModalBackGround, ModalWrap, ModalContainer, P } from '../../styles/Auth
 import { MiniButton } from '../../styles/Button/ButtonStyle';
 import { logout } from '../../store/Cookie';
 import { logoutAccount } from '../../store/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	title?: string;
@@ -16,18 +17,20 @@ type UserState = {
 	user: {
 		username: string;
 		password: string;
+		accessToken: string;
 	};
 };
 
 function Withdrawal({ title, alert, closeModal }: Props) {
 	const userId = useSelector((state: UserState) => state.user.username);
 	const password = useSelector((state: UserState) => state.user.password);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const DeleteUser = () => {
-		const accessToken = localStorage.getItem('accessToken');
 		axios
-			.delete(`/api/user/${userId}`, {
+			.delete('http://j8b205.p.ssafy.io:8080/api/user/delete', {
 				data: {
 					password: password,
 				},
@@ -39,6 +42,7 @@ function Withdrawal({ title, alert, closeModal }: Props) {
 				console.log('회원탈퇴라니');
 				dispatch(logoutAccount());
 				logout();
+				navigate('/signup');
 			})
 			.catch((err) => {
 				console.log(err);

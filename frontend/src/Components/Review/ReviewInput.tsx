@@ -8,10 +8,13 @@ import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { StarContainer } from '../../styles/Review/ReviewInputstyle';
 import cancel from '../../assets/img/cancel.png';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type UserState = {
 	user: {
 		username: string;
+		accessToken: string;
 	};
 };
 
@@ -21,6 +24,10 @@ function ReviewInput() {
 	const [starScore, setStarScore] = useState(3);
 	const score = [1, 2, 3, 4, 5];
 	const username = useSelector((state: UserState) => state.user.username);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
+	const { id } = useParams();
+	const navigate = useNavigate();
+	// console.log(id);
 
 	const onChangeReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const currentReview = e.target.value;
@@ -37,29 +44,30 @@ function ReviewInput() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(review, selectedFiles, starScore);
 	};
 
 	const reviewRegister = async () => {
 		try {
 			const formData = new FormData();
 			const body = {
-				spotId: 2,
-				username: 'ssafy8878',
+				spotId: id,
+				username: username,
 				reviewScore: starScore,
 				reviewContent: review,
 			};
 			Array.from(selectedFiles).forEach((img) => formData.append('reviewImages', img));
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
+			console.log(id, username, starScore, review);
 			formData.append('reviewDto', blob);
-			const response = await axios.post('/api/review/save', formData, {
+			const response = await axios.post('http://192.168.31.134:8080/api/review/save', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
-					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			});
 			console.log(response);
+			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
 			console.log(err);
 		}

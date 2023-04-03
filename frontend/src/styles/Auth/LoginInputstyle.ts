@@ -33,6 +33,6 @@ export const Input = styled.input`
 	width: 304px;
 	border: 1px solid #d9d9d9;
 	/* margin-left: 28px; */
-	margin-bottom: 36px;
+	margin-bottom: 20px;
 	margin-top: 12px;
 `;

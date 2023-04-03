@@ -43,7 +43,7 @@ export const Checkbox = styled.input`
 `;
 
 export const Message = styled.p`
-	margin-left: 28px;
+	/* margin-left: 28px; */
 	margin-bottom: 28px;
 	font-size: 16px;
 	margin-top: 4px;

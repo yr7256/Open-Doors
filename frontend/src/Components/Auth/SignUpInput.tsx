@@ -13,6 +13,7 @@ import {
 import { Button } from '../../styles/Button/ButtonStyle';
 import { Birth } from '../../types/auth';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type Facility = {
 	id: number;
@@ -21,6 +22,7 @@ type Facility = {
 type Gender = 'male' | 'female';
 
 function SignUpInput() {
+	const navigate = useNavigate();
 	const facilitiesList: Facility[] = [
 		{ id: 1, label: '휠체어 접근 가능' },
 		{ id: 2, label: '애완견/도우미견 출입 가능' },
@@ -84,31 +86,6 @@ function SignUpInput() {
 			setIdMessage('사용가능한 아이디 입니다.');
 			setIsId(true);
 		}
-
-		// if (currentId) {
-		// 	try {
-		// 		const response = await axios.get("")
-		//		setIsIdAvailable(response.data.)
-		//		setIdValidMessage('사용가능한 아이디 입니다.')
-		//
-		// 	} catch (error) {
-		// 		console.log(error)
-		// 	}
-		// } else {
-		// 	setIsIdAvailable(false);
-		//	setIdValidMessage('중복된 아이디입니다.')
-		// }
-		// }
-		axios
-			.post('', { username: currentId })
-			.then((response) => {
-				setIsIdAvailable(response.data.available);
-				setIdValidMessage('사용가능한 아이디 입니다.');
-			})
-			.catch((error) => {
-				console.log(error);
-				setIdValidMessage('중복된 아이디입니다.');
-			});
 	};
 
 	const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +93,7 @@ function SignUpInput() {
 		setRealName(currentName);
 
 		if (currentName.length < 2 || currentName.length > 10) {
-			setNameMessage('이름은 2글자 이상 10글자 이하로 입력해주세요!');
+			setNameMessage('이름은 2글자 이상 10글자 이하로 입력해주세요');
 			setIsName(false);
 		} else {
 			setIsName(true);
@@ -168,26 +145,6 @@ function SignUpInput() {
 		for (const need of selectedFacilities) {
 			needs.push(need.id);
 		}
-		// try {
-		// 	const response = await axios.post('http://192.168.31.134:8080/api/user/save', {
-		// 		user: {
-		// 			username: id,
-		// 			password: password,
-		// 			name: realName,
-		// 			gender: gender,
-		// 			birthday: formBirth.birthDay,
-		// 			birthmonth: formBirth.birthMonth,
-		// 			birthyear: formBirth.birthYear,
-		// 		},
-		// 		sfInfoIds: needs,
-		// 	});
-		// 	console.log(response);
-		// 	console.log('회원가입이 완료되었습니다');
-		// } catch (err) {
-		// 	console.log(err);
-		// 	console.log('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요');
-		// 	console.log(err);
-		// }
 
 		const requestInfo = {
 			url: 'http://j8b205.p.ssafy.io:8080/api/user/save',
@@ -213,8 +170,10 @@ function SignUpInput() {
 			const submitUserForm = await axios(requestInfo);
 			console.log(submitUserForm);
 			console.log('회원가입이 완료되었습니다');
-		} catch (err) {
+			navigate('/Login');
+		} catch (err: any) {
 			console.log('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요');
+			setIdValidMessage(err.response.data.message);
 			console.log(err);
 		}
 	};
@@ -222,7 +181,7 @@ function SignUpInput() {
 		<>
 			<form onSubmit={handleSubmit}>
 				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-7">
+					<div className="col-start-2 col-end-11">
 						<Label htmlFor="id">아이디</Label>
 						<br />
 						<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />

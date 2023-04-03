@@ -1,19 +1,21 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, ChangeEvent } from 'react';
 import { Input, Label, Message, ChangeInput } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
+import { loginAccount } from '../../store/AuthSlice';
 
 type UserState = {
 	user: {
 		username: string;
+		accessToken: string;
 	};
 };
 
 function ChangePassword() {
 	const userId = useSelector((state: UserState) => state.user.username);
-	console.log(userId);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const [isChecked, setIsChecked] = useState(false);
 	const [password, setPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -22,7 +24,9 @@ function ChangePassword() {
 	const [passwordCheckMessage, setPasswordCheckMessage] = useState('');
 	const [isPassword, setIsPassword] = useState(false);
 	const [isPasswordCheck, setIsPasswordCheck] = useState(false);
+	const [isValidPassword, setIsValidPassword] = useState(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleCurrentInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const currentPassword = e.target.value;
@@ -63,39 +67,42 @@ function ChangePassword() {
 	};
 
 	const changePassword = async () => {
-		const accessToken = localStorage.getItem('accessToken');
 		const changePasswordRequest = {
-			url: `http://j8b205.p.ssafy.io:8080/api/user/${userId}`,
+			url: `http://j8b205.p.ssafy.io:8080/api/user/change/password`,
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
 				Authorization: `Bearer ${accessToken}`,
 			},
 			data: {
-				password: password,
-				new_password: newPassword,
+				beforePassword: password,
+				newPassword: newPassword,
 			},
 		};
 		try {
 			const changePasswordResult = await axios(changePasswordRequest);
 			console.log(changePasswordResult);
 			console.log('비밀번호 변경이 완료되었습니다.');
-			navigate('/MyInfoManage');
+			dispatch(loginAccount({ password: '' }));
+			dispatch(loginAccount({ password: newPassword }));
+			navigate('/Mypage/MyInfoManage');
 		} catch (err) {
 			console.log('비밀번호 변경 에러다');
+			console.log(err);
+			console.log(setIsValidPassword);
 		}
 	};
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
 				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-6">
+					<div className="col-start-2 col-end-9">
 						<Label>현재 비밀번호</Label>
 						<ChangeInput id="currentpassword" onChange={handleCurrentInput}></ChangeInput>
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-6">
+					<div className="col-start-2 col-end-9">
 						<Label>새 비밀번호</Label>
 						<Input
 							id="newwpassword"
@@ -107,7 +114,7 @@ function ChangePassword() {
 					</div>
 				</div>
 				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-6">
+					<div className="col-start-2 col-end-9">
 						<Label>비밀번호 확인</Label>
 						<Input
 							id="confirmpassword"
