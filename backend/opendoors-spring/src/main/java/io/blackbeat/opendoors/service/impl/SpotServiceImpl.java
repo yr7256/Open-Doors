@@ -90,6 +90,11 @@ public class SpotServiceImpl implements SpotService {
     }
 
     @Override
+    public List<Spot> getSpotsByTitle(String title) {
+        return spotRepo.findAllBySpotNameContaining(title).orElseThrow();
+    }
+
+    @Override
     public Spot getSpotByName(String spotName) {
         return spotRepo.findBySpotName(spotName);
     }

@@ -133,6 +133,7 @@ public class RecommendServiceImpl implements RecommendService {
         json.put("user" , userJson);
         json.put("users" , usersJson);
         json.put("spots" , resultJson);
+        System.out.println(json);
         return json;
     }
 }
