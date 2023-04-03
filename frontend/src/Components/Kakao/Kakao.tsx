@@ -321,12 +321,21 @@ const Kakao = (props: MapProps) => {
 			<div id="pagination"></div>
 			<div id="map" />
 			<Modal id="marker" title={detailData.id} show={modalState} handleClose={() => closeModal()}>
-				<div className='modalInfo' onClick={goDetailpage}>
+				<div className="modalInfo" onClick={goDetailpage}>
 					<p className="spotname">{detailData.spotName}</p>
-					<p>별점은 여기에 넣습니다. | 리뷰수 : {detailData.spotViewCount}</p>
+					<p>
+						{detailData.reviewScore} | 리뷰수 : {detailData.reviewCount}
+					</p>
 					<p className="spotaddress">{detailData.spotAddress}</p>
 					<p>{detailData.spotTelNumber}</p>
 					<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>
+					<div>
+						{detailData?.spotSfInfos?.map((item: any) => (
+							<div key={item.id}>
+								<p>{item.sfInfo.sfName}</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</Modal>
 		</>
