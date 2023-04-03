@@ -27,10 +27,12 @@ function Withdrawal({ title, alert, closeModal }: Props) {
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	console.log(password);
+	console.log(accessToken);
 
 	const DeleteUser = () => {
 		axios
-			.delete('http://j8b205.p.ssafy.io:8080/api/user/delete', {
+			.delete('http://localhost:8080/api/user/delete', {
 				data: {
 					password: password,
 				},

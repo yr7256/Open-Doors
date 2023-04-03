@@ -28,7 +28,7 @@ import EditReview from './pages/Review/EditReview';
 import { logout } from './store/Cookie';
 import { logoutAccount } from './store/AuthSlice';
 import Mylocation from './Components/MyLocation/Mylocation';
-import Donation from './Components/Donation/Donation';
+import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
 import Help from './Components/Help/Help';
 
@@ -40,50 +40,49 @@ type UserState = {
 
 function App() {
 	const dispatch = useDispatch();
+
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
 	const handleResize = () => {
 		const vh = window.innerHeight * 0.01;
-		document.documentElement.style.setProperty("--vh", `${vh}px`); 
+		document.documentElement.style.setProperty('--vh', `${vh}px`);
 	};
-	
+
 	useEffect(() => {
 		handleResize();
-		window.addEventListener("resize", handleResize);
-	
-		return () => window.removeEventListener("resize", handleResize);
+		window.addEventListener('resize', handleResize);
+
+		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
 	useEffect(() => {
-		// const accessToken = localStorage.getItem('accessToken');
-		const cookies = new Cookies();
-		const refreshToken = cookies.get('refresh_token');
-		if (!refreshToken) {
-			dispatch(logoutAccount);
+		const accessToken = localStorage.getItem('accessToken');
+		if (!accessToken) {
+			dispatch(logoutAccount());
 			logout();
-			console.log('로그아웃이라구');
-		}
-	}, [dispatch]);
-
-	useEffect(() => {
-		const cookies = new Cookies();
-		const refreshToken = cookies.get('refresh_token');
-		if (isLogged) {
-			const getAccessToken = async () => {
-				try {
-					const response = await axios.post('', {
-						refreshToken: refreshToken,
-					});
-					// 로컬 스토리지에 엑세스 토큰 저장
-					localStorage.setItem('accessToken', response.data.accessToken);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-			getAccessToken();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLogged]);
+	}, [dispatch]);
+
+	// useEffect(() => {
+	// 	const cookies = new Cookies();
+	// 	const refreshToken = cookies.get('refresh_token');
+	// 	if (isLogged) {
+	// 		const getAccessToken = async () => {
+	// 			try {
+	// 				const response = await axios.post('', {
+	// 					refreshToken: refreshToken,
+	// 				});
+	// 				// 로컬 스토리지에 엑세스 토큰 저장
+	// 				localStorage.setItem('accessToken', response.data.accessToken);
+	// 			} catch (error) {
+	// 				console.log(error);
+	// 			}
+	// 		};
+	// 		getAccessToken();
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [isLogged]);
 
 	const [mapdata, setMapdata] = useState([]);
 
@@ -104,8 +103,8 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/*' element={<NotFound />} />
-				<Route path="/map/*" element={<Map mapdata={mapdata}/>} />
+				{/* <Route path="/*" element={<NotFound />} /> */}
+				<Route path="/*" element={<Map mapdata={mapdata} />} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
@@ -115,10 +114,10 @@ function App() {
 					<Route path="Map" element={<DetailMap />} />
 				</Route>
 				<Route path="/myloc" element={<Mylocation />} />
+				<Route path="/map/detail/:id/EditReview" element={<EditReview />} />
 				<Route path="/Signup" element={<SignUp />} />
 				<Route path="/Login" element={<Login />} />
-				<Route path="/EditReview" element={<EditReview />} />
-				<Route path="/donation" element={<Donation />} />
+				<Route path="/Donation" element={<DonationPage />} />
 				<Route path="/Mypage" element={<MyPage />} />
 				<Route path="/Mypage/Donation" element={<MyDonation />} />
 				<Route path="/Mypage/MyInfoManage" element={<MyInfoManage />} />

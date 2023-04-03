@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 type UserState = {
 	user: {
 		username: string;
+		password: string;
 		name: string;
 	};
 };
@@ -12,6 +13,7 @@ type UserState = {
 function UserInfo() {
 	const userName = useSelector((state: UserState) => state.user.username);
 	const name = useSelector((state: UserState) => state.user.name);
+	console.log(userName, name);
 
 	return (
 		<>
