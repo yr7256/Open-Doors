@@ -63,10 +63,16 @@ function LoginInput() {
 
 			// dispatch를 위해 get해서 유저정보 불러오기
 			axios
-				.get(`http://j8b205.p.ssafy.io:8080/api/user/${username}`)
+				.get('http://j8b205.p.ssafy.io:8080/api/user/', {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				})
 				.then((response) => {
 					// setUserDispatch(response);
 					console.log(response.data);
+					const name = response.data.name;
+					dispatch(loginAccount({ username: username, password: password, accessToken: accessToken, name: name }));
 				})
 				.catch((err) => console.log(err));
 

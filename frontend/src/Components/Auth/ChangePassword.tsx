@@ -83,9 +83,21 @@ function ChangePassword() {
 			const changePasswordResult = await axios(changePasswordRequest);
 			console.log(changePasswordResult);
 			console.log('비밀번호 변경이 완료되었습니다.');
-			dispatch(loginAccount({ password: '' }));
-			dispatch(loginAccount({ password: newPassword }));
 			navigate('/Mypage/MyInfoManage');
+			axios
+				.get('http://j8b205.p.ssafy.io:8080/api/user/', {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				})
+				.then((response) => {
+					// setUserDispatch(response);
+					console.log(response.data);
+					const name = response.data.name;
+					const username = response.data.username;
+					dispatch(loginAccount({ username: username, password: newPassword, accessToken: accessToken, name: name }));
+				})
+				.catch((err) => console.log(err));
 		} catch (err) {
 			console.log('비밀번호 변경 에러다');
 			console.log(err);
