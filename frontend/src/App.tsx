@@ -42,13 +42,17 @@ function App() {
 	const dispatch = useDispatch();
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
-	function setScreenSize() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
-  useEffect(() => {
-    setScreenSize();
-  });
+	const handleResize = () => {
+		const vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty("--vh", `${vh}px`); 
+	};
+	
+	useEffect(() => {
+		handleResize();
+		window.addEventListener("resize", handleResize);
+	
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	useEffect(() => {
 		// const accessToken = localStorage.getItem('accessToken');
@@ -86,7 +90,7 @@ function App() {
 	const getData = async () => {
 		try {
 			const response = await axios.get('/api/spots');
-			console.log(response.data.spots);
+			// console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {
 			console.log(error);

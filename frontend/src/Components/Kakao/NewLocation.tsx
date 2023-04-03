@@ -148,7 +148,7 @@ const NewLocation = () => {
 					</div>
 					<div className="md:w-2/3">
 						<input
-							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
 							// id="inline-full-name"
 							type="text"
 							placeholder="시설의 이름을 입력해주세요."
@@ -163,13 +163,13 @@ const NewLocation = () => {
 					</div>
 					<div className="md:w-2/3">
 						<button
-							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm"
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white text-sm"
 							onClick={goSearch}
 						>
-							{state ? state.address : '여기를 눌러 주소를 검색해주세요.'}
+							<p className="addressName">{state ? state.address : '여기를 눌러 주소를 검색해주세요.'}</p>
 						</button>
 						<input
-							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 text-sm mt-3"
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white text-sm mt-3"
 							// id="inline-full-name"
 							type="text"
 							placeholder="상세 정보를 입력하세요."
@@ -187,7 +187,6 @@ const NewLocation = () => {
 							<label htmlFor="file">파일찾기</label>
 							<input
 								type="file"
-								className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
 								id="file"
 								multiple
 								onChange={handleFileSelect}
@@ -212,7 +211,7 @@ const NewLocation = () => {
 					</div>
 					<div className="md:w-2/3">
 						<input
-							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
 							// id="inline-full-name"
 							type="text"
 							placeholder="예) 음식점, 카페 등"
@@ -227,7 +226,7 @@ const NewLocation = () => {
 					</div>
 					<div className="md:w-2/3">
 						<input
-							className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
 							// id="inline-full-name"
 							type="text"
 							placeholder="대표 전화번호를 입력해주세요."
@@ -238,7 +237,7 @@ const NewLocation = () => {
 				</div>
 				<div className="md:flex md:items-center mb-6">
 					<div className="md:w-1/3">
-						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">시설 이용 가능 여부</label>
+						<p className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">시설 이용 가능 여부</p>
 					</div>
 					<div className="md:w-2/3">
 						{/* {bflist.map((item) => {
@@ -266,7 +265,6 @@ const NewLocation = () => {
 					<div className="md:w-1/3"></div>
 					<div className="md:w-2/3 mb-8">
 						<Button
-							// className="w-full shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
 							type="submit"
 						>
 							등록완료
