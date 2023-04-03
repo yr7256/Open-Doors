@@ -1,6 +1,7 @@
 package io.blackbeat.opendoors.api.controller;
 
 
+import io.blackbeat.opendoors.api.request.ChangePasswordDto;
 import io.blackbeat.opendoors.api.request.LoginDto;
 import io.blackbeat.opendoors.api.request.PointDto;
 import io.blackbeat.opendoors.api.request.RegistDto;
@@ -21,12 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +45,11 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(@AuthenticationPrincipal String username) {
+        return ResponseEntity.ok().body(userRepo.findByUsername(username));
     }
 
     @GetMapping("/user/access/list/{username}")
@@ -102,6 +110,18 @@ public class UserController {
     @GetMapping("/user/duplicate")
     public ResponseEntity<Boolean> isDuplicated(@RequestParam(value = "id") String username) {
         return ResponseEntity.ok(userService.existsByUsername(username));
+    }
+
+    @PutMapping("/user/change/password")
+    public ResponseEntity<?> changePassword(@AuthenticationPrincipal String username, @RequestBody ChangePasswordDto changePasswordDto) {
+        userService.changePassword(username, changePasswordDto.getBeforePassword(), changePasswordDto.getNewPassword());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/user/delete")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal String username, @RequestBody Map<String, String> requests) {
+        userService.deleteUser(username, requests.get("password"));
+        return ResponseEntity.ok().build();
     }
 }
 
