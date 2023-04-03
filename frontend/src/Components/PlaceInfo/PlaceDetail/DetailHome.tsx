@@ -24,7 +24,6 @@ function DetailHome() {
 
 	// 위치, 운영시간, 번호, 정보, 편의시설 정보, 메뉴 useState 에 담기
 	const [placeImage, setPlaceImage] = useState<any>([]);
-	const [placeTime, setPlaceTime] = useState('');
 	const [placeLocation, setPlaceLocation] = useState('');
 	const [placeMenus, setPlaceMenus] = useState<[]>([]);
 	const [placePhoneNumber, setPhoneNumber] = useState('');
@@ -40,7 +39,7 @@ function DetailHome() {
 	};
 
 	useEffect(() => {
-		axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/${id}`).then((res) => {
+		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
 			console.log(res.data);
 
@@ -50,7 +49,6 @@ function DetailHome() {
 				setPlaceLocation(res.data.data.spotAddress);
 			}
 
-			setPlaceLocation(res.data.data.spotAddress);
 			setPlaceMenus(res.data.menus);
 			if (res.data.data.spotTelNumber === '') {
 				setPhoneNumber('장소 번호가 없습니다.');
@@ -58,10 +56,7 @@ function DetailHome() {
 				setPhoneNumber(res.data.data.spotTelNumber);
 			}
 			setPlaceBarrierFree(res.data.data.spotSfInfos);
-			console.log(res.data.data.spotSfInfos);
-			if (res.data.data.openHours !== null) {
-				setPlaceTime(res.data.data.openHours);
-			}
+
 			const imgArr: any[] = [];
 			res.data.data.images.map((img: any, index: any) => {
 				// axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`).then((response) => {
@@ -70,7 +65,7 @@ function DetailHome() {
 				// 	setPlaceImage([...placeImage, response.config.url]);
 				// });
 				const a = async () => {
-					const b = await axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/image/${id}/${img.pathName}`);
+					const b = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
 					if (index === res.data.data.images.length - 1) {
 						setPlaceImage(imgArr);
@@ -100,22 +95,24 @@ function DetailHome() {
 		return idx.sfInfo.id;
 	});
 	console.log(mapBarrierFree);
-	const [barrierFreeImage, setBarrierFreeImage] = useState('');
-	const barrierFree = BarrierFreeList.map((v: any) => {
-		mapBarrierFree.map((i: any) => {
-			if (v.id === i) {
-				console.log(v.image);
-				return v.image;
-			}
-		});
-	});
-	console.log(barrierFree);
+	const [barrierFreeImage, setBarrierFreeImage] = useState<[]>([]);
+	const [barrierFreeName, setBarrierFreeName] = useState<[]>([]);
+	// const barrierFree = BarrierFreeList.map((v: any) => {
+	// 	mapBarrierFree.map((i: any) => {
+	// 		if (v.id === i) {
+	// 			setBarrierFreeImage(v.image);
+	// 			setBarrierFreeName(v.sfName);
+	// 		}
+	// 	});
+	// });
+	// console.log(barrierFreeImage);
+	// console.log(barrierFreeName);
 	// const SameBarrierFree = BarrierFreeList.filter((data => data.id === ))
 
 	// console.log(SameBarrierFree);
 	// 리뷰 개수, 리뷰 별점 가져오기
 	useEffect(() => {
-		axios.get(`http://j8b205.p.ssafy.io:8080/api/review/${id}`).then((res) => {
+		axios.get(`https://j8b205.p.ssafy.io/api/review/${id}`).then((res) => {
 			setPlaceReviewRate(res.data);
 			console.log(res.data);
 		});
@@ -128,7 +125,7 @@ function DetailHome() {
 				<div className="col-start-2 col-span-1">
 					<Img src={location} alt="location" />
 				</div>
-				<div className="col-start-3 col-span-4">
+				<div className="col-start-3 col-span-9">
 					<h4>{placeLocation}</h4>
 				</div>
 			</div>
@@ -137,7 +134,7 @@ function DetailHome() {
 				<div className="col-start-2 col-span-1">
 					<Img src={call} alt="call" />
 				</div>
-				<div className="col-start-3 col-span-12">
+				<div className="col-start-3 col-span-9">
 					<Number>{placePhoneNumber}</Number>
 				</div>
 			</div>

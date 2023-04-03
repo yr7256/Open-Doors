@@ -30,7 +30,7 @@ function MapDetail() {
 	}, []);
 
 	useEffect(() => {
-		axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/${id}`).then((res) => {
+		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
 			setPlaceName(res.data.data.spotName);
 			console.log(res.data);
@@ -42,7 +42,7 @@ function MapDetail() {
 				// 	setPlaceImage([...placeImage, response.config.url]);
 				// });
 				const a = async () => {
-					const b = await axios.get(`http://j8b205.p.ssafy.io:8080/api/spot/image/${id}/${img.pathName}`);
+					const b = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
 					if (index === res.data.data.images.length - 1) {
 						setPlaceImage(imgArr);

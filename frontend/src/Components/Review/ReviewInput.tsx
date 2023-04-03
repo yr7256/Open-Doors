@@ -22,6 +22,8 @@ function ReviewInput() {
 	const [review, setReview] = useState('');
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const [starScore, setStarScore] = useState(3);
+	const [reviewData, setReviewData] = useState<[]>([]);
+
 	const score = [1, 2, 3, 4, 5];
 	const username = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
@@ -60,13 +62,31 @@ function ReviewInput() {
 			const blob = new Blob([json], { type: 'application/json' });
 			console.log(id, username, starScore, review);
 			formData.append('reviewDto', blob);
-			const response = await axios.post('http://192.168.31.134:8080/api/review/save', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			});
-			console.log(response);
+
+			if (selectedFiles.length === 0) {
+				await axios
+					.post('https://j8b205.p.ssafy.io/api/review/save', formData, {
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						},
+					})
+					.then((res) => {
+						console.log(res);
+						setReviewData(res.data);
+					});
+			} else {
+				await axios
+					.post('https://j8b205.p.ssafy.io/api/review/save', formData, {
+						headers: {
+							'Content-Type': 'multipart/form-data',
+							Authorization: `Bearer ${accessToken}`,
+						},
+					})
+					.then((res) => {
+						console.log(res);
+						setReviewData(res.data);
+					});
+			}
 			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
 			console.log(err);
