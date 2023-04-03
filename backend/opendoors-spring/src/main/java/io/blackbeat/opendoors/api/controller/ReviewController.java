@@ -62,14 +62,18 @@ public class ReviewController {
         User user = userRepo.findByUsername(reviewDto.getUsername());
         user.getReviews().add(review);
         try {
-            List<String> imageLocations = new ArrayList<>();
-            String postName = user.getUsername();
-            List<String> results  = storageService.saveFiles(images, postName);
-            for (String result : results) {
-                imageLocations.add("/" + postName + "/" + result);
-                Image img = new Image();
-                img.setPathName("/" + postName + "/" + result);
-                review.getImages().add(img);
+            if(images.size() > 0)
+            {
+                List<String> imageLocations = new ArrayList<>();
+                String postName = String.valueOf(user.getId());
+                List<String> results  = storageService.saveFiles(images, postName);
+                for (String result : results) {
+                    imageLocations.add(result);
+                    Image img = new Image();
+                    img.setPathName(result);
+                    review.getImages().add(img);
+                }
+
             }
             reviewService.saveReview(review);
             spotService.saveSpot(spot);
@@ -77,6 +81,16 @@ public class ReviewController {
             return CommonDto.of("200", "리뷰등록이 성공적으로 완료되었습니다.", review.getUsername() + review.getSpotId() + review.getReviewContent());
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("review/{spotId}")
+    public CommonDto<Object> getReviewbySpot(@PathVariable Long spotId){
+        try {
+            Spot spot = spotService.getSpotById(spotId);
+            return CommonDto.of("200", "리뷰등록이 성공적으로 완료되었습니다.", spot.getReviews());
+        }catch (Exception e) {
+        return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
 }
