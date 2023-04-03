@@ -54,25 +54,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TokenDto login(LoginDto loginDto) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsername(),
-                            loginDto.getPassword()
-                    )
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         User user = userRepo.findByUsername(loginDto.getUsername());
         if (user == null) {
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
 
-        if(!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())){
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsername(),
+                        loginDto.getPassword()
+                )
+        );
 
         String token = jwtService.generateToken(user);
         return new TokenDto(token);
@@ -114,8 +110,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String username) {
-        log.info("유저 {}의 정보를 불러옵니다..", username);
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        return user;
     }
 
     @Override
@@ -127,5 +126,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean existsByUsername(String username) {
         return userRepo.existsByUsername(username);
+    }
+
+    @Override
+    public void changePassword(String username, String beforePassword, String newPassword) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        if (!passwordEncoder.matches(beforePassword, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepo.save(user);
+    }
+
+    @Override
+    public void deleteUser(String username, String password) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        userRepo.delete(user);
     }
 }

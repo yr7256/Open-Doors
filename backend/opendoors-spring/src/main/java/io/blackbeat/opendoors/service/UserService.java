@@ -18,4 +18,6 @@ public interface UserService {
     TokenDto login(LoginDto loginDto);
     List<User> getUsers();
     Boolean existsByUsername(String username);
+    void changePassword(String username, String beforePassword, String newPassword);
+    void deleteUser(String username, String password);
 }
