@@ -93,7 +93,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 				minConstraints={[width, window.innerHeight * 0.05]}
 				maxConstraints={[width, h]}
 				axis="y"
-				handle={<div className="resize-handle-top" />}
+				handle={<div className="resize-handle-top"><div className='handle-line'></div></div>}
 				resizeHandles={['n']}
 				onResize={handleResize}
 			>
