@@ -61,24 +61,11 @@ def transform_dto_to_spot_arr(spot_dict):
 # spot_dto_list를 받아서 순회하면서 전처리하고 다시 matrix로 합친걸 return 해주는 함수.
 def transform_dto_to_spot_matrix(dto_matrix_json):
     try:
-        print('시작')
-        print(type(dto_matrix_json))
-        print(123)
         dto_matrix = json.loads(dto_matrix_json)
-        print(type(dto_matrix))
-        print(124)
-        print('일단 여기까지 ok')
-
         return [transform_dto_to_spot_arr(spot_dict) for spot_dict in dto_matrix]
     except Exception as e:
-        print(type(dto_matrix_json))
         print(e)
-        print(dto_matrix)
-        print(type(dto_matrix))
-        print('-------------------')
-        print(json.loads(dto_matrix))
-        print(type(json.loads(dto_matrix)))
-        print('#########################')
+        
         
 
 
@@ -93,10 +80,8 @@ def transform_dto_to_ref_user_arrs(dto_dict, spot_matrix_length):
         rating vector
         like vector
         '''
-        print('여긴가?@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
         user_id = dto_dict['userId']   # -> pk 1
         spotSfInfos = dto_dict['sfInfoIds']   # ->[2, 4, 5]
-        print('여기다')
         
         spotLat = dto_dict['userLat'] #-> 36.39665 # 기준 유저가 아니라면 0.0이 들어온다
         spotLng = dto_dict['userLng'] #-> 127.4027 # 기준유저가 아니라면 0.0이 들어온다.
@@ -107,61 +92,45 @@ def transform_dto_to_ref_user_arrs(dto_dict, spot_matrix_length):
         dislike_arr = dto_dict['disLikeList']
         
         category_ids = dto_dict.get('categoryIds') # 선택한 카테고리들. 마지막에 걸러줘야함. (다른 모든 유저들의 정보들은 null 들어옴.)
-        print('987')        
+        
 
         rating_vector = create_rating_vector(reviews_arr, spot_matrix_length) # [] idx No는 pk를 의미. value는 평점을 의미. 0은 미평가.
-        print(654)
         like_vector = create_like_vector(like_arr, dislike_arr, spot_matrix_length) # [] idx No는 pk를 의미. value는 1/-1 좋아요 싫어요를 의미. 0은 미평가.
-        print(321)
-
+        
         user_facility_vector = binary_vectorize(spotSfInfos)
 
         
         return user_id, category_ids, user_facility_vector, user_coor, rating_vector, like_vector
     except Exception as e:
         print(e)
-        print(dto_dict)
-        print(spot_matrix_length)
-        print(type(dto_dict))
+        
 
         
 
 def transform_dto_to_review_count_arr(dto_matrix):
     try:
-        print('9')
         dto_matrix = json.loads(dto_matrix)
-        print('99')
-        return [spot_dict['reviews'] for spot_dict in dto_matrix]
         return [spot_dict['reviewCount'] for spot_dict in dto_matrix]
     except Exception as e:
-        print(dto_matrix)
+        # print(dto_matrix)
         print(e)
 
 
 
 def create_rating_vector(arr, spot_matrix_length):
     try:
-        print('creating rating vector 시작')
-        print(arr)
         rating_dict = dict()
-        print("!")
         rating_vector = np.zeros(spot_matrix_length)
-        print("!!")
-
+    
         for review_item in arr:
             spotId = review_item.get('spotId')
             review_score = review_item.get('reviewScore')
             rating_dict[spotId] = review_score
-        print("!!!")
-        print(rating_dict)
-        print('asdasdasdasd')
+        
         for key in rating_dict:
             print('일단 이건 됨.')
             rating_vector[int(key)-1] = rating_dict.get(key)
-        print("!!!!")
-        print(rating_vector)
-        print("!!!!!")
-        print(type(rating_vector))
+        
         return rating_vector.tolist()
     except Exception as e:
         print(e)
@@ -172,17 +141,20 @@ def create_rating_vector(arr, spot_matrix_length):
 # like_arr = [1,5,9,11]
 # dislike_arr = [1,20,23,25]
 def create_like_vector(like_arr, dislike_arr, spot_matrix_length):
-    
     try:
-        print('라이크벡터 생성 시작!')
-        print(like_arr)
-        print(dislike_arr)
-        print(spot_matrix_length)
-        like_vector = np.zeros(spot_matrix_length)
-        like_vector[np.array(like_arr)-1] = 1
-        like_vector[np.array(dislike_arr)-1] = -1
-            
-        return like_vector.tolist()
+        
+        like_arr = [int(x) for x in like_arr]
+        dislike_arr = [int(x) for x in dislike_arr]
+
+        try:
+            like_vector = np.zeros(spot_matrix_length)
+            like_vector[np.array(like_arr)-1] = 1
+            like_vector[np.array(dislike_arr)-1] = -1
+                
+            return like_vector.tolist()
+        except Exception as e:
+            return like_vector.tolist()
+
     except Exception as e:
         print(e)
         print(type(like_arr))
@@ -225,8 +197,22 @@ def verify_recom_reason(recom_arr, manhattan_distances, facility_scores, expecte
     for recom_item in recom_arr:
         pk = recom_item[1]
         idx = pk - 1
+        print('\n\n')
+        print(f'{idx}번장소의 추천 이유를 알아보자')
+        print(manhattan_distances[idx])
         
-        if facility_scores[idx] > 0.7:
+        print('배려시설유사도')
+        print(facility_scores[idx])
+
+        print('방문하기 좋은위치?')
+        print(manhattan_distances[idx]*1000,-2)
+
+        print('취향유사도?')
+        print(expected_rating_arr[idx])
+
+        print('우리동네핫플')
+        print(spot_review_count_arr[idx])
+        if facility_scores[idx] > 0.5:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '배려시설유사도가 높아요!'])
         elif manhattan_distances[idx] < 0.5:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '방문하기 좋은 위치에 있어요!'])
@@ -235,7 +221,7 @@ def verify_recom_reason(recom_arr, manhattan_distances, facility_scores, expecte
         elif spot_review_count_arr[idx] > 500:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '우리동네 핫 플레이스!'])
         else:
-            result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '주변 사용자들의 평가가 좋은 장소에요!'])
+            result.append([recom_item, round(manhattan_distances[idx],-2), '주변 사용자들의 평가가 좋은 장소에요!'])
 
     return result
 

@@ -31,43 +31,77 @@ def colab_filtering(user_rating_arr, rating_matrix, user_like_arr, like_matrix, 
     pk를 명시하는 이유는 기준유저가 빠져있기 때문.
     [(유저간 유사도가 들어옴.) (userpk, 유사도), (userpk, 유사도)... ]
     '''
+    # print('colab시작')
+    # print(1)
     rating_sim_arr = rating_cos_sim(user_rating_arr, rating_matrix) # npArr
+    # print(2999999999999999999999999)
+    # print(user_like_arr)
+    # print(like_matrix)
     like_sim_arr = like_cos_sim(user_like_arr, like_matrix) # npArr 이거 수정 필요.
-
+    # print(399999999999999999999999999999)
     res_sim = rating_sim_arr + like_sim_arr
     res_sim /= 2
+    # print(res_sim[0][0])
+    # print('res_sim1')
+    # print(res_sim)
     res_sim = res_sim.tolist()
-    
+    res_sim = [ item[0] for item in res_sim ]
+    # print('res_sim2')
+    # print(res_sim)
+    # print(4)
     res_id_sim = list(zip(user_id_arr, res_sim))
-
+    # print(5)
+    # print(type(res_id_sim[0]))
+    # print(type(res_id_sim[0][1]))
+    # print(res_id_sim)
     return res_id_sim
 
 
 # rating 기준으로 한 유사도 구하기 0-1
 def rating_cos_sim(user_rating_arr, rating_matrix): # 둘중 하나가 0이면, 유사도 분모에 안들어감.
-    print('평점으로 유사도 시작!')
+    # print('평점으로 유사도 시작!')
     user_rating_arr = np.array(user_rating_arr).reshape(1,-1)
     res = cosine_similarity(user_rating_arr, rating_matrix)
     res[np.isnan(res)] = 0  # 분모가 0인 경우 유사도를 0으로 설정 # 옵션입니다.
-    print('평점으로 유사도')
-    print(res)
+    # print('평점으로 유사도')
+    # print(res)
     return res
 
 
 # like/dislike 기준으로 한 유사도 구하기 0-1 # 가중치 좀 줄이는게 좋을거같음.
 def like_cos_sim(user_like_arr, like_matrix):
-    print('좋아요/싫어요로 유사도 시작!')
-    user_like_arr = np.array(user_like_arr).reshape(1,-1)
-    res = cosine_similarity(user_like_arr, like_matrix)
-    res[np.isnan(res)] = 0  # 분모가 0인 경우 유사도를 0으로 설정 # 옵션입니다.
-    print('좋아요,싫어요로 유사도')
-    print(res)
+    try:
+        # print('좋아요/싫어요로 유사도 시작!')
+        # print(9)
+        # print('aaaaa')
+        # print(len(user_like_arr))
+        # print(user_like_arr)
+        # print('bbbbb')
+        user_like_arr = np.array(user_like_arr).reshape(1,-1)
+        # print(99)
+        # print(user_like_arr)
+        # print(like_matrix)
+        res = cosine_similarity(user_like_arr, like_matrix)
+        # print(999)
+        res[np.isnan(res)] = 0  # 분모가 0인 경우 유사도를 0으로 설정 # 옵션입니다.
+        # print(9999)
+        # print('좋아요,싫어요로 유사도')
+        # print(res)
 
-    return res
+        return res
+    except Exception as e:
+        # print(user_like_arr)
+        
+        # print(like_matrix)
+
+        print(e)
 
 
-def calc_expected_rating(user_sim_arr, rating_matrix):
+
+def calc_expected_rating(key_user_id, user_sim_arr, rating_matrix):
     '''
+    matrix에 기준 유저의 것은 없네?
+
     user_sim_arr ->  [(userpk, 기준유저에 대한 pk번 user의 유사도), (userpk, 기준유저에 대한 pk번 user의 유사도), (userpk, 기준유저에 대한 pk번 user의 유사도)... ]
     rating_matrix -> rating_matrix - row가 user번호와 매칭. col이 spot번호와 매칭. cell의 값은 rating점수 - 기준user의 pk는 빠져있음.
 
@@ -76,24 +110,41 @@ def calc_expected_rating(user_sim_arr, rating_matrix):
      
     [(예상점수, pk), (예상점수, pk)...] user_sim_arr는 0.3정도로 반영된다.
     '''
-    
+    print('시작! 예상평점 구하ㅣ!')
     
     # 행렬의 크기 계산
     num_users, num_spots = rating_matrix.shape
-    
+    # print('gffffffffffffffffffffffffffffff')
+    # print(len(rating_matrix))
+    # print('qhhhhhhhhhhhhhhhhhhhh')
+    # print(num_users)
+    # print(num_spots)
+    # print(1)
     # 예상 평점을 저장할 배열 생성
     expected_ratings = np.zeros(num_spots)
-    
+    # print(2)
     # 기준 유저와 다른 유저들 간의 유사도를 이용하여 예상 평점 계산
+
+    # rating_matrix.insert(key_user_id-1, np.zeros(num_spots))
+    rating_matrix = np.insert(rating_matrix, key_user_id - 1, np.zeros(num_spots), axis=0)
     for user_pk, sim in user_sim_arr:
+        # print(9)
         user_idx = user_pk - 1
+        # print(99)
+        # print(user_idx)
+        # print(rating_matrix)
         ratings = rating_matrix[user_idx]
+        # print(999)
         rated_spots = np.nonzero(ratings)[0]  # 평점을 매긴 시설의 인덱스들
+        # print(9999)
         sim_matrix = np.ones(num_spots) * sim  # 유사도로 이루어진 행렬
+        # print(99999)
         numerator = sim_matrix[rated_spots] @ ratings[rated_spots]  # 분자 계산
+        print(999999)
         denominator = sim_matrix[rated_spots].sum()  # 분모 계산
         if denominator > 0:
             expected_ratings[rated_spots] += numerator / denominator
+    # print(3)
     
     return expected_ratings.tolist()
     '''
@@ -119,18 +170,22 @@ def calc_expected_rating(user_sim_arr, rating_matrix):
 
 def filtering_by_cat_list(res_spots, cat_list):
     # 필터링 arr 이용해서 거르고 반환하는 로직
+    # print('제발')
+    # print(res_spots[:10])
+    # print(cat_list)
 
     if not cat_list: # cat_list가 비어있을시 필터링을 안하고 그대로 반환
         return res_spots
     
     else:
+        # print('시작입니다제발1')
         filtered_spots = []
         for spot in res_spots:
             if spot[2] in cat_list:
                 filtered_spots.append(spot)
             else:
                 pass
-    
+    # print('asd')
     return filtered_spots
 '''
 import numpy as np

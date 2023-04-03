@@ -23,9 +23,10 @@ app = Flask(__name__)
 recom_bp = Blueprint('recom', __name__, url_prefix='/recom')
 
 # MySQL 연결 설정
-app.config['MYSQL_HOST'] = '192.168.31.134:3306'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1234'
+app.config['MYSQL_HOST'] = '192.168.31.134'
+app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_USER'] = 'seongRoot'
+app.config['MYSQL_PASSWORD'] = 'b205b205@SEONG'
 app.config['MYSQL_DB'] = 'opendoors'
 
 mysql = MySQL(app)
@@ -91,16 +92,7 @@ def content_recom():
 
 # pk랑 매핑 필요.
 @recom_bp.route('/hybrid', methods=['POST'])
-# @app.route('/hybrid', methods=['POST'])
 def hybrid_recom():
-    # with app.app_context():
-    # print(request)
-    # return request.data
-    
-    # print(request)
-    # print(request.json)
-    # print(request.data)
-    # return request.data
     
     try:
         topK = 10
@@ -110,27 +102,20 @@ def hybrid_recom():
         ref_user_str = data['user']
         user_dto_str = data['users']
         spot_dto_str = data['spots']
-        print(1)
+        
 
         ref_user_dict = json.loads(ref_user_str)
-        print(11)
         users_dict = json.loads(user_dto_str)
-        print(12)
         spots_dict = json.loads(spot_dto_str)
-        print(13)
         spot_info_matrix = transform_dto_to_spot_matrix(spot_dto_str) # json.loads가 필요?
-        print(14)
-        spot_review_count_arr = transform_dto_to_review_count_arr(user_dto_str)
-        print(2)
-
         spot_len = len(spot_info_matrix)
-        print(3)
+        spot_review_count_arr = transform_dto_to_review_count_arr(spot_dto_str)
 
-        # spots_matrix = transform_dto_to_spot_matrix(spots_dict) # 원래꺼
+
         spots_matrix = transform_dto_to_spot_matrix(spot_dto_str)
         
         spot_cat_arr = [spots_matrix[idx][-1] for idx in range(len(spot_info_matrix))] # 카테고리만 모아놓은 arr
-        print(4)
+
 
         user_id, user_category_ids, user_facility_vector, user_coor, rating_vector, like_vector = transform_dto_to_ref_user_arrs(ref_user_dict, spot_len)
         # user_id - 기준유저id
@@ -139,42 +124,33 @@ def hybrid_recom():
         # user_coor - [127.453, 36.9720]
         # rating_vector - [0,5,3,3,0,0,0,0,1 ...]      spot 개수만큼 들어옴.
         # like_vector - [1,1,1,1,-1,-1,-1,0,0,0,-1...] spot개수만큼 들어옴.
-        print(5)
+        
         
         user_id_arr, user_facility_matrix, rating_matrix, like_matrix = transform_dto_to_user_matrixes(users_dict, spot_len) # 완료.
         # user_id_arr - 전체 user아이디들의 arr(기준유저가 없는 idx)
         # user_facility_matrix -row가 user번호와 매칭. col이 시설정보 번호와 매칭
         # rating_matrix - row가 user번호와 매칭. col이 spot번호와 매칭
         # like_matrix - row가 user번호와 매칭. col이 spot번호와 매칭
-        print(6)
+    
         
         ref_facility_arr = [0] + user_facility_vector + user_coor + [0, 0] # 맨앞, 맨뒤 두개는 postional argument 위해 0으로 둠.
         # spotid, binvector-[0,0,0,0,0,0,0,0], user_coor, rating_score, rating_count 순서로 들어있음 ( idx형식 맞추기 위해서 빈값으로 0 둠.)
-        print(7)
+        
 
         # 계산부
         content_based_arr, manhattan_distances, facility_scores = content_based_recom(ref_facility_arr, spot_info_matrix, category=None) # [(score/30, spotId, manhattan_dist) ... id순서대로 반환]
         # [(0.2418561222123986, 1, 10.899476864300897), (0.2533676665221327, 2, 10.882014520230928), (변환 스코어0-1, pk, 맨하탄거리..) ... ] 다시 3 곱해야함.(비중줄이기위해 5만 곱했음.)
         # content_based_score_arr = [[item[0]*3, item[1]] for item in content_based_arr] # 모든 장소에 대해서 결과가 나온다.
         # [ (0-1에서 3를 곱한값, pk) ... ] 장소pk순서로 들어옴.
-        print(8)
+        
 
         user_sim_arr = colab_filtering(rating_vector, rating_matrix, like_vector, like_matrix, user_id_arr) # [(유저간 유사도가 들어옴.) (userpk, 유사도), (userpk, 유사도)... ]
-        expected_rating_arr = calc_expected_rating(user_sim_arr, rating_matrix) # [(예상점수, pk), (예상점수, pk)...] user_sim_arr는 0.3정도로 반영된다.
-        print(9)
-        score_spotpk_category_arr = [[content_based_arr[idx][0]*3 + expected_rating_arr[idx][0], expected_rating_arr[idx][1], spot_cat_arr[idx]] for idx in range(len(expected_rating_arr))]
-        # 최종결과 (content_based를 3배한 값 + 예상평점,  pk, category)
-        print(10)
+        expected_rating_arr = calc_expected_rating(user_id, user_sim_arr, rating_matrix) # [(예상점수, pk), (예상점수, pk)...] user_sim_arr는 0.3정도로 반영된다.
+        score_spotpk_category_arr = [[content_based_arr[idx][0]*3 + expected_rating_arr[idx], content_based_arr[idx][1], spot_cat_arr[idx]] for idx in range(len(content_based_arr))]
         filtered_spots = filtering_by_cat_list(score_spotpk_category_arr, user_category_ids)
         top10_spots = sorted(filtered_spots, reverse=True)[:topK] # pk-1이 index가 됨.
-        print(11)
-        
-        # res_spots = top100_spots[:topK]
-
-        # res_with_recom_reason = verify_recom_reason(res_spots, manhattan_distances, facility_scores, expected_rating_arr, spot_review_count_arr)
         res_with_recom_reason = verify_recom_reason(top10_spots, manhattan_distances, facility_scores, expected_rating_arr, spot_review_count_arr)
-        print(12)
-
+        
         return jsonify(res_with_recom_reason)
 
     except ValueError as e:
@@ -199,19 +175,23 @@ def write_bus_stop_data():
 
         bus_file_name = 'low_floor_bus_dup_removed.xlsx'
         bus_df = pd.read_excel(bus_file_name)
+        print(11)
 
         create_bus_stop_table(mysql)
+        print(22)
         bus_stop_data_to_insert = bus_stop_df[['ARO_BUSSTOP_ID', 'BUSSTOP_NM', 'GPS_LATI', 'GPS_LONG']].values.tolist()
         insert_bus_stop_data(mysql, bus_stop_data_to_insert)
+        print(33)
 
 
         create_bus_table(mysql)
         bus_data_to_insert = bus_df[['CAR_REG_NO']].values.tolist()
         insert_bus_data(mysql, bus_data_to_insert)
-        return 'done'
+        return 
     
     except Exception as e:
         print(e)
+        abort(500, str(e))
 
 
 
