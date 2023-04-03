@@ -112,7 +112,10 @@ export const DonationFormOuterDiv = styled.div`
 		font-size: 1.1rem;
 	}
 
-	& .submitButton {
+	& .smallDesc {
+		text-align: center;
+		margin-top: 3%;
+		font-size: 0.8rem;
 	}
 `;
 

@@ -64,6 +64,7 @@ function DonationForm() {
 					>
 						지금 기부하기
 					</DonationButton>
+					<div className="smallDesc">기부된 포인트는 취소할 수 없습니다.</div>
 				</div>
 			</div>
 		</DonationFormOuterDiv>
