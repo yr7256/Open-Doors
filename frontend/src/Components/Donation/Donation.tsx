@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Donation = () => {
 	const navigate = useNavigate();
+	('');
 	return (
 		<>
 			<Head>
