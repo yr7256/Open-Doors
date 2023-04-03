@@ -17,4 +17,5 @@ public interface UserService {
     User getUser(String username);
     TokenDto login(LoginDto loginDto);
     List<User> getUsers();
+    Boolean existsByUsername(String username);
 }

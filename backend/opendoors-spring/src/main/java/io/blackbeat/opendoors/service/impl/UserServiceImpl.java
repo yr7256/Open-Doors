@@ -64,14 +64,18 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         User user = userRepo.findByUsername(loginDto.getUsername());
         if (user == null) {
-            throw new RuntimeException("존재하지 않는 회원입니다.");
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
+
+        if(!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
         String token = jwtService.generateToken(user);
-        return TokenDto.builder()
-                .accessToken(token)
-                .build();
+        return new TokenDto(token);
     }
 
     @Override
@@ -120,5 +124,8 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
-
+    @Override
+    public Boolean existsByUsername(String username) {
+        return userRepo.existsByUsername(username);
+    }
 }

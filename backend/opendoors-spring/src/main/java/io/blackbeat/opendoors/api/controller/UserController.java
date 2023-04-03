@@ -66,11 +66,9 @@ public class UserController {
 
     @PostMapping("/user/save")
     public CommonDto<Object> saveUser(@RequestBody RegistDto registDto) {
-        System.out.println(registDto);
         ModelMapper modelMapper = new ModelMapper();
         User user = modelMapper.map(registDto.getUser(), User.class);
         user.setRoles(new ArrayList<>());
-        System.out.println(user);
         try {
             for (Long sfInfoId : registDto.getSfInfoIds()) {
                 SfInfo sfInfo = sfInfoRepo.findById(sfInfoId).orElseThrow();
@@ -101,42 +99,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginDto));
     }
 
-//    @GetMapping("/token/refresh")
-//    public void addRoleToUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        String authorizationHeader = request.getHeader(AUTHORIZATION);
-//        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-//            try {
-//                String refresh_token = authorizationHeader.substring("Bearer ".length());
-//                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-//                JWTVerifier verifier = JWT.require(algorithm).build();
-//                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-//                String username = decodedJWT.getSubject();
-//                User user = userService.getUser(username);
-//                String access_token = JWT.create()
-//                        .withSubject(user.getUsername())
-//                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-//                        .withIssuer(request.getRequestURL().toString())
-//                        .withClaim("roles" , user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-//                        .sign(algorithm);
-//                Map<String, String> tokens = new HashMap<>();
-//                tokens.put("access_token",access_token);
-//                tokens.put("refresh_token",refresh_token);
-//                response.setContentType(APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream() , tokens);
-//            }catch (Exception e){
-//                log.error("Error logging in : {}" , e.getMessage());
-//                response.setHeader("error" , e.getMessage());
-//                response.setStatus(FORBIDDEN.value());
-//                Map<String , String> error = new HashMap<>();
-//                error.put("error_messege" , e.getMessage());
-//                response.setContentType(APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream() , error);
-//            }
-//        }
-//        else{
-//            throw new RuntimeException("the token is missing");
-//        }
-//    }
+    @GetMapping("/user/duplicate")
+    public ResponseEntity<Boolean> isDuplicated(@RequestParam(value = "id") String username) {
+        return ResponseEntity.ok(userService.existsByUsername(username));
+    }
 }
 
 @Data
