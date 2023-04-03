@@ -19,11 +19,21 @@
 
 .resize-handle-top {
   cursor: row-resize;
-  height: 10px;
+  height: 20px;
   width: 80vw;
   position: absolute;
-  background-color: black;
+  background-color: white;
   top: 0;
+  left: 50%;
+  transform:translateX(-50%);
+}
+
+.handle-line {
+  background-color: black;
+  height: 3px;
+  width: 20vw;
+  position: absolute;
+  top: 8px;
   left: 50%;
   transform:translateX(-50%);
 }
