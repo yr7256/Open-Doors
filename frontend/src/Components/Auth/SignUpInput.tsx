@@ -127,7 +127,6 @@ function SignUpInput() {
 	const handleBirthInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setFormBirth({ ...formBirth, [name]: value });
-		console.log(formBirth);
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
