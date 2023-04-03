@@ -34,7 +34,6 @@ function DetailHome() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const onToggle = () => setIsOpen(!isOpen);
 	const onOptionClicked = (value: string, index: number) => () => {
-		console.log(value);
 		setIsOpen(false);
 	};
 
@@ -97,16 +96,13 @@ function DetailHome() {
 	console.log(mapBarrierFree);
 	const [barrierFreeImage, setBarrierFreeImage] = useState<[]>([]);
 	const [barrierFreeName, setBarrierFreeName] = useState<[]>([]);
-	// const barrierFree = BarrierFreeList.map((v: any) => {
-	// 	mapBarrierFree.map((i: any) => {
-	// 		if (v.id === i) {
-	// 			setBarrierFreeImage(v.image);
-	// 			setBarrierFreeName(v.sfName);
-	// 		}
-	// 	});
-	// });
-	// console.log(barrierFreeImage);
-	// console.log(barrierFreeName);
+	const barrierFree = BarrierFreeList.map((v: any) => {
+		mapBarrierFree.map((i: any) => {
+			if (v.id === i) {
+				console.log(v.image);
+			}
+		});
+	});
 	// const SameBarrierFree = BarrierFreeList.filter((data => data.id === ))
 
 	// console.log(SameBarrierFree);
