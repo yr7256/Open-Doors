@@ -15,7 +15,7 @@ const Admin = (props: MapProps) => {
 		<>
 			{mapdata.map((item: any) => (
 				<div key={item.id} onClick={() => goDetailPage(item.id)}>
-					{item.state === 'denied' ? (
+					{item.state !== 'access' ? (
 						<>
 							<span>{item.id} </span> <span>{item.spotName}</span>
 						</>
