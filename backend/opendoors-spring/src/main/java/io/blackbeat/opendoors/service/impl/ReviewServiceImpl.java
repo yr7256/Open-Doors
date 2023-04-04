@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,11 @@ public class ReviewServiceImpl implements ReviewService {
     public Review saveReview(Review review) {
         log.info("장소 {}에 {}가 작성한 리뷰가 데이터베이스에 저장합니다." , review.getSpotId() , review.getUsername());
         return reviewRepo.save(review);
+    }
+
+    @Override
+    public List<Review> findReivewByName(String username) {
+        return reviewRepo.findAllByUsername(username);
     }
 
 }
