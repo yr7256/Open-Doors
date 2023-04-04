@@ -98,7 +98,6 @@ function DetailHome() {
 	const barrierFreeNames = barrierFree.map((v: any) => v.sfName);
 	const barrierFreeImages = barrierFree.map((v: any) => v.image);
 
-	console.log(placeMenus);
 	return (
 		<>
 			<div className="grid grid-cols-12 gap-1">
@@ -150,6 +149,10 @@ function DetailHome() {
 							{barrierFreeNames.map((v: any) => (
 								<Names key={v}>{v}</Names>
 							))}
+							<br />
+							<br />
+							<br />
+							<br />
 						</div>
 					</div>
 				)}
@@ -166,12 +169,12 @@ function DetailHome() {
 					</div>
 					<br />
 					<div className="grid grid-cols-12 gap-1">
-						<div className="col-start-2 col-span-7">
+						<div className="col-start-2 col-span-8">
 							{placeMenus.map((v: any) => (
 								<Menus key={v}>{v.title}</Menus>
 							))}
 						</div>
-						<div className="col-start-9 col-span-5">
+						<div className="col-start-10 col-span-5">
 							{placeMenus.map((v: any) => (
 								<Menus key={v}>{v.price}</Menus>
 							))}

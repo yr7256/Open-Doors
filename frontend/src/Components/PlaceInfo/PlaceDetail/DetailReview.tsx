@@ -17,9 +17,11 @@ import guideDog from '../../../assets/img/Barrierfree/guidedog.png';
 import parking from '../../../assets/img/Barrierfree/parking.png';
 import toilet from '../../../assets/img/Barrierfree/toilet.png';
 import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
+import { validateHeaderName } from 'http';
 
 function DetailReview() {
 	const [detailData, setDetailData] = useState<[]>([]);
+	const [placeImage, setPlaceImage] = useState<any>([]);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -40,6 +42,21 @@ function DetailReview() {
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then((response) => {
 				setDetailData(response.data.data);
+				const imgArr: any[] = [];
+				response.data.data.map((v: any, i: any) => {
+					const name = v.username;
+					v.images.map((img: any, index: any) => {
+						const getImage = async () => {
+							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
+							console.log(requestImage);
+							imgArr.push(requestImage.config.url);
+							if (index === response.data.data.images.length - 1) {
+								setPlaceImage(imgArr);
+							}
+						};
+						getImage();
+					});
+				});
 			})
 			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +75,11 @@ function DetailReview() {
 	// const mapBarrierFree = detailData.map((idx: any) => {
 	// 	return idx.sfInfoIds;
 	// });
-	// console.log(mapBarrierFree);
+
+	// const barrierFree = BarrierFreeList.filter((v: any) => {
+	// 	return mapBarrierFree.includes(v.id);
+	// });
+	// console.log(barrierFree);
 
 	// const anotherMapBarrierFree = mapBarrierFree.map((idx: any) => {
 	// 	idx.map((v: any) => {
@@ -112,6 +133,11 @@ function DetailReview() {
 								</div>
 								<div className="grid grid-cols-12 gap-1">
 									<div className="col-start-2 col-span-10">
+										<img></img>
+									</div>
+								</div>
+								<div className="grid grid-cols-12 gap-1">
+									<div className="col-start-2 col-span-10">
 										<P>{v.reviewContent}</P>
 									</div>
 								</div>
@@ -120,41 +146,6 @@ function DetailReview() {
 						))}
 					</>
 				)}
-				{/* {detailData.length ? (
-					detailData.map((v: string, i: string) => {
-						<>
-							<p key={i}>{v.username}</p>
-							<p key={i}>{v.reviewContent}</p>
-						</>;
-					})
-				) : (
-					<p>등록된 리뷰가 없습니다.</p>
-				)} */}
-
-				{/* <div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-span-4">
-						{detailData.map((v: any) => (
-							<h2 key={v}>{v.username}</h2>
-						))}
-					</div>
-					<div className="col-start-10 col-span-1">
-						<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
-					</div>
-					{detailData.map((v: any) => (
-						<h3 key={v}>{v.reviewScore}.0</h3>
-					))}
-				</div>
-				<br />
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-span-7">
-						{detailData.map((v: any) => (
-							<p key={v}>
-								{v.reviewContent}
-								<Line />
-							</p>
-						))}
-					</div>
-				</div> */}
 			</ReviewArea>
 		</>
 	);

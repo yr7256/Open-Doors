@@ -45,7 +45,6 @@ function LoginInput() {
 
 		const loginPost = {
 			url: 'https://j8b205.p.ssafy.io/api/user/login',
-			// url: 'http://localhost:8080/api/user/login',
 			method: 'POST',
 			data: loginPayload,
 		};
@@ -62,8 +61,9 @@ function LoginInput() {
 			// setCookie(refreshToken);
 
 			// dispatch를 위해 get해서 유저정보 불러오기
+			// 'http://j8b205.p.ssafy.io:8080/api/user/'
 			axios
-				.get('http://j8b205.p.ssafy.io:8080/api/user/', {
+				.get('https://j8b205.p.ssafy.io/api/user/', {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					},
@@ -76,7 +76,7 @@ function LoginInput() {
 				})
 				.catch((err) => console.log(err));
 
-			navigate('/MyPage');
+			navigate('/map');
 			console.log('로그인이 완료되었습니다.');
 		} catch (err: any) {
 			console.log('로그인 안됐다');
