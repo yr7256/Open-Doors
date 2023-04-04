@@ -19,6 +19,6 @@ public class LikeSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
+    private Long username;
     private Long SpotId;
 }
