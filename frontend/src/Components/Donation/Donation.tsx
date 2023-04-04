@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, Line } from '../../styles/Kakao/SearchAddress';
 import { useNavigate } from 'react-router-dom';
+import { DonationLine } from '../../styles/Donation/DonationStyled';
 
 const Donation = () => {
 	const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Donation = () => {
 				</h1>
 				<h1>기부하기</h1>
 			</Head>
-			<Line />
+			<DonationLine />
 		</>
 	);
 };
