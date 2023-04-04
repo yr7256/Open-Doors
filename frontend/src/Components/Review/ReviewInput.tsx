@@ -60,7 +60,6 @@ function ReviewInput() {
 			Array.from(selectedFiles).forEach((img) => formData.append('reviewImages', img));
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
-			console.log(id, username, starScore, review);
 			formData.append('reviewDto', blob);
 
 			if (selectedFiles.length === 0) {

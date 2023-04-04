@@ -17,6 +17,7 @@ import guideDog from '../../../assets/img/Barrierfree/guidedog.png';
 import parking from '../../../assets/img/Barrierfree/parking.png';
 import toilet from '../../../assets/img/Barrierfree/toilet.png';
 import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
+import { validateHeaderName } from 'http';
 
 function DetailReview() {
 	const [detailData, setDetailData] = useState<[]>([]);
@@ -41,17 +42,21 @@ function DetailReview() {
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then((response) => {
 				setDetailData(response.data.data);
-				// const imgArr: any[] = [];
-				// response.data.data.images.map((img: any, index: any) => {
-				// 	const getImage = async () => {
-				// 		const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
-				// 		imgArr.push(requestImage.config.url);
-				// 		if (index === response.data.data.images.length) {
-				// 			setPlaceImage(imgArr);
-				// 		}
-				// 	};
-				// 	getImage();
-				// });
+				const imgArr: any[] = [];
+				response.data.data.map((v: any, i: any) => {
+					const name = v.username;
+					v.images.map((img: any, index: any) => {
+						const getImage = async () => {
+							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
+							console.log(requestImage);
+							imgArr.push(requestImage.config.url);
+							if (index === response.data.data.images.length - 1) {
+								setPlaceImage(imgArr);
+							}
+						};
+						getImage();
+					});
+				});
 			})
 			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,6 +130,11 @@ function DetailReview() {
 									<div className="col-start-8 col-span-2"></div>
 									<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
 									<h3>{v.reviewScore}.0</h3>
+								</div>
+								<div className="grid grid-cols-12 gap-1">
+									<div className="col-start-2 col-span-10">
+										<img></img>
+									</div>
 								</div>
 								<div className="grid grid-cols-12 gap-1">
 									<div className="col-start-2 col-span-10">

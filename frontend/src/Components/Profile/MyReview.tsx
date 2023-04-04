@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { ReviewArea, H2, Line, P } from '../../styles/Review/MapReviewstyle';
+import { ReviewArea, H2, Line, P, NoReview } from '../../styles/Review/MapReviewstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,9 +15,11 @@ type UserState = {
 function MyReview() {
 	const [reviewData, setReviewData] = useState<[]>([]);
 	const [placeImage, setPlaceImage] = useState<any>([]);
+	const [noReview, setNoReview] = useState<string>('');
 	const userName = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 
+	console.log(userName);
 	// https://j8b205.p.ssafy.io
 
 	useEffect(() => {
@@ -29,7 +31,12 @@ function MyReview() {
 			})
 			.then((response) => {
 				console.log(response);
-				setReviewData(response.data.data);
+				if (response.data.resultCode === 400) {
+					setReviewData([]);
+				} else {
+					setReviewData(response.data.data);
+				}
+
 				// const imgArr: any[] = [];
 				// response.data.data.images.map((img: any, index: any) => {
 				// 	const getImage = async () => {
@@ -41,25 +48,28 @@ function MyReview() {
 				// 	};
 				// });
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				setReviewData([]);
+			});
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	console.log(reviewData);
+
 	return (
 		<>
 			<div className="grid grid-cols-12 gap-1">
 				<div className="col-start-2 col-span-3">
 					<h1>내 리뷰</h1>
 				</div>
-				<div className="col-start-5 col-span-2">
-					<H2>{reviewData.length}</H2>
-				</div>
+				<div className="col-start-5 col-span-2">{reviewData === null ? '' : <H2>{reviewData.length}</H2>}</div>
 			</div>
 			<ReviewArea>
-				{reviewData.length === 0 ? (
+				{reviewData === null ? (
 					<>
-						<p>아직 등록하신 리뷰가 없습니다.</p>
-						<p>어서 리뷰를 남겨주세요!</p>
+						<NoReview>아직 등록하신 리뷰가 없습니다.</NoReview>
+						<NoReview>어서 리뷰를 남겨주세요!</NoReview>
 					</>
 				) : (
 					<>

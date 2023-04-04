@@ -35,12 +35,13 @@ import Help from './Components/Help/Help';
 type UserState = {
 	user: {
 		isLogged: boolean;
+		accessToken: string;
 	};
 };
 
 function App() {
 	const dispatch = useDispatch();
-
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
 	const handleResize = () => {
@@ -56,7 +57,6 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		const accessToken = localStorage.getItem('accessToken');
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
