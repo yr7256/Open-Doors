@@ -24,6 +24,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class ReviewController {
                     review.getImages().add(img);
                 }
                 }
+                review.setCreatTime(LocalDateTime.now().toString());
             reviewService.saveReview(review);
             spotService.saveSpot(spot);
             userService.saveUser(user);
@@ -118,6 +120,7 @@ public class ReviewController {
             List<Review> reviews  = reviewService.findReivewByName(username);
             for(Review review : reviews){
                 review.setSpotName(reviewService.findReviewById(review.getSpotId()).getSpotName());
+                reviews.add(review);
             }
             return CommonDto.of("200", username + " 님이 등록한 리뷰를 조회합니다.", reviews);
         }catch (Exception e) {

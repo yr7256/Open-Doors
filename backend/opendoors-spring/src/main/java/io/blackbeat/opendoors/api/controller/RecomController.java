@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.api.controller;
 import io.blackbeat.opendoors.api.request.RecommendCollabDto;
 import io.blackbeat.opendoors.api.request.RecommendContentDto;
 import io.blackbeat.opendoors.api.request.SpotDto;
+import io.blackbeat.opendoors.api.response.ReponseCollabDto;
 import io.blackbeat.opendoors.api.response.ReponseItemBasedDto;
 import io.blackbeat.opendoors.api.response.SpotForDjangoDto;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
@@ -62,18 +63,32 @@ public class RecomController {
     }
 
     @PostMapping("/hybrid")
-    public ResponseEntity<String> getRecommendationHybrid(@RequestBody RecommendCollabDto recommendCollabDto) throws Exception{
+    public List<ReponseCollabDto> getRecommendationHybrid(@RequestBody RecommendCollabDto recommendCollabDto) throws Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         JSONObject json = recommendService.getHybridData(recommendCollabDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/hybrid", request, String.class);
-
+        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:5000/recom/hybrid", request, String.class);
+        JSONArray jsonArray = new JSONArray(response.getBody());
+        List<ReponseCollabDto> reponseCollabDtos = new ArrayList<>();
+// iterate through the nested arrays and extract the values
+        for (int i = 0; i < jsonArray.length(); i++) {
+            ReponseCollabDto reponseCollabDto = new ReponseCollabDto();
+            JSONArray nestedArray = jsonArray.getJSONArray(i);
+            Long spotId = nestedArray.getJSONArray(0).getLong(1);
+            double distance = nestedArray.getDouble(1);
+            String reason = nestedArray.getString(2);
+            // use the extracted values as needed
+            reponseCollabDto.setSpot(spotService.getSpotById(spotId));
+            reponseCollabDto.setDistance(distance);
+            reponseCollabDto.setReason(reason);
+            reponseCollabDtos.add(reponseCollabDto);
+        }
         // Return the response from Django to the client
 
 
-        return response;
+        return reponseCollabDtos;
     }
 }
 
