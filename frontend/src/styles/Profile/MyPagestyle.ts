@@ -48,4 +48,7 @@ export const Gray = styled.p`
 
 export const CenterP = styled.div`
 	text-align: center;
+	margin-top: 8px;
+	font-size: 28px;
+	font-weight: bold;
 `;

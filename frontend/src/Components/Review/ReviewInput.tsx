@@ -138,7 +138,6 @@ function ReviewInput() {
 						</StarContainer>
 					</div>
 				</div>
-
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-6">
 						<P>리뷰 작성하기</P>

@@ -5,16 +5,21 @@ import { useSelector } from 'react-redux';
 type UserState = {
 	user: {
 		username: string;
-		name: string;
+		accessToken: string;
 	};
 };
 
 function MyReview() {
 	const [reviewData, setReviewData] = useState<[]>([]);
 	const userName = useSelector((state: UserState) => state.user.username);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	useEffect(() => {
 		axios
-			.get(`https://j8b205.p.ssafy.io/api/review/${userName}`)
+			.get(`https://j8b205.p.ssafy.io/api/review/${userName}`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			})
 			.then((response) => {
 				console.log(response);
 				setReviewData(response.data);
