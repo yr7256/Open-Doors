@@ -32,8 +32,8 @@ export const H1 = styled.h1`
 
 export const Photo = styled.img`
 	object-fit: cover;
-	width: 160px;
-	height: 160px;
+	width: 150px;
+	height: 150px;
 	margin-right: 1rem;
 	margin-bottom: 1rem;
 `;
@@ -47,7 +47,6 @@ export const H4 = styled.h4`
 export const PhotoContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	padding: 1rem;
 `;
 
 export const MainImage = styled.div`

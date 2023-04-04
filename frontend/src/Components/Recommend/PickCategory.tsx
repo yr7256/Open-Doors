@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../../styles/Button/ButtonStyle';
 import { Fotter, Active } from '../../styles/Recommend/PickCategorystyle';
 import restaurant from '../../assets/img/restaurant.png';
@@ -9,8 +8,9 @@ import movie from '../../assets/img/movie.png';
 import culture from '../../assets/img/culture.png';
 import picnic from '../../assets/img/picnic.png';
 import read from '../../assets/img/read.png';
-import { UserRecommendAction } from '../../store/UserRecommend';
-import { useDispatch } from 'react-redux';
+import { recommend } from '../../store/UserRecommend';
+import { useDispatch, useSelector } from 'react-redux';
+import TodayRecommend from './TodayRecommend';
 
 type Category = {
 	id: number;
@@ -19,14 +19,26 @@ type Category = {
 	active: boolean;
 };
 
-function PickCategory() {
+type UserState = {
+	user: {
+		username: string;
+		accessToken: string;
+	};
+};
+
+function PickCategory(props: any) {
 	const dispatch = useDispatch();
+	const username = useSelector((state: UserState) => state.user.username);
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
+	const [responseData, setResponseData] = useState<[]>([]);
 	const [restaurantActive, setRestaurantActive] = useState(false);
 	const [cafeActive, setCafeActive] = useState(false);
 	const [movieActive, setMovieActive] = useState(false);
 	const [readActive, setReadActive] = useState(false);
 	const [picnicActive, setPicnicActive] = useState(false);
 	const [cultureActive, setCultureActive] = useState(false);
+	const [lat, setLat] = useState(36.350475);
+	const [lng, setLng] = useState(127.384834);
 
 	const categoriesList: Category[] = [
 		{ id: 1, label: '음식점', image: restaurant, active: restaurantActive },
@@ -67,6 +79,16 @@ function PickCategory() {
 		e.preventDefault();
 	};
 
+	useEffect(() => {
+		if (navigator.geolocation) {
+			// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			navigator.geolocation.getCurrentPosition(function (position) {
+				setLat(position.coords.latitude);
+				setLng(position.coords.longitude);
+			});
+		}
+	});
+
 	const pickCategory = async () => {
 		const picks: any = [];
 		for (const category of categoriesList) {
@@ -74,26 +96,43 @@ function PickCategory() {
 				picks.push(category);
 			}
 		}
-		console.log(picks);
-		dispatch(UserRecommendAction.recommend());
+		const pickId: any = [];
+		{
+			picks.map((v: any, i: any) => {
+				pickId.push(v.id);
+			});
+		}
+		console.log(pickId);
+		const dataPayload = {
+			username: username,
+			spotCategory: pickId,
+			userLat: lat,
+			userLng: lng,
+		};
 
-		// const requestInfo = {
-		// 	url: '',
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-type': 'application/json',
-		// 	},
-		// 	data: {},
-		// };
-		// try {
-		// 	const submitPickList = await axios(requestInfo);
-		// 	console.log(submitPickList);
-		// 	console.log('선택완료');
-		// } catch (err) {
-		// 	console.log('안됐잖아');
-		// 	console.log(err);
-		// }
+		const requestInfo = {
+			url: 'https://j8b205.p.ssafy.io/api/hybrid',
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			},
+			data: dataPayload,
+		};
+		try {
+			const pickRequest = await axios(requestInfo);
+			const recommendList = pickRequest.data;
+			setResponseData(recommendList);
+			props.receiveResponse(recommendList);
+			console.log(recommendList);
+			dispatch(recommend({ isRecommend: true }));
+			console.log('선택완료');
+		} catch (err) {
+			console.log('안됐잖아');
+			console.log(err);
+		}
 	};
+
 	return (
 		<>
 			<Fotter>

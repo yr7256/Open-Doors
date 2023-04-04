@@ -31,16 +31,19 @@ import Mylocation from './Components/MyLocation/Mylocation';
 import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
 import Help from './Components/Help/Help';
+import Admin from './Components/Admin/Admin';
+import AdminDetail from './Components/Admin/AdminDetail';
 
 type UserState = {
 	user: {
 		isLogged: boolean;
+		accessToken: string;
 	};
 };
 
 function App() {
 	const dispatch = useDispatch();
-
+	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
 
 	const handleResize = () => {
@@ -56,7 +59,6 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		const accessToken = localStorage.getItem('accessToken');
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
@@ -90,7 +92,7 @@ function App() {
 	const getData = async () => {
 		try {
 			const response = await axios.get('/api/spots');
-			// console.log(response.data.spots);
+			console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {
 			console.log(error);
@@ -106,6 +108,8 @@ function App() {
 			<Routes>
 				{/* <Route path="/*" element={<NotFound />} /> */}
 				<Route path="/*" element={<Map mapdata={mapdata} />} />
+				<Route path="/admin/*" element={<Admin mapdata={mapdata}/>} />
+				<Route path="/admin/:id" element={<AdminDetail />} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />

@@ -37,3 +37,11 @@
   left: 50%;
   transform:translateX(-50%);
 }
+
+.modalInfo {
+  padding: 10px 15px 0 15px;
+}
+
+.close {
+  font-size: 30px;
+}

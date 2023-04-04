@@ -103,6 +103,7 @@ const NewLocation = () => {
 					spotTelNumber: registerData.registerMap.spotTelNumber,
 					spotLat: state?.lat,
 					spotLng: state?.lng,
+					username: localStorage.getItem('username')
 				},
 				sfInfos: registerData.registerMap.checkedList,
 			};
@@ -120,7 +121,7 @@ const NewLocation = () => {
 					},
 				}
 			);
-			// console.log(response);
+			console.log(response);
 		} catch (err) {
 			console.error(err);
 		}

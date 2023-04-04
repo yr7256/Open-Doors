@@ -12,6 +12,7 @@ import GoBackPage from '../../Components/Menu/goBackPage';
 import Footer from '../../Components/Menu/Footer';
 
 function MapDetail() {
+	const [placeReviewRate, setPlaceReviewRate] = useState('');
 	const [imageUrl, setImageUrl] = useState<any>([]);
 	const [placeDetail, setPlaceDetail] = useState<[]>([]);
 	const [placeName, setPlaceName] = useState('');
@@ -63,6 +64,17 @@ function MapDetail() {
 		// 			.catch((err) => console.log(err))
 		// 	);
 		// }
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// 리뷰 개수, 리뷰 별점 가져오기
+	useEffect(() => {
+		axios
+			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
+			.then((res) => {
+				setPlaceReviewRate(res.data.data.length);
+			})
+			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

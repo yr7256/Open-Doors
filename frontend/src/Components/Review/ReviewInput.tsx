@@ -60,7 +60,6 @@ function ReviewInput() {
 			Array.from(selectedFiles).forEach((img) => formData.append('reviewImages', img));
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
-			console.log(id, username, starScore, review);
 			formData.append('reviewDto', blob);
 
 			if (selectedFiles.length === 0) {
@@ -138,7 +137,6 @@ function ReviewInput() {
 						</StarContainer>
 					</div>
 				</div>
-
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-6">
 						<P>리뷰 작성하기</P>

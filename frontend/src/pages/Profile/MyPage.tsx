@@ -41,8 +41,7 @@ function MyPage() {
 			<Line />
 			<MyImg />
 			<UserInfo />
-			<Logout />
-			<P>기부포인트 1000P</P>
+			{/* <Logout /> */}
 			<ThickLine />
 			<div className="grid grid-cols-12 gap-1" onClick={moveMyInfo}>
 				<div className="col-start-2 col-span-2">
@@ -72,7 +71,6 @@ function MyPage() {
 				</div>
 			</div>
 			<MyLine />
-
 		</>
 	);
 }
