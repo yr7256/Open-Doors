@@ -33,7 +33,7 @@ export const DonationCard = styled.div`
 	width: 100%;
 	padding: 5%;
 	background-color: white;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 	margin-bottom: 5%;
 `;
 
@@ -57,4 +57,16 @@ export const ReasonText = styled.div`
 export const PointsChangeText = styled.div<{ isNegative: boolean }>`
 	font-size: 1rem;
 	color: ${({ isNegative }) => (isNegative ? '#6393cb' : '#dd3e3e')};
+`;
+
+export const NoDataDiv = styled.div`
+	height: 50vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #d9d9d9;
+	font-size: 1rem;
+	// align-text: center;
+	& > div {
+	}
 `;

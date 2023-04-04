@@ -38,7 +38,7 @@ function MyDonation() {
 				</div>
 			</Head>
 			<Line />
-			<MyDonationHeader totalPoints={totalPoints}></MyDonationHeader>
+			<MyDonationHeader totalPoint={totalPoints}></MyDonationHeader>
 			<DonationLine />
 			<MyDonationBody cardDatas={cardDatas}></MyDonationBody>
 			<Footer />

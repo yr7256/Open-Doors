@@ -10,6 +10,7 @@ import {
 	ContentRow,
 	ReasonText,
 	PointsChangeText,
+	NoDataDiv,
 } from '../../styles/Profile/MyDonationStyled';
 
 type UserState = {
@@ -27,18 +28,45 @@ interface MyDonationBodyProps {
 function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
 	const userName = useSelector((state: UserState) => state.user.username);
 	const name = useSelector((state: UserState) => state.user.name);
+	// cardDatas = [
+	// 	{
+	// 		createdAt: '2023-04-05',
+	// 		source: '배리어프리 장소 등록',
+	// 		pointChange: 100,
+	// 	},
+	// 	{
+	// 		createdAt: '2023-04-05',
+	// 		source: '대전교통약자이동지원센터',
+	// 		pointChange: -100,
+	// 	},
+	// 	{
+	// 		createdAt: '2023-04-05',
+	// 		source: '배리어프리 장소 등록',
+	// 		pointChange: 100,
+	// 	},
+	// ];
 
-	const cardComponents = cardDatas
-		? cardDatas.map((item, index) => (
-				<DonationCard key={index}>
-					<DateText>{item.date}</DateText>
-					<ContentRow>
-						<ReasonText>{item.reason}</ReasonText>
-						<PointsChangeText isNegative={item.pointsChange < 0}>{item.pointsChange}</PointsChangeText>
-					</ContentRow>
-				</DonationCard>
-		  ))
-		: null;
+	function formatDate(date: string): string {
+		const [year, month, day] = date.split('-');
+		const shortYear = year.slice(2);
+		return `${shortYear}.${month}.${day}`;
+	}
+
+	const cardComponents = cardDatas ? (
+		cardDatas.map((item, index) => (
+			<DonationCard key={index}>
+				<DateText>{formatDate(item.createdAt)}</DateText>
+				<ContentRow>
+					<ReasonText>{item.source}</ReasonText>
+					<PointsChangeText isNegative={item.pointChange < 0}>
+						{item.pointChange < 0 ? item.pointChange : `+${item.pointChange}`}
+					</PointsChangeText>
+				</ContentRow>
+			</DonationCard>
+		))
+	) : (
+		<NoDataDiv>기부 포인트 내역 정보가 없습니다.</NoDataDiv>
+	);
 	// const cardComponents = cardDatas.map((item, index) => (
 	// 	<DonationCard key={index}>
 	// 		<DateText>{item.date}</DateText>

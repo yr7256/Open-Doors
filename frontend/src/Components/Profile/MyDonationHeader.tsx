@@ -5,10 +5,10 @@ import MyDonationCard from './MyDonationCard';
 import { MyDonationBodyStyled, MyTotalPointStyled } from '../../styles/Profile/MyDonationStyled';
 
 interface MyDonationHeaderProps {
-	totalPoints: number;
+	totalPoint: number;
 }
 
-function MyDonationHeader({ totalPoints }: MyDonationHeaderProps) {
+function MyDonationHeader({ totalPoint }: MyDonationHeaderProps) {
 	return (
 		<>
 			<MyTotalPointStyled>
@@ -16,7 +16,7 @@ function MyDonationHeader({ totalPoints }: MyDonationHeaderProps) {
 					<span>보유</span>
 				</div>
 				<div>
-					<em>{totalPoints ? totalPoints : 0} P</em>
+					<em>{totalPoint ? totalPoint : 0} P</em>
 				</div>
 			</MyTotalPointStyled>
 		</>

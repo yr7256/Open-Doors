@@ -18,8 +18,8 @@ type UserState = {
 };
 
 function MyDonationCard() {
-	const userName = useSelector((state: UserState) => state.user.username);
-	const name = useSelector((state: UserState) => state.user.name);
+	// const userName = useSelector((state: UserState) => state.user.username);
+	// const name = useSelector((state: UserState) => state.user.name);
 	const [pointsChange, setPointsChange] = useState(0);
 	const isNegative = pointsChange < 0;
 
