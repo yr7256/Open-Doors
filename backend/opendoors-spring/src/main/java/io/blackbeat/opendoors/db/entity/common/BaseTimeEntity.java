@@ -1,6 +1,6 @@
 package io.blackbeat.opendoors.db.entity.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @EntityListeners(value = {AuditingEntityListener.class})
 @MappedSuperclass
 public abstract class BaseTimeEntity {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt; // 생성 시간
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDateTime createdAt;
 }
