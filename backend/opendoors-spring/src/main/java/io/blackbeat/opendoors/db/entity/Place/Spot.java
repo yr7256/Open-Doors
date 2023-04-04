@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -72,6 +73,7 @@ public class Spot {
     private List<SpotSfInfo> spotSfInfos = new ArrayList<>();
 
     // 승인여부
+    @ColumnDefault("Denied")
     private String state;
 
     private String username;
