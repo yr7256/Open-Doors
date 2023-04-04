@@ -115,6 +115,9 @@ public class ReviewController {
     public CommonDto<Object> getReviewByUserName(@PathVariable String username){
         try{
             List<Review> reviews  = reviewService.findReivewByName(username);
+            for(Review review : reviews){
+                review.setSpotName(reviewService.findReviewById(review.getSpotId()).getSpotName());
+            }
             return CommonDto.of("200", username + " 님이 등록한 리뷰를 조회합니다.", reviews);
         }catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
