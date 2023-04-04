@@ -39,7 +39,7 @@ function DonationForm() {
 		handleSubmit();
 		setTimeout(() => {
 			setIsButtonClicked(false);
-		}, 1000);
+		}, 500);
 	};
 	// http://localhost:8000/api/user/point/{userName};
 

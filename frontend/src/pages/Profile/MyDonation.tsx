@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Head, Line, Title } from '../../styles/Menu/NavStyle';
 import GoBackPage from '../../Components/Menu/goBackPage';
 import Footer from '../../Components/Menu/Footer';
+import MyDonationBody from '../../Components/Profile/MyDonationBody';
+import MyDonationHeader from '../../Components/Profile/MyDonationHeader';
+import axios from 'axios';
+import { DonationLine } from '../../styles/Donation/DonationStyled';
 
 function MyDonation() {
+	const [totalPoints, setTotalPoints] = useState(0);
+	const [cardDatas, setCardDatas] = useState([]);
+
+	useEffect(() => {
+		const fetchDonations = async () => {
+			try {
+				const response = await axios.get('YOUR_API_URL'); // 😀 APICALL 수정 필요
+				setTotalPoints(response.data.totalPoints);
+				setCardDatas(response.data.cardDatas);
+			} catch (error) {
+				console.error('Error fetching donations:', error);
+			}
+		};
+
+		fetchDonations();
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -17,7 +38,9 @@ function MyDonation() {
 				</div>
 			</Head>
 			<Line />
-			<p>기부내역</p>
+			<MyDonationHeader totalPoints={totalPoints}></MyDonationHeader>
+			<DonationLine />
+			<MyDonationBody cardDatas={cardDatas}></MyDonationBody>
 			<Footer />
 		</>
 	);

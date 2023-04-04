@@ -152,13 +152,13 @@ export const Button = styled.button`
 export const DonationButton = styled.button`
 	margin-top: 15%;
 	background-color: #fff;
-	border-radius: 12px;
+	border-radius: 4px;
 	border: 2px solid #3b82f6;
 	padding: 10px 15px;
 	color: #3b82f6;
 	// margin-top: 10px;
 	align-self: flex-end;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.1s ease-in-out;
 	width: 100%;
 
 	&:hover {
