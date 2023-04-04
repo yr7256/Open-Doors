@@ -9,14 +9,14 @@ import call from '../../../assets/img/call.png';
 
 //barrierfree 아이콘 import
 import charge from '../../../assets/img/Barrierfree/charge.png';
-import disabledElv from '../../../assets/img/Barrierfree/disabled-elevator.png';
-import elevator from '../../../assets/img/Barrierfree/elevator.png';
-import family from '../../../assets/img/Barrierfree/family.png';
-import firstFloor from '../../../assets/img/Barrierfree/first-floor.png';
-import guideDog from '../../../assets/img/Barrierfree/guidedog.png';
-import parking from '../../../assets/img/Barrierfree/parking.png';
-import toilet from '../../../assets/img/Barrierfree/toilet.png';
-import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
+import disabledElv from '../../../assets/img/Barrierfree/WheelChair Elevator.png';
+import elevator from '../../../assets/img/Barrierfree/Elevator.png';
+import family from '../../../assets/img/Barrierfree/Several people.png';
+import firstFloor from '../../../assets/img/Barrierfree/First Floor.png';
+import guideDog from '../../../assets/img/Barrierfree/Guide Dog.png';
+import parking from '../../../assets/img/Barrierfree/Free Parking.png';
+import toilet from '../../../assets/img/Barrierfree/Disabled Toilet.png';
+import wheelchair from '../../../assets/img/Barrierfree/WheelChair.png';
 
 function DetailHome() {
 	const { id } = useParams();

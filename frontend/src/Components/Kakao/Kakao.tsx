@@ -5,12 +5,32 @@ import Topbar from '../Topbar/Topbar';
 import { Link, useNavigate, Route, Routes } from 'react-router-dom';
 // import Detail from '../DetailPage/Detail';
 import Modal from '../Menu/Modal';
+import WheelChairElevator from '../../assets/img/Barrierfree/WheelChair Elevator.png';
+import Elevator from '../../assets/img/Barrierfree/Elevator.png';
+import Severalpeople from '../../assets/img/Barrierfree/Several people.png';
+import FirstFloor from '../../assets/img/Barrierfree/First Floor.png';
+import GuideDog from '../../assets/img/Barrierfree/Guide Dog.png';
+import FreeParking from '../../assets/img/Barrierfree/Free Parking.png';
+import DisabledToilet from '../../assets/img/Barrierfree/Disabled Toilet.png';
+import WheelChair from '../../assets/img/Barrierfree/WheelChair.png';
+import star from '../../assets/img/star.png';
+import axios from 'axios';
 
 const { kakao } = window;
 
 interface MapProps {
 	mapdata: any;
 }
+const sfImages: { [key: string]: string } = {
+	'WheelChair Elevator': WheelChairElevator,
+	Elevator: Elevator,
+	'Several people': Severalpeople,
+	'First Floor': FirstFloor,
+	'Guide Dog': GuideDog,
+	'Free Parking': FreeParking,
+	'Disabled Toilet': DisabledToilet,
+	WheelChair: WheelChair,
+};
 
 const Kakao = (props: MapProps) => {
 	const { mapdata } = props;
@@ -65,6 +85,7 @@ const Kakao = (props: MapProps) => {
 				searchForm?.addEventListener('click', function (e) {
 					e.preventDefault();
 					// searchPlaces();
+					searchPlaces();
 					console.log('검색');
 				});
 
@@ -89,13 +110,19 @@ const Kakao = (props: MapProps) => {
 				// 	}
 				// };
 
-				// const searchPlaces = () => {
-				// 	const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
+				const searchP = async (keyword: string) => {
+					try {
+						const response = await axios.get(`api/spots/search/${encodeURIComponent(keyword)}`);
+						console.log(response);
+					} catch (error) {
+						console.log(error);
+					}
+				};
 
-				// 	if (!keyword.replace(/^\s+|\s+$/g, '')) {
-				// 		alert('키워드를 입력해주세요!');
-				// 		return false;
-				// 	}
+				const searchPlaces = () => {
+					const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
+					searchP(keyword);
+				};
 
 				// 	// 여기서 검색 들어감
 				// 	ps.keywordSearch(keyword, placesSearchCB);
@@ -235,8 +262,9 @@ const Kakao = (props: MapProps) => {
 				};
 
 				for (let i = 0; i < mapdata.length; i++) {
-					// console.log(mapdata[i]);
-					displayMarker(mapdata[i], i);
+					if (mapdata[i].state === 'access') {
+						displayMarker(mapdata[i], i);
+					}
 				}
 
 				clusterer.addMarkers(markers);
@@ -322,17 +350,19 @@ const Kakao = (props: MapProps) => {
 			<div id="map" />
 			<Modal id="marker" title={detailData.id} show={modalState} handleClose={() => closeModal()}>
 				<div className="modalInfo" onClick={goDetailpage}>
-					<p className="spotname">{detailData.spotName}</p>
-					<p>
-						{detailData.reviewScore} | 리뷰수 : {detailData.reviewCount}
-					</p>
+					<h1 className="spotname">{detailData.spotName}</h1>
+					<div className="bfImgs">
+						<img src={star} className="smallIcon" alt="" />
+						<p>
+							{detailData.reviewScore} / 5 | 리뷰수 : {detailData.reviewCount}
+						</p>
+					</div>
 					<p className="spotaddress">{detailData.spotAddress}</p>
 					<p>{detailData.spotTelNumber}</p>
-					<p>장애인 이용 가능 정보는 여기에 넣습니다.</p>
-					<div>
+					<div className="bfImgs">
 						{detailData?.spotSfInfos?.map((item: any) => (
 							<div key={item.id}>
-								<p>{item.sfInfo.sfName}</p>
+								<img className="Icon" src={sfImages[item.sfInfo.sfName]} alt="" />
 							</div>
 						))}
 					</div>
