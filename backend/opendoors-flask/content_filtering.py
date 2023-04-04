@@ -1,13 +1,3 @@
-'''
-작성 목록
-1. 거리계산 맨하탄거리. 하버사인거리는 라이브러리로 대체 (km로 나옴)
-
-2. 시설 코사인 유사도 (0-1 사이 유사도로 나옴)
-2-1. 시설 코사인 유사도 계산 최적화 위한 유저정보배열 0값 제거 로직
-
-3. 
-'''
-
 from sklearn.metrics.pairwise import cosine_similarity
 from haversine import haversine
 from math import radians, log10
@@ -60,7 +50,7 @@ def content_based_recom(ref_arr, spot_matrix, category=None):
     scores_sum = sum_scores(facility_scores, manhattan_scores, rating_scores) # 0-30의 스코어가 나온다.
 
     score_id_mapped_list = [(score/30, spotId, manhattan_dist) for score, spotId, manhattan_dist in zip(scores_sum, facility_spotIds, manhattan_distances)] # 
-    # print('최종변환리스트')
+    
     
     # res = sorted(score_id_mapped_list, reverse=True)
     # [(환산합산점수0-1, pk, 맨하탄거리)...] 로 되어있는 모든 장소의의 배열이 나옴. top10개로 추리는 과정 필요.

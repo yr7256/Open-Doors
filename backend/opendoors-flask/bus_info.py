@@ -3,12 +3,15 @@ import xmltodict
 
 def reformat_arrival_data(item, bus_number_plates):
     bus_stop_data = item.get('bus_stop_data')
+    # print(item)
     
-    bus_stop_id = bus_stop_data.get('ARO_BUSSTOP_ID')
+    bus_stop_id = bus_stop_data.get('busId')
     service_key = 'C9z58j3DHtsZw5I9cnrhloQo11QBrDQ05LYrSPVUc12zxYjlWK6jr6ALUqoNbQwMEyb3CToq5tMgaaa4rqlFcg%3D%3D'
     url = f'http://openapitraffic.daejeon.go.kr/api/rest/arrive/getArrInfoByUid?serviceKey={service_key}&arsId={bus_stop_id}'
     
+    # print(url)
     res = requests.get(url)
+    # print(res)
     bus_stop_arr_info = xmltodict.parse(res.content).get('ServiceResult').get('msgBody').get('itemList')
 
     # 정류장 기본정보로 묶여야할 item

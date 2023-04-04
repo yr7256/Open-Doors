@@ -1,35 +1,24 @@
 '''
 예상 추천 시나리오
 1. 세부정보 눌러서 자동으로 나오는 item 기반 유사도 추천 (시설 정보는 근데.. 유저가 필요하다고 한거랑 유사도 맞춰주는게 맞지 않나? )
-
 2. 카테고리를 눌러서 유저기반 추천을 받는 메인 추천기능
 '''
 from flask import Flask, request, redirect, jsonify, Blueprint, abort
-from flask_mysqldb import MySQL
-# import pymysql
 import json
-import ast
 from haversine import haversine
 
 import numpy as np
 import pandas as pd
 
-from db_utils import get_all_bus_stops_from_database, get_all_low_floor_bus_from_database, create_bus_stop_table, insert_bus_stop_data, create_bus_table, insert_bus_data
+
 from content_filtering import content_based_recom
 from colab_filtering import colab_filtering, calc_expected_rating, filtering_by_cat_list
 from views_module import transform_dto_to_spot_arr, transform_dto_to_spot_matrix, transform_dto_to_ref_user_arrs, transform_dto_to_user_matrixes, verify_recom_reason, transform_dto_to_review_count_arr
 from bus_info import reformat_arrival_data
+
 app = Flask(__name__)
 recom_bp = Blueprint('recom', __name__, url_prefix='/recom')
-
-# MySQL 연결 설정
-app.config['MYSQL_HOST'] = '192.168.31.134'
-app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_USER'] = 'seongRoot'
-app.config['MYSQL_PASSWORD'] = 'b205b205@SEONG'
-app.config['MYSQL_DB'] = 'opendoors'
-
-mysql = MySQL(app)
+app.config['JSON_AS_ASCII'] = False
 
 @app.route('/')
 def index():
@@ -41,7 +30,7 @@ def index():
         return e1
 
 
-# @app.route('/post_test/', methods=['POST'])
+
 @recom_bp.route('/post_test', methods=['POST'])
 def post_test():
     try:
@@ -56,7 +45,6 @@ def post_test():
 
 # 기준이 되는 장소의 pk
 # 해당 장소와 같은 카테고리의 비슷한 장소 추천해주는 함수.
-# @app.route('/content_based', methods=['POST'] )
 @recom_bp.route('/content_based', methods=['POST'])
 def content_recom():
     try:
@@ -167,39 +155,7 @@ def hybrid_recom():
 
 
 
-@recom_bp.route('/write_bus_stop_data', methods=['POST'])
-def write_bus_stop_data():
-    try:
-        bus_stop_file_name = 'bus_stop.xlsx'
-        bus_stop_df = pd.read_excel(bus_stop_file_name)
-
-        bus_file_name = 'low_floor_bus_dup_removed.xlsx'
-        bus_df = pd.read_excel(bus_file_name)
-        print(11)
-
-        create_bus_stop_table(mysql)
-        print(22)
-        bus_stop_data_to_insert = bus_stop_df[['ARO_BUSSTOP_ID', 'BUSSTOP_NM', 'GPS_LATI', 'GPS_LONG']].values.tolist()
-        insert_bus_stop_data(mysql, bus_stop_data_to_insert)
-        print(33)
-
-
-        create_bus_table(mysql)
-        bus_data_to_insert = bus_df[['CAR_REG_NO']].values.tolist()
-        insert_bus_data(mysql, bus_data_to_insert)
-        return 
-    
-    except Exception as e:
-        print(e)
-        abort(500, str(e))
-
-
-
-
-
-
-
-@recom_bp.route('/bus_arr_info', methods=['POST'])
+@recom_bp.route('/busInfo', methods=['POST'])
 def fetch_bus_stop_info():
     '''
     json 형식 
@@ -219,15 +175,25 @@ def fetch_bus_stop_info():
     ]
     '''
     data = request.json
+
+    # print(data)
+    
+    buses = data.get('buses')
+    busStations = data.get('busStations')
     spot_lat = data.get('lat') # 이름 보고 바꿔야함.
     spot_lng = data.get('lng') # 이름 보고 바꿔야함.
-    bus_stop_datas = get_all_bus_stops_from_database(mysql) # 모든 버스정류장 데이터를 불러옴
-    bus_data_set = get_all_low_floor_bus_from_database(mysql) # 모든 버스 데이터를 불러옴
+
+    bus_stop_datas = json.loads(busStations) # {'id': 5381, 'busId': 82190, 'busName': '군인아파트', 'busLat': 36.410587, 'busLng': 127.33727} busId가 정류장 이름.
+    buses = json.loads(buses) # {'id': 2714, 'busNumPad': '충북70자7013'}
+    spot_lat = json.loads(spot_lat) # 36.314535529385
+    spot_lng = json.loads(spot_lng) # 127.38279265779
+
+    bus_data_set = { item.get('busNumPad') for item in buses}
     arr_datas = []
     
     bus_stop_within_500m = []
     for bus_stop in bus_stop_datas:
-        bus_stop_coor = (bus_stop['lat'], bus_stop['lng']) # 바뀔 수 있음.
+        bus_stop_coor = (bus_stop['busLat'], bus_stop['busLng']) # 바뀔 수 있음.
         spot_coor = (spot_lat, spot_lng)
         
         haversine_dist = haversine(bus_stop_coor, spot_coor, unit='m')
@@ -240,22 +206,17 @@ def fetch_bus_stop_info():
         arrival_data = reformat_arrival_data(bus_stop_data, bus_data_set)
         arr_datas.append(arrival_data)
     
+    # print(arr_datas)
+    # result = json.dumps(arr_datas, ensure_ascii=False)
+
     return jsonify(arr_datas)
 
-
-# @recom_bp.route('/migrate_bus_data', methods=['POST'])
-# def fetch_bus_stop_info():
-
-
-
-
-# 아래에 위치해야함.
 app.register_blueprint(recom_bp)
-# app.register_blueprint()
+
 
 # 모든 host로부터의 요청 허용. 시스템 허용 옵션도 받는다.
 # terminal에서 export FLASK_RUN_HOST=0.0.0.0 으로 해야 설정이 먹는거 수정해야함.
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8081, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 

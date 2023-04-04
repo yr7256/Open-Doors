@@ -19,10 +19,6 @@ def calculate_similarity(user_profile, building_profiles):
     return similarities
 
 
-user_profile = np.array([1, 0, 0, 0, 0, 0, 0, 0, 1])
-# building_profiles = np.array([[1, 0,]])
-
-
 def binary_vectorize(arr):
     # 8개짜리 vector 배열만듬
     bin_vector = np.zeros(8)
@@ -128,15 +124,13 @@ def create_rating_vector(arr, spot_matrix_length):
             rating_dict[spotId] = review_score
         
         for key in rating_dict:
-            print('일단 이건 됨.')
+            
             rating_vector[int(key)-1] = rating_dict.get(key)
         
         return rating_vector.tolist()
     except Exception as e:
         print(e)
-        print(arr)
-        print(rating_dict)
-        print(rating_vector)
+        
 
 # like_arr = [1,5,9,11]
 # dislike_arr = [1,20,23,25]
@@ -157,9 +151,7 @@ def create_like_vector(like_arr, dislike_arr, spot_matrix_length):
 
     except Exception as e:
         print(e)
-        print(type(like_arr))
-        print(type(dislike_arr))
-        print(type(spot_matrix_length))
+        
 
 
 
@@ -187,31 +179,12 @@ def verify_recom_reason(recom_arr, manhattan_distances, facility_scores, expecte
     
     manhattan_distances, facility_scores, expected_rating_arr, spot_review_count_arr  idx가 pk를 대체. 0부터 시작.
     '''
-    print(facility_scores[:10])
-    print(expected_rating_arr[:10])
-    print(spot_review_count_arr[:10])
-    print(manhattan_distances[:10])
-
     result = []
 
     for recom_item in recom_arr:
         pk = recom_item[1]
         idx = pk - 1
-        print('\n\n')
-        print(f'{idx}번장소의 추천 이유를 알아보자')
-        print(manhattan_distances[idx])
-        
-        print('배려시설유사도')
-        print(facility_scores[idx])
 
-        print('방문하기 좋은위치?')
-        print(manhattan_distances[idx]*1000,-2)
-
-        print('취향유사도?')
-        print(expected_rating_arr[idx])
-
-        print('우리동네핫플')
-        print(spot_review_count_arr[idx])
         if facility_scores[idx] > 0.5:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '배려시설유사도가 높아요!'])
         elif manhattan_distances[idx] < 0.5:
