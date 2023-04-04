@@ -11,7 +11,7 @@ export const StyledBurger = styled.div<INav>`
 	height: 2rem;
 	right: 2vh;
 	cursor: pointer;
-	z-index: 50;
+	z-index: 151;
 	@media {
 		display: flex;
 		justify-content: space-around;
@@ -85,7 +85,7 @@ export const Ul = styled.ul<INav>`
 		width: 66vw;
 		padding-top: 3.5rem;
 		transition: transform 0.3s ease-in-out;
-		z-index: 19;
+		z-index: 150;
 		justify-content: normal;
 	}
 `;
@@ -108,10 +108,20 @@ export const Li = styled.li`
 export const Image = styled.img`
 	width: 120px;
 	height: 120px;
+	text-align: center;
+	margin: 16px auto;
 `
 
 export const MenuImg = styled.div`
 	display: flex;
 	justify-content: center;
 	margin-bottom: 5vh;
+	flex-direction: column;
+	text-align: center;
+`
+
+export const Line = styled.div`
+	height: 2px;
+	margin: 0 12px 0 12px;
+	background-color: #d9d9d9;
 `
