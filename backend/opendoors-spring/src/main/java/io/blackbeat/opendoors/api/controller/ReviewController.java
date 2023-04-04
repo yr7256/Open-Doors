@@ -47,7 +47,7 @@ public class ReviewController {
         review.setSpotId(reviewDto.getSpotId());
         review.setUsername(reviewDto.getUsername());
         review.setUserId(userRepo.findByUsername(reviewDto.getUsername()).getId());
-
+        
         Spot spot = spotRepo.findById(review.getSpotId()).orElseThrow();
         spot.getReviews().add(review);
         if(spot.getReviewCount() == 0){
@@ -103,6 +103,7 @@ public class ReviewController {
                 responseReview.setSfInfoIds(ids);
                 responseReview.setUsername(review.getUsername());
                 responseReview.setSpotId(review.getSpotId());
+                responseReview.setImages(review.getImages());
                 responseReviews.add(responseReview);
             }
             return CommonDto.of("200", "리뷰등록을 조회합니다.", responseReviews);

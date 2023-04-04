@@ -1,5 +1,6 @@
 package io.blackbeat.opendoors.api.response;
 
+import io.blackbeat.opendoors.db.entity.Resource.Image;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,4 +14,5 @@ public class ResponseReview {
     private double reviewScore;
     private String reviewContent;
     private Collection<Long> sfInfoIds = new ArrayList<>();
+    private Collection<Image> images = new ArrayList<>();
 }
