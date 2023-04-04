@@ -35,6 +35,7 @@ const sfImages: { [key: string]: string } = {
 const Kakao = (props: MapProps) => {
 	const { mapdata } = props;
 	const [search, setSearch] = useState('');
+	const [searchData, setSearchData] = useState([]) as any[];
 	const [detailData, setDetailData] = useState([]) as any[];
 	const [modalState, setModalState] = useState(false);
 	const navigate = useNavigate();
@@ -110,7 +111,7 @@ const Kakao = (props: MapProps) => {
 				// 	}
 				// };
 
-				const searchP = async (keyword: string) => {
+				const searchKeyword = async (keyword: string) => {
 					try {
 						const response = await axios.get(`api/spots/search/${encodeURIComponent(keyword)}`);
 						console.log(response);
@@ -121,7 +122,7 @@ const Kakao = (props: MapProps) => {
 
 				const searchPlaces = () => {
 					const keyword = (document.getElementById('keyword') as HTMLInputElement).value;
-					searchP(keyword);
+					searchKeyword(keyword);
 				};
 
 				// 	// 여기서 검색 들어감
