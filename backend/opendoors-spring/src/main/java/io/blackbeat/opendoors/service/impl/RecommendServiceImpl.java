@@ -31,6 +31,7 @@ public class RecommendServiceImpl implements RecommendService {
     private final UserRepo userRepo;
     private final SpotRepo spotRepo;
 
+
     @Override
     public JSONObject getContentBasedData(RecommendContentDto recommendContentDto) throws JSONException, JsonProcessingException {
         Spot userSpot = spotRepo.findById(recommendContentDto.getSpotId()).orElseThrow();
