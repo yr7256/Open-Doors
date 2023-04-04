@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { DonationFormOuterDiv, InputBox, Button, DonationButton } from '../../styles/Donation/DonationStyled';
+import axios from 'axios';
+
+type UserState = {
+	user: {
+		username: string;
+		accessToken: string;
+		name: string;
+	};
+};
+
+interface ApiResponse {
+	resultCode: string;
+	message: string;
+	data: number;
+}
 
 function DonationForm() {
+	const userName = useSelector((state: UserState) => state.user.username);
+	const name = useSelector((state: UserState) => state.user.name);
+
 	const donationThisMonth = 12000;
 	const totalDonation = 150000;
-	const nickname = 'name';
 
 	const [donationPoint, setDonationPoint] = useState(0);
 	const [currentPoint, setCurrentPoint] = useState(500);
@@ -18,10 +36,44 @@ function DonationForm() {
 	// 제출하는 axios함수 필요.
 	const handleDonate = () => {
 		setIsButtonClicked(true);
+		handleSubmit();
 		setTimeout(() => {
 			setIsButtonClicked(false);
 		}, 1000);
 	};
+	// http://localhost:8000/api/user/point/{userName};
+
+	const handleSubmit = () => {
+		if (donationPoint <= currentPoint) {
+			axios
+				.post<ApiResponse>('http://url/api/donation', { donationPoint }) // 😀 요청 수정 필요함.
+				.then((response) => {
+					const { data } = response.data;
+					setCurrentPoint(currentPoint - donationPoint);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		} else {
+			alert('기부 포인트는 현재 보유한 포인트 이하로 설정해주세요.');
+		}
+	};
+
+	// const;
+	useEffect(() => {
+		console.log(userName);
+		if (userName) {
+			axios
+				.get<ApiResponse>(`http://localhost:8000/api/user/point/${userName}`)
+				.then((response) => {
+					const { data } = response.data;
+					setCurrentPoint(data);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	}, [userName]);
 
 	return (
 		<DonationFormOuterDiv>
@@ -40,7 +92,7 @@ function DonationForm() {
 				</div>
 				<div className="blueDiv verticalSpace">
 					<div className="flexRow">
-						<span>현재 {nickname}님의 </span>
+						<span>현재 {name}님의 </span>
 
 						<em>보유 포인트: {currentPoint.toLocaleString()}P</em>
 					</div>
@@ -49,7 +101,11 @@ function DonationForm() {
 					<div className="flexCol">
 						<div className="flexRow">
 							기부할 포인트:{' '}
-							<InputBox value={donationPoint} onChange={(e) => setDonationPoint(parseInt(e.target.value))}></InputBox>P
+							<InputBox
+								value={donationPoint}
+								onChange={(e) => setDonationPoint(e.target.value === '' ? 0 : parseInt(e.target.value))}
+							></InputBox>
+							P
 						</div>
 						<Button onClick={handleUseAllPoint}>전액사용</Button>
 					</div>
