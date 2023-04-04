@@ -40,7 +40,7 @@ public class RecomController {
 
         JSONObject json = recommendService.getContentBasedData(recommendContentDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:5000/recom/content_based", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/content_based", request, String.class);
 
         // Return the response from Django to the client
         return response;
@@ -53,7 +53,7 @@ public class RecomController {
 
         JSONObject json = recommendService.getHybridData(recommendCollabDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:5000/recom/hybrid", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/hybrid", request, String.class);
 
         // Return the response from Django to the client
         return response;
