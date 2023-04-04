@@ -21,14 +21,30 @@ export const H4 = styled.h4``;
 export const Icon = styled.img`
 	width: 36px;
 	height: 36px;
-	margin: 0;
+	margin: 8px;
 `;
 
 export const BigIcon = styled.img`
 	width: 40px;
 	height: 40px;
+	margin-right: 4px;
 `;
 
-export const WriteReview = styled.h2`
+export const WriteReview = styled.h1`
 	color: #ffd600;
+`;
+
+export const Container = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`;
+
+export const Names = styled.h4`
+	margin-top: 19px;
+	/* margin-bottom: 8px; */
+`;
+
+export const Menus = styled.p`
+	margin-bottom: 8px;
+	font-size: 22px;
 `;

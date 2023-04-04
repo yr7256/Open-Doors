@@ -17,8 +17,8 @@ function UserInfo() {
 
 	return (
 		<>
-			<CenterP>{userName}</CenterP>
 			<CenterP>{name}</CenterP>
+			<p>기부포인트</p>
 		</>
 	);
 }
