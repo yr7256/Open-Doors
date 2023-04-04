@@ -91,6 +91,9 @@ function DetailHome() {
 		return idx.sfInfo.id;
 	});
 
+	// 정보가 하나인 경우
+	console.log(mapBarrierFree);
+
 	const barrierFree = BarrierFreeList.filter((v: any) => {
 		return mapBarrierFree.includes(v.id);
 	});
@@ -98,7 +101,6 @@ function DetailHome() {
 	const barrierFreeNames = barrierFree.map((v: any) => v.sfName);
 	const barrierFreeImages = barrierFree.map((v: any) => v.image);
 
-	console.log(placeMenus);
 	return (
 		<>
 			<div className="grid grid-cols-12 gap-1">
@@ -150,6 +152,10 @@ function DetailHome() {
 							{barrierFreeNames.map((v: any) => (
 								<Names key={v}>{v}</Names>
 							))}
+							<br />
+							<br />
+							<br />
+							<br />
 						</div>
 					</div>
 				)}
