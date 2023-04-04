@@ -4,6 +4,7 @@ import io.blackbeat.opendoors.api.request.SpotDto;
 import io.blackbeat.opendoors.api.request.SpotRegistDto;
 import io.blackbeat.opendoors.api.response.CommonDto;
 import io.blackbeat.opendoors.api.response.SpotListDto;
+import io.blackbeat.opendoors.api.response.SpotSearchDto;
 import io.blackbeat.opendoors.api.response.SpotsDto;
 import io.blackbeat.opendoors.db.entity.Place.Menu;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
@@ -41,6 +42,13 @@ public class SpotController {
     private final StorageService storageService;
     private final UserService userService;
     private final SfInfoRepo sfInfoRepo;
+
+    @GetMapping("/spots/search/{title}")
+    public SpotSearchDto getSpotsContaintTitle(@PathVariable String title){
+        List<Spot> spotList = spotService.getSpotsByTitle(title);
+        return SpotSearchDto.of("200" ,  "모든 장소의 목록입니다." , spotList);
+    }
+
     @GetMapping("/spots")
     public SpotsDto getSpots(){
         List<Spot> spotList = spotService.getSpots();
