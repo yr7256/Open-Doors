@@ -35,7 +35,6 @@ const sfImages: { [key: string]: string } = {
 const Kakao = (props: MapProps) => {
 	const { mapdata } = props;
 	const [search, setSearch] = useState('');
-	const [searchData, setSearchData] = useState([]) as any[];
 	const [detailData, setDetailData] = useState([]) as any[];
 	const [modalState, setModalState] = useState(false);
 	const navigate = useNavigate();
@@ -52,7 +51,6 @@ const Kakao = (props: MapProps) => {
 
 	const goDetailpage = () => {
 		navigate(`/map/detail/${detailData?.id}`);
-		// <Link to={`/map/${detailData.spotPlaceId}`} />
 	};
 
 	useEffect(() => {
@@ -64,7 +62,6 @@ const Kakao = (props: MapProps) => {
 
 		const container = document.getElementById('map');
 		const map = new kakao.maps.Map(container, options);
-		// kakao.maps.event.addListener(map, 'tilesloaded', () => {
 
 		let listenerFired = false;
 
@@ -85,36 +82,20 @@ const Kakao = (props: MapProps) => {
 				const searchForm = document.getElementById('submit_btn');
 				searchForm?.addEventListener('click', function (e) {
 					e.preventDefault();
-					// searchPlaces();
 					searchPlaces();
 					console.log('검색');
 				});
 
-				// const placesSearchCB = (data: any, status: kakao.maps.services.Status, pagination: string) => {
-				// 	if (status === kakao.maps.services.Status.OK) {
-				// 		displayPlaces(data);
-
-				// 		displayPagination(pagination);
-
-				// 		const bounds = new kakao.maps.LatLngBounds();
-				// 		for (let i = 0; i < data.length; i++) {
-				// 			displayMarker(data[i], i);
-				// 			// bounds.extend(new kakao.maps.LatLng(data[i].spotLat, data[i].spotLng));
-				// 			bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-				// 		}
-
-				// 		map.setBounds(bounds);
-				// 	} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-				// 		alert('검색 결과가 존재하지 않습니다.');
-				// 	} else if (status === kakao.maps.services.Status.ERROR) {
-				// 		alert('검색 결과 중 오류가 발생했습니다.');
-				// 	}
-				// };
-
 				const searchKeyword = async (keyword: string) => {
 					try {
 						const response = await axios.get(`api/spots/search/${encodeURIComponent(keyword)}`);
-						console.log(response);
+						console.log(response.data.spots);
+						removeMarker();
+						for (let i = 0; i < response.data.spots.length; i++) {
+							if (response.data.spots[i].state === 'access') {
+								displayMarker(response.data.spots[i], i);
+							}
+						}
 					} catch (error) {
 						console.log(error);
 					}
@@ -125,122 +106,13 @@ const Kakao = (props: MapProps) => {
 					searchKeyword(keyword);
 				};
 
-				// 	// 여기서 검색 들어감
-				// 	ps.keywordSearch(keyword, placesSearchCB);
-				// };
-
-				// const displayPlaces = (places: any) => {
-				// 	const listEl = document.getElementById('placesList') as HTMLElement;
-				// 	const menuEl = document.getElementById('menu_wrap') as HTMLElement;
-				// 	const fragment = document.createDocumentFragment();
-				// 	removeAllChildNods(listEl);
-				// 	removeMarker();
-				// 	for (let i = 0; i < places.length; i++) {
-				// 		// const placePosition = new kakao.maps.LatLng(places[i].spotLat, places[i].spotLng);
-				// 		const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-				// 		const marker = addMarker(placePosition, i);
-				// 		const itemEl = getListItem(i, places[i]);
-
-				// 		fragment.appendChild(itemEl);
-				// 	}
-
-				// 	listEl?.appendChild(fragment);
-				// 	menuEl.scrollTop = 0;
-				// };
-
-				// const getListItem = (index: number, places: any) => {
-				// 	const el = document.createElement('li');
-
-				// 	let itemStr =
-				// 		'<span class="markerbg marker_' +
-				// 		(index + 1) +
-				// 		'">' +
-				// 		(index + 1) +
-				// 		'</span>' +
-				// 		'<div class="info">' +
-				// 		'   <h5>' +
-				// 		'이름 :' +
-				// 		places.place_name +
-				// 		'</h5>';
-
-				// 	if (places.road_address_name) {
-				// 		itemStr += '    <span>' + '주소 :' + places.road_address_name + '</span>';
-				// 	} else {
-				// 		itemStr += '    <span>' + places.address_name + '</span>';
-				// 	}
-
-				// 	itemStr += '  <span class="tel">' + '전화번호 : ' + places.phone + '</span>' + '</div>';
-
-				// 	el.innerHTML = itemStr;
-				// 	el.className = 'item';
-
-				// 	return el;
-				// };
-
-				// const addMarker = (position: kakao.maps.LatLng, idx: number) => {
-				// 	const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
-				// 	const imageSize = new kakao.maps.Size(36, 37);
-				// 	const imgOptions = {
-				// 		spriteSize: new kakao.maps.Size(36, 691),
-				// 		spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10),
-				// 		offset: new kakao.maps.Point(13, 37),
-				// 	};
-
-				// 	const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
-
-				// 	const marker = new kakao.maps.Marker({
-				// 		position,
-				// 		image: markerImage,
-				// 	});
-
-				// 	marker.setMap(map);
-				// 	markers.push(marker);
-
-				// 	return marker;
-				// };
-
 				const removeMarker = () => {
 					for (let i = 0; i < markers.length; i++) {
 						markers[i].setMap(null);
+						clusterer.clear();
 					}
 					markers = [];
-					// console.log(markers);
 				};
-
-				// const displayPagination = (pagination: any) => {
-				// 	const paginationEl = document.getElementById('pagination') as HTMLElement;
-				// 	const fragment = document.createDocumentFragment();
-				// 	while (paginationEl?.hasChildNodes()) {
-				// 		const lastChild = paginationEl.lastChild as ChildNode;
-				// 		paginationEl.removeChild(lastChild);
-				// 	}
-
-				// 	for (let i = 1; i <= pagination.last; i++) {
-				// 		const el = document.createElement('a');
-				// 		el.href = '#';
-				// 		el.innerHTML = String(i);
-
-				// 		if (i === pagination.current) {
-				// 			el.className = 'on';
-				// 		} else {
-				// 			el.onclick = (function (page: number) {
-				// 				return function () {
-				// 					pagination.gotoPage(page);
-				// 				};
-				// 			})(i);
-				// 		}
-
-				// 		fragment.appendChild(el);
-				// 	}
-				// 	paginationEl?.appendChild(fragment);
-				// };
-
-				// const removeAllChildNods = (el: HTMLElement) => {
-				// 	while (el.hasChildNodes()) {
-				// 		const lastChild = el.lastChild as ChildNode;
-				// 		el.removeChild(lastChild);
-				// 	}
-				// }
 
 				const displayMarker = (data: any, idx: number) => {
 					const marker = new kakao.maps.Marker({
