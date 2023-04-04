@@ -68,7 +68,7 @@ function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
 		<NoDataDiv>기부 포인트 내역 정보가 없습니다.</NoDataDiv>
 	);
 
-	console.log(`asdasd${cardDatas} ${typeof cardDatas}`);
+	// console.log(`asdasd${cardDatas} ${typeof cardDatas}`);
 	// const cardComponents = cardDatas.map((item, index) => (
 	// 	<DonationCard key={index}>
 	// 		<DateText>{item.date}</DateText>

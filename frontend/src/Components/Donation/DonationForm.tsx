@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { DonationFormOuterDiv, InputBox, Button, DonationButton } from '../../styles/Donation/DonationStyled';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 type UserState = {
 	user: {
@@ -17,15 +17,34 @@ interface ApiResponse {
 	data: number;
 }
 
+interface MyPointResponse {
+	data: { totalPoint: number };
+}
+
+interface FundraiserInfoResponse {
+	data: {
+		donationAmountOnMonth: number;
+		totalDonationAmount: number;
+	};
+}
+
+interface FundraiserInfoErrorResponse {
+	data: {
+		code: number;
+		message: string;
+		'error type': string;
+	};
+}
+
 function DonationForm() {
 	const userName = useSelector((state: UserState) => state.user.username);
 	const name = useSelector((state: UserState) => state.user.name);
 
-	const donationThisMonth = 12000;
-	const totalDonation = 150000;
+	const [totalDonation, setTotalDonation] = useState(0);
+	const [donationThisMonth, setDdonationThisMonth] = useState(0);
 
 	const [donationPoint, setDonationPoint] = useState(0);
-	const [currentPoint, setCurrentPoint] = useState(500);
+	const [currentPoint, setCurrentPoint] = useState(0);
 	const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
 	// useEffect() fetch donation info
 
@@ -41,17 +60,23 @@ function DonationForm() {
 			setIsButtonClicked(false);
 		}, 500);
 	};
-	// http://localhost:8000/api/user/point/{userName};
 
 	const handleSubmit = () => {
 		if (donationPoint <= currentPoint) {
+			const accessToken = localStorage.getItem('accessToken');
+			const headers = {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			};
+			const data = { donationAmount: donationPoint };
 			axios
-				.post<ApiResponse>('http://url/api/donation', { donationPoint }) // 😀 요청 수정 필요함.
+				.put<FundraiserInfoResponse>('https://j8b205.p.ssafy.io/api/donation', data, { headers }) // 😀 요청 수정 필요함.
 				.then((response) => {
-					const { data } = response.data;
+					// const { data } = response.data;
 					setCurrentPoint(currentPoint - donationPoint);
 				})
-				.catch((error) => {
+				.catch((error: AxiosError<FundraiserInfoErrorResponse>) => {
+					console.log(error.response?.data);
 					console.error(error);
 				});
 		} else {
@@ -59,20 +84,38 @@ function DonationForm() {
 		}
 	};
 
-	// const;
+	// const
 	useEffect(() => {
 		console.log(userName);
+		const accessToken = localStorage.getItem('accessToken');
+		const headers = {
+			'Content-type': 'application/json',
+			Authorization: `Bearer ${accessToken}`,
+		};
+
+		// 유저정보가 있으면, 현재 가진 포인트를 끌어오는 함수.
 		if (userName) {
 			axios
-				.get<ApiResponse>(`http://localhost:8000/api/user/point/${userName}`)
+				.get<MyPointResponse>(`https://j8b205.p.ssafy.io/api/point`, { headers })
 				.then((response) => {
 					const { data } = response.data;
-					setCurrentPoint(data);
+					setCurrentPoint(data.totalPoint);
 				})
 				.catch((error) => {
 					console.error(error);
 				});
 		}
+		// 전체 모금액, 이번달 모금액을 전달받는 함수.
+		axios
+			.get<FundraiserInfoResponse>(`https://j8b205.p.ssafy.io/api/point`)
+			.then((res) => {
+				const { data } = res.data;
+				setDdonationThisMonth(data.donationAmountOnMonth);
+				setTotalDonation(data.totalDonationAmount);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	}, [userName]);
 
 	return (
