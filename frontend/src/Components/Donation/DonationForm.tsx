@@ -18,14 +18,12 @@ interface ApiResponse {
 }
 
 interface MyPointResponse {
-	data: { totalPoint: number };
+	totalPoint: number;
 }
 
 interface FundraiserInfoResponse {
-	data: {
-		donationAmountOnMonth: number;
-		totalDonationAmount: number;
-	};
+	donationAmountOnMonth: number;
+	totalDonationAmount: number;
 }
 
 interface FundraiserInfoErrorResponse {
@@ -92,24 +90,32 @@ function DonationForm() {
 			'Content-type': 'application/json',
 			Authorization: `Bearer ${accessToken}`,
 		};
+		// console.log(`토근 잘옴 ${accessToken}`);
 
 		// 유저정보가 있으면, 현재 가진 포인트를 끌어오는 함수.
 		if (userName) {
 			axios
 				.get<MyPointResponse>(`https://j8b205.p.ssafy.io/api/point`, { headers })
 				.then((response) => {
-					const { data } = response.data;
+					const data = response.data;
+					// console.log(data);
+					// console.log(response);
 					setCurrentPoint(data.totalPoint);
 				})
 				.catch((error) => {
 					console.error(error);
 				});
 		}
+
 		// 전체 모금액, 이번달 모금액을 전달받는 함수.
+		// console.log('모금액받아오자');
 		axios
-			.get<FundraiserInfoResponse>(`https://j8b205.p.ssafy.io/api/point`)
+			.get<FundraiserInfoResponse>(`https://j8b205.p.ssafy.io/api/donation`, { headers })
 			.then((res) => {
-				const { data } = res.data;
+				// console.log(res);
+				// console.log(res.data);
+				// console.log('asdasd');
+				const data = res.data;
 				setDdonationThisMonth(data.donationAmountOnMonth);
 				setTotalDonation(data.totalDonationAmount);
 			})
