@@ -44,7 +44,8 @@ function LoginInput() {
 		console.log(loginPayload);
 
 		const loginPost = {
-			url: 'https://j8b205.p.ssafy.io/api/user/login',
+			url: '/api/user/login',
+			// url: 'http://localhost:8080/api/user/login',
 			method: 'POST',
 			data: loginPayload,
 		};
@@ -58,6 +59,7 @@ function LoginInput() {
 
 			// 로컬 스토리지에 액세스 토큰 저장
 			localStorage.setItem('accessToken', accessToken);
+			localStorage.setItem('username', username);
 			// setCookie(refreshToken);
 
 			// dispatch를 위해 get해서 유저정보 불러오기

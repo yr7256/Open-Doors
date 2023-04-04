@@ -77,5 +77,5 @@
     "prettier": "^2.8.4",
     "tailwindcss": "^3.2.7"
   },
-  "proxy": "https://j8b205.p.ssafy.io/"
+  "proxy": "https://j8b205.p.ssafy.io"
 }

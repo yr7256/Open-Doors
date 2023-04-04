@@ -1,0 +1,45 @@
+.Admincontainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.Admincontent {
+  border: #cccccc 1px solid;
+}
+
+.AdminIconImgs {
+  display: flex;
+  flex-direction: row;
+}
+
+.AdminIconImgs> * {
+  margin: 0 5px 0 5px;
+}
+
+.Admincontent > * {
+  margin: 20px;
+}
+
+.AdminBtnStyle {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 0 0;
+}
+
+.AdminBtnStyle > button {
+  width: 200px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+.bfContainer > * {
+  margin: 10px 0 0 0;
+}
+
+.checkBoxContainer {
+  margin: 5px 0 5px 0;
+}
