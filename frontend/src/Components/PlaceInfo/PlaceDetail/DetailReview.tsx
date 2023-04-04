@@ -12,10 +12,10 @@ function DetailReview() {
 
 	useEffect(() => {
 		axios
-			.get(`http://192.168.31.134:8080/api/review/${id}`)
+			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then((response) => {
-				console.log(response.data);
-				setDetailData(response.data.data);
+				console.log(response);
+				setDetailData(response.data);
 				response.data.data.map((reviewid: any) => {
 					console.log(reviewid);
 				});

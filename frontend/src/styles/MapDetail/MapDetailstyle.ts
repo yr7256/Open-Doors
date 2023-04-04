@@ -47,6 +47,7 @@ export const H4 = styled.h4`
 export const PhotoContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	padding: 1rem;
 `;
 
 export const MainImage = styled.div`
