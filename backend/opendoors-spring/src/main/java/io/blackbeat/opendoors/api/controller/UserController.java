@@ -1,12 +1,15 @@
 package io.blackbeat.opendoors.api.controller;
 
 
+import io.blackbeat.opendoors.api.request.LikeDisLikeDto;
 import io.blackbeat.opendoors.api.request.ChangePasswordDto;
 import io.blackbeat.opendoors.api.request.LoginDto;
 import io.blackbeat.opendoors.api.request.PointDto;
 import io.blackbeat.opendoors.api.request.RegistDto;
 import io.blackbeat.opendoors.api.response.CommonDto;
 import io.blackbeat.opendoors.api.response.TokenDto;
+import io.blackbeat.opendoors.db.entity.DisLike;
+import io.blackbeat.opendoors.db.entity.LikeSpot;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Role;
@@ -15,6 +18,7 @@ import io.blackbeat.opendoors.db.repository.SfInfoRepo;
 import io.blackbeat.opendoors.db.repository.SpotRepo;
 import io.blackbeat.opendoors.db.repository.UserRepo;
 import io.blackbeat.opendoors.service.JwtService;
+import io.blackbeat.opendoors.service.SpotService;
 import io.blackbeat.opendoors.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +41,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    private final SpotService spotService;
     private final JwtService jwtService;
     private final UserRepo userRepo;
     private final SpotRepo spotRepo;
@@ -55,9 +60,26 @@ public class UserController {
     @GetMapping("/user/access/list/{username}")
     public CommonDto<Object> getRegistedSpotList(@PathVariable String username) {
         List<Spot> spotList = spotRepo.findAllByUsername(username);
-        return null;
+        return CommonDto.of("200", username + "님이 획득한 포인트 입니다..", spotList);
     }
 
+    @PostMapping("/user/like")
+    public CommonDto<Object> likeDisLikeSpot(LikeDisLikeDto likeDisLikeDto){
+        User user = userService.getUser(likeDisLikeDto.getUsername());
+        if(likeDisLikeDto.isLikeOrDisLike() == true){
+            LikeSpot likeSpot = new LikeSpot();
+            likeSpot.setSpotId(likeDisLikeDto.getSpotId());
+            likeSpot.setUsername(likeSpot.getUsername());
+            user.getLikeSpot().add(likeSpot);
+        }
+        else{
+            DisLike dislikeSpot = new DisLike();
+            dislikeSpot.setSpotId(likeDisLikeDto.getSpotId());
+            dislikeSpot.setUsername(dislikeSpot.getUsername());
+            user.getDisLikeSpot().add(dislikeSpot);
+        }
+        return CommonDto.of("200", "좋아요 싫어요 정보가 저장되었습니다.", likeDisLikeDto.getUsername());
+    }
     @GetMapping("/user/point/{username}")
     public CommonDto<Object> getPoints(@PathVariable String username) {
         User user = userRepo.findByUsername(username);

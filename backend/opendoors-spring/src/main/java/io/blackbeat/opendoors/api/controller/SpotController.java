@@ -10,9 +10,11 @@ import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.Resource.Image;
+import io.blackbeat.opendoors.db.entity.User;
 import io.blackbeat.opendoors.db.repository.SfInfoRepo;
 import io.blackbeat.opendoors.service.SpotService;
 import io.blackbeat.opendoors.service.StorageService;
+import io.blackbeat.opendoors.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -37,6 +39,7 @@ import java.util.List;
 public class SpotController {
     private final SpotService spotService;
     private final StorageService storageService;
+    private final UserService userService;
     private final SfInfoRepo sfInfoRepo;
     @GetMapping("/spots")
     public SpotsDto getSpots(){
@@ -89,6 +92,8 @@ public class SpotController {
             spot.setState("Denied");
         }
         spotService.saveSpot(spot);
+        User user = userService.getUser(spotRegistDto.getUsername());
+        user.setPoint(user.getPoint() + 100);
         return CommonDto.of("200" , "{}의 장소의 배리어프리 등급이 {}로 설정되었습니다.", spotRegistDto.getId()  + " " +rate);
     }
     @GetMapping("/spot/{id}")

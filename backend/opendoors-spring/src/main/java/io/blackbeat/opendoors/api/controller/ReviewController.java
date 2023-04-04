@@ -20,6 +20,7 @@ import io.blackbeat.opendoors.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -109,4 +110,15 @@ public class ReviewController {
         return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
+
+    @GetMapping(value = "review/get/{username}")
+    public CommonDto<Object> getReviewByUserName(@PathVariable String username){
+        try{
+            List<Review> reviews  = reviewService.findReivewByName(username);
+            return CommonDto.of("200", username + " 님이 등록한 리뷰를 조회합니다.", reviews);
+        }catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
 }
