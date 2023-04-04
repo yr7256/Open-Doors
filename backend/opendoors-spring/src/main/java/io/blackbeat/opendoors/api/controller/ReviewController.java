@@ -39,7 +39,7 @@ public class ReviewController {
     private final StorageService storageService;
     private final SpotRepo spotRepo;
     private final UserRepo userRepo;
-    @PostMapping("review/save")
+    @PostMapping("/review/save")
     public CommonDto<Object> saveReview(@RequestPart ReviewDto reviewDto , @RequestPart(value = "reviewImages" ,required = false) List<MultipartFile> images) {
 
         Review review = new Review();
@@ -68,7 +68,7 @@ public class ReviewController {
 
 
                 List<String> imageLocations = new ArrayList<>();
-                String postName = String.valueOf(user.getId());
+                String postName = String.valueOf(user.getUsername());
                 if(images != null) {
                 List<String> results  = storageService.saveFiles(images, postName);
 
