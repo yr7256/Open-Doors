@@ -22,7 +22,7 @@ type UserState = {
 };
 
 interface MyDonationBodyProps {
-	cardDatas: Donation[]; // 여기서는 이미 정의된 Donation 인터페이스를 사용했습니다.
+	cardDatas: Donation[] | null; // 여기서는 이미 정의된 Donation 인터페이스를 사용했습니다.
 }
 
 function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
@@ -67,6 +67,8 @@ function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
 	) : (
 		<NoDataDiv>기부 포인트 내역 정보가 없습니다.</NoDataDiv>
 	);
+
+	console.log(`asdasd${cardDatas} ${typeof cardDatas}`);
 	// const cardComponents = cardDatas.map((item, index) => (
 	// 	<DonationCard key={index}>
 	// 		<DateText>{item.date}</DateText>

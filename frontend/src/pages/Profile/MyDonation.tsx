@@ -4,19 +4,25 @@ import GoBackPage from '../../Components/Menu/goBackPage';
 import Footer from '../../Components/Menu/Footer';
 import MyDonationBody from '../../Components/Profile/MyDonationBody';
 import MyDonationHeader from '../../Components/Profile/MyDonationHeader';
-import axios from 'axios';
 import { DonationLine } from '../../styles/Donation/DonationStyled';
+import axios from 'axios';
 
 function MyDonation() {
 	const [totalPoints, setTotalPoints] = useState(0);
-	const [cardDatas, setCardDatas] = useState([]);
+	const [cardDatas, setCardDatas] = useState(null);
 
 	useEffect(() => {
 		const fetchDonations = async () => {
 			try {
-				const response = await axios.get('YOUR_API_URL'); // 😀 APICALL 수정 필요
-				setTotalPoints(response.data.totalPoints);
-				setCardDatas(response.data.cardDatas);
+				const accessToken = localStorage.getItem('accessToken');
+				const headers = {
+					'Content-type': 'application/json',
+					Authorization: `Bearer ${accessToken}`,
+				};
+				const res = await axios.get('https://j8b205.p.ssafy.io/api/point', { headers });
+
+				setTotalPoints(res.data.totalPoint);
+				setCardDatas(res.data.pointRecords);
 			} catch (error) {
 				console.error('Error fetching donations:', error);
 			}
