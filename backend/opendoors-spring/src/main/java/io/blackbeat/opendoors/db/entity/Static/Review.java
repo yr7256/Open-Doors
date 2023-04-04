@@ -16,7 +16,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class Review{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +26,7 @@ public class Review {
     private double reviewScore;
     private String reviewContent;
     private String spotName;
-    @CreatedDate
-    private LocalDateTime createdDate;
-
+    private String creatTime;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Image> images = new ArrayList<>();

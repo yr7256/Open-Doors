@@ -24,6 +24,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ReviewController {
         review.setSpotId(reviewDto.getSpotId());
         review.setUsername(reviewDto.getUsername());
         review.setUserId(userRepo.findByUsername(reviewDto.getUsername()).getId());
-
+        
         Spot spot = spotRepo.findById(review.getSpotId()).orElseThrow();
         spot.getReviews().add(review);
         if(spot.getReviewCount() == 0){
@@ -78,6 +79,7 @@ public class ReviewController {
                     review.getImages().add(img);
                 }
                 }
+                review.setCreatTime(LocalDateTime.now().toString());
             reviewService.saveReview(review);
             spotService.saveSpot(spot);
             userService.saveUser(user);
@@ -103,6 +105,7 @@ public class ReviewController {
                 responseReview.setSfInfoIds(ids);
                 responseReview.setUsername(review.getUsername());
                 responseReview.setSpotId(review.getSpotId());
+                responseReview.setImages(review.getImages());
                 responseReviews.add(responseReview);
             }
             return CommonDto.of("200", "리뷰등록을 조회합니다.", responseReviews);
@@ -117,6 +120,7 @@ public class ReviewController {
             List<Review> reviews  = reviewService.findReivewByName(username);
             for(Review review : reviews){
                 review.setSpotName(reviewService.findReviewById(review.getSpotId()).getSpotName());
+                reviews.add(review);
             }
             return CommonDto.of("200", username + " 님이 등록한 리뷰를 조회합니다.", reviews);
         }catch (Exception e) {
