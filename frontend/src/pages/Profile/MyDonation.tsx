@@ -12,6 +12,7 @@ function MyDonation() {
 	const [cardDatas, setCardDatas] = useState(null);
 
 	useEffect(() => {
+		console.log('asdasd');
 		const fetchDonations = async () => {
 			try {
 				const accessToken = localStorage.getItem('accessToken');
@@ -19,7 +20,7 @@ function MyDonation() {
 					'Content-type': 'application/json',
 					Authorization: `Bearer ${accessToken}`,
 				};
-				const res = await axios.get('https://j8b205.p.ssafy.io/api/point', { headers });
+				const res = await axios.get('https://j8b205.p.ssafy.io/api/point/record', { headers });
 
 				setTotalPoints(res.data.totalPoint);
 				setCardDatas(res.data.pointRecords);

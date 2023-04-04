@@ -37,7 +37,7 @@ function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
 	// 	{
 	// 		createdAt: '2023-04-05',
 	// 		source: '대전교통약자이동지원센터',
-	// 		pointChange: -100,
+	// 		pointChange: -1000,
 	// 	},
 	// 	{
 	// 		createdAt: '2023-04-05',
