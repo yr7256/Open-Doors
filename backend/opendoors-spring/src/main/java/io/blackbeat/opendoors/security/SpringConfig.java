@@ -3,6 +3,7 @@ package io.blackbeat.opendoors.security;
 
 import io.blackbeat.opendoors.db.repository.UserRepo;
 import io.blackbeat.opendoors.filter.JwtAuthenticationFilter;
+import io.blackbeat.opendoors.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ import static org.springframework.http.HttpMethod.GET;
 public class SpringConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
 //    private final UserRepo userRepo;
 
 //    private final JwtAuthenticationFilter jwtAuthFilter;
@@ -50,9 +52,9 @@ public class SpringConfig {
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
-        http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         http.authenticationProvider(authenticationProvider);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
         return http.build();
     }
 

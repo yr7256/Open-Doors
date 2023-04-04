@@ -46,7 +46,6 @@ public class RecomController {
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/content_based", request, String.class);
         String responseBody = response.getBody();
-
         JSONArray jsonArray = new JSONArray(responseBody);
         List<ReponseItemBasedDto> reponseItemBasedDtos = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -58,7 +57,6 @@ public class RecomController {
             reponseItemBasedDto.setDistance(distance);
             reponseItemBasedDtos.add(reponseItemBasedDto);
         }
-        // Return the response from Django to the client
         return reponseItemBasedDtos;
     }
 
@@ -69,10 +67,9 @@ public class RecomController {
 
         JSONObject json = recommendService.getHybridData(recommendCollabDto);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.31.17:5000/recom/hybrid", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/hybrid", request, String.class);
         JSONArray jsonArray = new JSONArray(response.getBody());
         List<ReponseCollabDto> reponseCollabDtos = new ArrayList<>();
-// iterate through the nested arrays and extract the values
         for (int i = 0; i < jsonArray.length(); i++) {
             ReponseCollabDto reponseCollabDto = new ReponseCollabDto();
             JSONArray nestedArray = jsonArray.getJSONArray(i);
@@ -85,7 +82,6 @@ public class RecomController {
             reponseCollabDto.setReason(reason);
             reponseCollabDtos.add(reponseCollabDto);
         }
-        // Return the response from Django to the client
 
 
         return reponseCollabDtos;
