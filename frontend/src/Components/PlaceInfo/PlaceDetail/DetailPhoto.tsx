@@ -20,7 +20,6 @@ function DetailPhoto() {
 					}
 				};
 				a();
-				console.log(imgArr);
 			});
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,13 +28,14 @@ function DetailPhoto() {
 	return (
 		<>
 			<H4>배리어프리 관련 사진을 볼 수 있습니다.</H4>
-			<div className="grid grid-cols-16 gap-1">
-				<div className="col-start-1 col-span-1">
+			<div className="grid grid-cols-12 gap-1">
+				<div className="col-start-2 col-span-10">
 					<PhotoContainer>
 						{placeImage.map((img: any, idx: number) => (
-							<Photo key={img} src={placeImage[idx]} alt="home-image"></Photo>
+							<Photo key={img} src={placeImage[idx]} alt="photo"></Photo>
 						))}
 					</PhotoContainer>
+
 					<br />
 					<br />
 					<br />

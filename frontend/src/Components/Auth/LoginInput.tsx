@@ -52,7 +52,6 @@ function LoginInput() {
 		try {
 			const loginRequest = await axios(loginPost);
 			const accessToken = loginRequest.data.accessToken;
-			dispatch(loginAccount({ username: username, password: password, accessToken: accessToken }));
 
 			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장
 			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
@@ -64,21 +63,22 @@ function LoginInput() {
 			// setCookie(refreshToken);
 
 			// dispatch를 위해 get해서 유저정보 불러오기
-			// axios
-			// 	.get('http://j8b205.p.ssafy.io:8080/api/user/', {
-			// 		headers: {
-			// 			Authorization: `Bearer ${accessToken}`,
-			// 		},
-			// 	})
-			// 	.then((response) => {
-			// 		// setUserDispatch(response);
-			// 		console.log(response.data);
-			// 		const name = response.data.name;
-			// 		dispatch(loginAccount({ username: username, password: password, accessToken: accessToken, name: name }));
-			// 	})
-			// 	.catch((err) => console.log(err));
+			// 'http://j8b205.p.ssafy.io:8080/api/user/'
+			axios
+				.get('https://j8b205.p.ssafy.io/api/user/', {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				})
+				.then((response) => {
+					// setUserDispatch(response);
+					console.log(response.data);
+					const name = response.data.name;
+					dispatch(loginAccount({ username: username, password: password, accessToken: accessToken, name: name }));
+				})
+				.catch((err) => console.log(err));
 
-			navigate('/MyPage');
+			navigate('/map');
 			console.log('로그인이 완료되었습니다.');
 		} catch (err: any) {
 			console.log('로그인 안됐다');

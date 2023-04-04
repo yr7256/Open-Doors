@@ -29,6 +29,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
 	const [height, setHeight] = useState(window.innerHeight * 0.45);
 	const [width, setWidth] = useState(window.innerWidth);
+	const [getChild, setGetChild] = useState<any[]>([]);
 	const isRecommend: any = useSelector((s: any) => s.userRecommend.isRecommend);
 	// console.log(isRecommend);
 	// const handleResize = (event: any, data: any) => {
@@ -56,16 +57,13 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	// 	}
 	// };
 
-  const contentRef = useRef<HTMLDivElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      contentRef.current &&
-      !contentRef.current.contains(event.target as Node)
-    ) {
-      handleClose();
-    }
-  };
+	const handleClickOutside = (event: MouseEvent) => {
+		if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
+			handleClose();
+		}
+	};
 
 	useEffect(() => {
 		document.addEventListener('mousedown', handleClickOutside);
@@ -87,6 +85,10 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 		};
 	}, []);
 
+	const receiveResponse = (e: any) => {
+		setGetChild(e);
+	};
+
 	return (
 		<div className={showHideClassName} id={id}>
 			<ResizableBox
@@ -96,17 +98,21 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 				minConstraints={[width, window.innerHeight * 0.05]}
 				maxConstraints={[width, h]}
 				axis="y"
-				handle={<div className="resize-handle-top"><div className='handle-line'></div></div>}
+				handle={
+					<div className="resize-handle-top">
+						<div className="handle-line"></div>
+					</div>
+				}
 				resizeHandles={['n']}
 				onResize={handleResize}
 			>
 				<div className="modal-content">
 					<span className="close" onClick={handleClose}>
-            ×
-          </span>
+						×
+					</span>
 					{children}
-					{(id === 'recommend' && isRecommend) ? <TodayRecommend /> : null}
-					{(id === 'recommend' && !isRecommend) ? <PickCategory /> : null}
+					{id === 'recommend' && isRecommend ? <TodayRecommend getChild={getChild} /> : null}
+					{id === 'recommend' && !isRecommend ? <PickCategory receiveResponse={receiveResponse} /> : null}
 					{id === 'bookmark' ? <Bookmark /> : null}
 					{id === 'trafficinfo' ? <TrafficInfo /> : null}
 				</div>
