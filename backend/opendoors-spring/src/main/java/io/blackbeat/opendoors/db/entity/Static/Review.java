@@ -16,6 +16,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Review{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

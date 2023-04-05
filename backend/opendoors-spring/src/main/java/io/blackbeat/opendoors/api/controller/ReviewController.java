@@ -47,6 +47,7 @@ public class ReviewController {
         review.setReviewContent(reviewDto.getReviewContent());
         review.setSpotId(reviewDto.getSpotId());
         review.setUsername(reviewDto.getUsername());
+        review.setSpotName(spotService.getSpotById(reviewDto.getSpotId()).getSpotName());
         review.setUserId(userRepo.findByUsername(reviewDto.getUsername()).getId());
         
         Spot spot = spotRepo.findById(review.getSpotId()).orElseThrow();
@@ -117,11 +118,8 @@ public class ReviewController {
     @GetMapping(value = "review/get/{username}")
     public CommonDto<Object> getReviewByUserName(@PathVariable String username){
         try{
-            List<Review> reviews  = reviewService.findReivewByName(username);
-            for(Review review : reviews){
-                review.setSpotName(reviewService.findReviewById(review.getSpotId()).getSpotName());
-                reviews.add(review);
-            }
+            System.out.println(username);
+            List<Review> reviews  = reviewService.findReviewByName(username);
             return CommonDto.of("200", username + " 님이 등록한 리뷰를 조회합니다.", reviews);
         }catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);

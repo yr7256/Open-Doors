@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,8 +25,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findReivewByName(String username) {
+    public List<Review> findReviewByName(String username) {
+        System.out.println(Arrays.toString(reviewRepo.findAllByUsername(username).toArray()));
         return reviewRepo.findAllByUsername(username);
+    }
+
+    @Override
+    public List<Review> findReviewByUserId(Long userId) {
+        return reviewRepo.findAllByUserId(userId);
     }
 
     @Override

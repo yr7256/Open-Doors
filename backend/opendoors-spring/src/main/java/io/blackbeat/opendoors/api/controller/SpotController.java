@@ -63,7 +63,7 @@ public class SpotController {
     }
 
     @GetMapping("/spot/image/{spotId}/{pathName}")
-    public ResponseEntity<Resource> getSpotImage(@PathVariable Long spotId , @PathVariable String pathName , HttpServletRequest request){
+    public ResponseEntity<Resource> getSpotImage(@PathVariable String spotId , @PathVariable String pathName , HttpServletRequest request){
         Resource resource = storageService.loadFileAsResource(String.valueOf(spotId) ,pathName);
         String contentType = null;
         try {

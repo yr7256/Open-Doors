@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ReviewService {
     Review saveReview(Review review);
-    List<Review> findReivewByName(String username);
+    List<Review> findReviewByName(String username);
+    List<Review> findReviewByUserId(Long userId);
     Review findReviewById(Long id);
+
 }
