@@ -43,9 +43,9 @@ function DetailReview() {
 			.then((response) => {
 				setDetailData(response.data.data);
 				const imgArr: any[] = [];
-				response.data.data.map((v: any, i: any) => {
+				response.data.data.map((v: any, i: number) => {
 					const name = v.username;
-					v.images.map((img: any, index: any) => {
+					v.images.map((img: any, index: number) => {
 						console.log(name, img.pathName);
 						const getImage = async () => {
 							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);

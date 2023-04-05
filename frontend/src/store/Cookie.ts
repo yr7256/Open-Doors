@@ -8,7 +8,6 @@ export function setCookie(refresh_token: string) {
 }
 
 export function logout() {
-	console.log('localStorage set logout!');
 	window.localStorage.removeItem('accessToken');
 	cookies.remove('refreshToken');
 }

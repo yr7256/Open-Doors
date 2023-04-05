@@ -14,13 +14,10 @@ type UserState = {
 
 function MyReview() {
 	const [reviewData, setReviewData] = useState<[]>([]);
-	const [placeImage, setPlaceImage] = useState<any>([]);
+	const [placeImage, setPlaceImage] = useState<[]>([]);
 	const [noReview, setNoReview] = useState<string>('');
 	const userName = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
-
-	console.log(userName);
-	// https://j8b205.p.ssafy.io
 
 	useEffect(() => {
 		axios

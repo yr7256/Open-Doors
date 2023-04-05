@@ -29,7 +29,6 @@ function ReviewInput() {
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const { id } = useParams();
 	const navigate = useNavigate();
-	// console.log(id);
 
 	const onChangeReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const currentReview = e.target.value;
@@ -92,27 +91,6 @@ function ReviewInput() {
 		}
 	};
 
-	// 	const requestInfo = {
-	// 		url: 'http://192.168.31.134:8080/api/review/save',
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-type': 'application/json',
-	// 		},
-	// 		data: {
-	// 			spotId: 2,
-	// 			username: 'ssafy8878',
-	// 			reviewScore: starScore,
-	// 			reviewContent: review,
-	// 		},
-	// 	};
-	// 	try {
-	// 		const submitReviewForm = await axios(requestInfo);
-	// 		console.log(submitReviewForm);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
-
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -120,7 +98,6 @@ function ReviewInput() {
 					<div className="col-start-2 col-span-2">
 						<P>별점주기</P>
 					</div>
-					{/* <div className="col-start-4 col-span-2">{starScore}.0</div> */}
 				</div>
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-2">

@@ -13,7 +13,6 @@ type UserState = {
 
 function UserInfo() {
 	const [totalPoints, setTotalPoints] = useState<number>(0);
-	const userName = useSelector((state: UserState) => state.user.username);
 	const name = useSelector((state: UserState) => state.user.name);
 
 	const fetchDonations = async () => {
@@ -24,7 +23,6 @@ function UserInfo() {
 				Authorization: `Bearer ${accessToken}`,
 			};
 			const res = await axios.get('https://j8b205.p.ssafy.io/api/point/record', { headers });
-
 			setTotalPoints(res.data.totalPoint);
 		} catch (error) {
 			console.error('Error fetching donations:', error);

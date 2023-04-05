@@ -2,11 +2,12 @@ import React, { useState, ChangeEvent, useRef } from 'react';
 import axios from 'axios';
 import basicimg from '../../assets/img/basicimg.png';
 import addImage from '../../assets/img/addImage.png';
-import { Image, ProfileImage, ButtonBackground, ButtonImage } from '../../styles/Profile/MyImgstyle';
+import { Image, ProfileImage, ButtonImage } from '../../styles/Profile/MyImgstyle';
 
 function MyEditImg() {
 	const [myImage, setMyImage] = useState(`${basicimg}`);
 	const imageInput = useRef<HTMLInputElement>(null);
+	// 백엔드 미구현
 	const getImage = axios.get('').then((res) => {
 		// console.log(getImage);
 		// // res 형태에 따라 뒤에 null 값이 달라질 수 있음
@@ -18,10 +19,13 @@ function MyEditImg() {
 		// }
 	});
 
-	const onChange = async (e: any) => {
+	const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
-		if (e.target.files[0]) {
-			setMyImage(e.target.files[0]);
+		let file: File | null = null;
+		if (e.target.files && e.target.files.length > 0) {
+			file = e.target.files[0];
+			const imageUrl = URL.createObjectURL(file);
+			setMyImage(imageUrl);
 		}
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -29,7 +33,10 @@ function MyEditImg() {
 				setMyImage(reader.result as string);
 			}
 		};
-		reader.readAsDataURL(e.target.files[0]);
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+
 		try {
 			const formData = new FormData();
 			formData.append('pictures', myImage);

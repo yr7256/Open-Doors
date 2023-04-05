@@ -10,7 +10,6 @@ import picnic from '../../assets/img/picnic.png';
 import read from '../../assets/img/read.png';
 import { recommend } from '../../store/UserRecommend';
 import { useDispatch, useSelector } from 'react-redux';
-import TodayRecommend from './TodayRecommend';
 
 type Category = {
 	id: number;
@@ -90,7 +89,7 @@ function PickCategory(props: any) {
 	});
 
 	const pickCategory = async () => {
-		const picks: any = [];
+		const picks: Category[] = [];
 		for (const category of categoriesList) {
 			if (category.active) {
 				picks.push(category);
@@ -98,7 +97,7 @@ function PickCategory(props: any) {
 		}
 		const pickId: any = [];
 		{
-			picks.map((v: any, i: any) => {
+			picks.map((v: any, i: number) => {
 				pickId.push(v.id);
 			});
 		}

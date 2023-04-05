@@ -22,7 +22,6 @@ type UserState = {
 };
 
 function Withdrawal({ title, alert, closeModal }: Props) {
-	const userId = useSelector((state: UserState) => state.user.username);
 	const password = useSelector((state: UserState) => state.user.password);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const dispatch = useDispatch();

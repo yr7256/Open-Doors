@@ -12,6 +12,11 @@ import parking from '../../../assets/img/Barrierfree/parking.png';
 import toilet from '../../../assets/img/Barrierfree/toilet.png';
 import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
 
+interface SpotType {
+	spotName: string;
+	spotAddress: string;
+}
+
 function DetailRecommend() {
 	const [recommendPlace, setRecommendPlace] = useState<any[]>([]);
 	const { id } = useParams();
@@ -23,8 +28,8 @@ function DetailRecommend() {
 				spotId: id,
 			})
 			.then((res) => {
-				const placeArr: any[] = [];
-				res.data.map((name: any, index: any) => {
+				const placeArr: any = [];
+				res.data.map((name: string, index: number) => {
 					placeArr.push(name);
 					setRecommendPlace(placeArr);
 					// const place = async () => {
@@ -60,7 +65,7 @@ function DetailRecommend() {
 
 	return (
 		<>
-			{spotInfo.map((v: { spot: any; distance: number }, i: number) => (
+			{spotInfo.map((v: { spot: SpotType; distance: number }, i: number) => (
 				<React.Fragment key={i}>
 					<div className="grid grid-cols-12 gap-1">
 						<div className="col-start-2 col-span-10">

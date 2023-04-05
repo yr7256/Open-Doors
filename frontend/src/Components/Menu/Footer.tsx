@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Recomendation from '../../assets/img/recomendation.png';
-import Bookmark from '../../assets/img/Bookmark.png';
 import Transportation from '../../assets/img/transportation.png';
 import My from '../../assets/img/My.png';
 import { FooterBlock, FooterPlace, Image, FooterP, Line } from '../../styles/Menu/FooterStyle';

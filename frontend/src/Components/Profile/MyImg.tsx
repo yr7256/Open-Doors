@@ -5,6 +5,8 @@ import { Image, ProfileImage, ButtonBackground, ButtonImage } from '../../styles
 
 function MyImg() {
 	const [myImage, setMyImage] = useState(`${basicimg}`);
+
+	// 백엔드 미구현
 	const getImage = axios.get('').then((res) => {
 		// console.log(getImage);
 		// // res 형태에 따라 뒤에 null 값이 달라질 수 있음
