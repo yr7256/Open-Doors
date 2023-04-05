@@ -13,6 +13,7 @@ import {
 	Square,
 	Reason,
 	RecommendImage,
+	EndLine,
 } from '../../styles/Recommend/Recommendstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as faRegularThumbsUp } from '@fortawesome/free-regular-svg-icons';
@@ -125,53 +126,45 @@ function TodayRecommend(props: any) {
 
 			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: number) => (
 				<div className="grid grid-cols-16 gap-1" key={i}>
-					<React.Fragment>
-						<div className="col-start-2 col-span-12">
-							<RecommendImage src={recommendImage[i]} alt="recommend-image" />
-						</div>
-						<div className="col-start-2 col-span-12">
-							<SpotName>{v.spot.spotName}</SpotName>
-						</div>
-						<div className="col-start-2 col-span-12">
-							<Ptag>{v.spot.spotAddress}</Ptag>
-						</div>
-						<div className="col-start-2 col-span-12">
-							<Ptag>
-								현재위치에서 <Distance>{v.distance}m</Distance>
-							</Ptag>
-						</div>
-						<div className="col-start-2 col-span-2">
-							<Square>
-								<p>추천</p>
-							</Square>
-						</div>
-						<div className="col-start-4 col-span-7">
-							<Reason>{v.reason}</Reason>
-						</div>
-						<div className="col-start-11 col-span-4">
-							<FontAwesomeIcon
-								style={{ marginRight: '12px', fontSize: '32px' }}
-								icon={recommendGoodArr[i] ? faSolidThumbsUp : faRegularThumbsUp}
-								onClick={() => {
-									const changeArr = recommendGoodArr.slice();
-									changeArr[i] = !changeArr[i];
-									setRecommendGoodArr(changeArr);
-									// 여기서 axios 하기
-									// axios.get('').then().catch();
-								}}
-							/>
-							<FontAwesomeIcon
-								style={{ fontSize: '32px' }}
-								icon={recommendBadArr[i] ? faSolidThumbsDown : faRegularThumbsDown}
-								onClick={() => {
-									const changeArr = recommendBadArr.slice();
-									changeArr[i] = !changeArr[i];
-									setRecommendBadArr(changeArr);
-								}}
-								rotation={90}
-							/>
-						</div>
-					</React.Fragment>
+					<div className="col-start-2 col-span-12">
+						<SpotName>{v.spot.spotName}</SpotName>
+						<Ptag>{v.spot.spotAddress}</Ptag>
+						<Ptag>
+							현재위치에서 <Distance>{v.distance}m</Distance>
+						</Ptag>
+					</div>
+					<RecommendImage src={recommendImage[i]} alt="recommend-image" />
+					<div className="col-start-2 col-span-2">
+						<Square>
+							<p>추천</p>
+						</Square>
+					</div>
+					<div className="col-start-4 col-span-7">
+						<Reason>{v.reason}</Reason>
+					</div>
+					<div className="col-start-11 col-span-4">
+						<FontAwesomeIcon
+							style={{ marginRight: '12px', fontSize: '32px' }}
+							icon={recommendGoodArr[i] ? faSolidThumbsUp : faRegularThumbsUp}
+							onClick={() => {
+								const changeArr = recommendGoodArr.slice();
+								changeArr[i] = !changeArr[i];
+								setRecommendGoodArr(changeArr);
+								// 여기서 axios 하기
+								// axios.get('').then().catch();
+							}}
+						/>
+						<FontAwesomeIcon
+							style={{ fontSize: '32px' }}
+							icon={recommendBadArr[i] ? faSolidThumbsDown : faRegularThumbsDown}
+							onClick={() => {
+								const changeArr = recommendBadArr.slice();
+								changeArr[i] = !changeArr[i];
+								setRecommendBadArr(changeArr);
+							}}
+							rotation={90}
+						/>
+					</div>
 					<br />
 				</div>
 			))}
