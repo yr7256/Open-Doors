@@ -8,7 +8,7 @@ const SearchBar = () => {
 	}
 	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(keyword);
+    // console.log(keyword);
   };
 	return (
 		<form className="header" onSubmit={onSubmit}>
