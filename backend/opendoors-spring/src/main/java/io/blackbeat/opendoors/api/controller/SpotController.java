@@ -66,8 +66,8 @@ public class SpotController {
     }
 
     @GetMapping("/spot/image/{spotId}/{pathName}")
-    public ResponseEntity<Resource> getSpotImage(@PathVariable String spotId , @PathVariable String pathName , HttpServletRequest request){
-        Resource resource = storageService.loadFileAsResource(String.valueOf(spotId) ,pathName);
+    public ResponseEntity<Resource> getSpotImage(@PathVariable String spotId, @PathVariable String pathName, HttpServletRequest request) {
+        Resource resource = storageService.loadFileAsResource(String.valueOf(spotId), pathName);
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -130,6 +130,9 @@ public class SpotController {
     public CommonDto<Object> saveSpot(@RequestPart SpotDto spotDto, @RequestPart(value = "spotImages", required = false) List<MultipartFile> images) {
         ModelMapper modelMapper = new ModelMapper();
         Spot spot = modelMapper.map(spotDto.getSpot(), Spot.class);
+        if (spot.getState() == null || spot.getState().equals("")) {
+            spot.setState("ready");
+        }
         List<String> imageLocations = new ArrayList<>();
         try {
             spotService.saveSpot(spot);

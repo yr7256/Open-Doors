@@ -73,7 +73,6 @@ public class Spot {
     private List<SpotSfInfo> spotSfInfos = new ArrayList<>();
 
     // 승인여부
-    @ColumnDefault("Denied")
     private String state;
 
     private String username;
