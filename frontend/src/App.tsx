@@ -65,32 +65,11 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
-	// useEffect(() => {
-	// 	const cookies = new Cookies();
-	// 	const refreshToken = cookies.get('refresh_token');
-	// 	if (isLogged) {
-	// 		const getAccessToken = async () => {
-	// 			try {
-	// 				const response = await axios.post('', {
-	// 					refreshToken: refreshToken,
-	// 				});
-	// 				// 로컬 스토리지에 엑세스 토큰 저장
-	// 				localStorage.setItem('accessToken', response.data.accessToken);
-	// 			} catch (error) {
-	// 				console.log(error);
-	// 			}
-	// 		};
-	// 		getAccessToken();
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [isLogged]);
-
 	const [mapdata, setMapdata] = useState([]);
 
 	const getData = async () => {
 		try {
 			const response = await axios.get('/api/spots');
-			console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {
 			console.log(error);

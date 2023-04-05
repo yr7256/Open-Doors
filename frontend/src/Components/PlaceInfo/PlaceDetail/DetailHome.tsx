@@ -38,7 +38,6 @@ function DetailHome() {
 	useEffect(() => {
 		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
-			console.log(res.data);
 
 			if (res.data.data.spotAddress === '') {
 				setPlaceLocation('위치 정보가 없습니다.');

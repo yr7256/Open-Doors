@@ -1,12 +1,13 @@
-import { Ul, Li, Image, MenuImg, Line } from '../../styles/Menu/styles';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import basicimg from '../../assets/img/basicimg.png';
 import { logout } from '../../store/Cookie';
 import { logoutAccount } from '../../store/AuthSlice';
-import axios from 'axios';
 import '../../styles/Menu/RightNav.css';
+import { Ul, Li, Image, MenuImg, Line, H4 } from '../../styles/Menu/styles';
+
+//사용한 이미지
 import mylocation from '../../assets/img/recomendation.png';
 import registermap from '../../assets/img/myinfomanage.png';
 import donation from '../../assets/img/donation.png';
@@ -45,12 +46,15 @@ function RightNav(props: Props) {
 				{accessToken ? (
 					<MenuImg>
 						<Image src={myImage} alt="my-image" onClick={() => navigate('/Mypage')} />
-						<p>{username}</p>
+						<h4>{username}</h4>
 					</MenuImg>
 				) : (
 					<>
-						<img src={signUp} alt="sign-up" />
-						<p>아직도 회원가입을 안하셨나요?</p>
+						<MenuImg>
+							<Image src={signUp} alt="sign-up" onClick={() => navigate('/Signup')} />
+							<H4>아직 가입을 안하셨나요?</H4>
+							<H4 onClick={() => navigate('/Signup')}>가입 하러가기</H4>
+						</MenuImg>
 					</>
 				)}
 

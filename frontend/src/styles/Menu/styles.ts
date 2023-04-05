@@ -110,7 +110,7 @@ export const Image = styled.img`
 	height: 120px;
 	text-align: center;
 	margin: 16px auto;
-`
+`;
 
 export const MenuImg = styled.div`
 	display: flex;
@@ -118,10 +118,15 @@ export const MenuImg = styled.div`
 	margin-bottom: 5vh;
 	flex-direction: column;
 	text-align: center;
-`
+`;
 
 export const Line = styled.div`
 	height: 2px;
 	margin: 0 12px 0 12px;
 	background-color: #d9d9d9;
-`
+`;
+
+export const H4 = styled.p`
+	font-size: 22px;
+	margin-top: 4px;
+`;
