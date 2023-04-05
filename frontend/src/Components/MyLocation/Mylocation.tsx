@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Head, Line } from '../../styles/Kakao/SearchAddress';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import mapdata from '../../csvjson.json';
+// import mapdata from '../../csvjson.json';
 import { MylocContainer } from '../../styles/MyLocation/Mylocation';
 import WheelChairElevator from '../../assets/img/Barrierfree/disabled-elevator.png';
 import Elevator from '../../assets/img/Barrierfree/elevator.png';
@@ -26,6 +26,7 @@ const sfImages: { [key: string]: string } = {
 };
 
 const Mylocation = () => {
+	const [mapdata, setMapdata] = useState([]) as any;
 	const navigate = useNavigate();
 	const getData = async () => {
 		// event.preventDefault();
@@ -39,6 +40,7 @@ const Mylocation = () => {
 				// }
 			);
 			console.log(response);
+			setMapdata(response.data.spots);
 		} catch (err) {
 			console.error(err);
 		}

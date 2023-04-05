@@ -39,6 +39,7 @@ const NewLocation = () => {
 	// const [checkedList, setCheckedList] = useState<string[]>([]);
 
 	const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
 		const filesArray = Array.from(event.target.files || []);
 		setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...filesArray]);
 		dispatch(RegisterMapAction.addTospotImages(selectedFiles));
@@ -184,8 +185,8 @@ const NewLocation = () => {
 						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">사진등록</label>
 					</div>
 					<div className="md:w-2/3 filebox">
-						<Button>
-							<label htmlFor="file">파일찾기</label>
+						<Button type="button" className='FileBtnStyle'>
+							<label className='file-label' htmlFor="file">파일찾기</label>
 							<input
 								type="file"
 								id="file"
