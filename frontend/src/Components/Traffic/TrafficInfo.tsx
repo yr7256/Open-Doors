@@ -36,7 +36,7 @@ const TrafficInfo = () => {
 
 	const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
 
-	const trafficComponents = trafficInfoArr.length ? (
+	const trafficComponents = trafficInfoArr ? (
 		trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
 	) : (
 		<div>주변 교통정보가 없습니다.</div>
@@ -46,7 +46,7 @@ const TrafficInfo = () => {
 	function LinkHandler() {
 		window.location.href = 'tel:1588-1668';
 	}
-
+	// 😀 모바일에서는 전화. 웹에서는 링크거는 동작
 	// function LinkHandler() {
 	// 	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 

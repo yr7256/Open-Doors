@@ -27,6 +27,11 @@ export const MyDonationBodyStyled = styled.div`
 	background-color: white;
 	// box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	// margin-bottom: 5%;
+
+	.cards-container {
+		overflow-y: auto;
+		max-height: 80vh;
+	}
 `;
 
 export const DonationCard = styled.div`
