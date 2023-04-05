@@ -42,11 +42,13 @@ function DetailReview() {
 			.then((response) => {
 				console.log(response.data.data);
 				setDetailData(response.data.data);
-				const imgArr: any[] = [];
+
 				response.data.data.map((v: any, i: number) => {
 					const name = v.username;
 					console.log(v);
 					v.images.map((img: any, index: number) => {
+						console.log(name, img.pathName);
+						const imgArr: any[] = [];
 						const getImage = async () => {
 							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
 							imgArr.push(requestImage.config.url);
@@ -62,6 +64,7 @@ function DetailReview() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	console.log(detailData);
+	console.log(placeImage);
 
 	return (
 		<>
@@ -118,7 +121,7 @@ function DetailReview() {
 										<div className="col-start-2 col-span-10">
 											<PhotoContainer>
 												{placeImage.map((value: string, index: number) => (
-													<ReviewImage src={placeImage[index]} key={value} alt="review-image"></ReviewImage>
+													<ReviewImage src={placeImage[index]} key={index} alt="review-image"></ReviewImage>
 												))}
 											</PhotoContainer>
 										</div>
@@ -135,6 +138,11 @@ function DetailReview() {
 					</>
 				)}
 			</ReviewArea>
+
+			<br />
+			<br />
+			<br />
+			<br />
 		</>
 	);
 }

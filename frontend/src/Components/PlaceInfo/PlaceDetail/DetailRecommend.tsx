@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Icon } from '../../../styles/MapDetail/DetailHomestyle';
+import { Icon, RecommendImg, P, H3, Span } from '../../../styles/MapDetail/DetailHomestyle';
 
 //barrierfree 아이콘 import
 import disabledElv from '../../../assets/img/Barrierfree/disabled-elevator.png';
@@ -71,17 +71,18 @@ function DetailRecommend() {
 	];
 
 	console.log(recommendImage);
+
 	return (
 		<>
 			{recommendPlace.map((v: { spot: SpotType; distance: number; sfIndoIds: [] }, i: number) => (
 				<React.Fragment key={i}>
-					<div className="grid grid-cols-12 gap-1">
-						<div className="col-start-2 col-span-10">
-							<h2>{v.spot.spotName} </h2>
-							<p>{v.spot.spotAddress}</p>
-							<p>
-								{placeName}에서 {v.distance}m
-							</p>
+					<div className="grid grid-cols-16 gap-1">
+						<div className="col-start-2 col-span-11">
+							<H3>{v.spot.spotName} </H3>
+							<P>{v.spot.spotAddress}</P>
+							<P>
+								{placeName}에서 <Span>{v.distance}m</Span>
+							</P>
 							<div className="flex flex-row">
 								{v.sfIndoIds.map((sfId: number, index: number) => {
 									const barrierFree = BarrierFreeList.find((bf) => bf.id === sfId);
@@ -94,10 +95,12 @@ function DetailRecommend() {
 									}
 								})}
 							</div>
-							<img src={recommendImage[i]} alt="recommend-image" />
-							<br />
+						</div>
+						<div className="col-start-13 col-end-16">
+							<RecommendImg src={recommendImage[i]} alt="recommend-image" />
 						</div>
 					</div>
+					<br />
 				</React.Fragment>
 			))}
 			{/* {recommendImage.map((v: any, i: number) => (

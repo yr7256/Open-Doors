@@ -23,8 +23,8 @@ export const Line = styled.div`
 export const H4 = styled.h4``;
 
 export const Icon = styled.img`
-	width: 36px;
-	height: 36px;
+	width: 32px;
+	height: 32px;
 	margin: 8px;
 `;
 
@@ -51,4 +51,24 @@ export const Names = styled.h4`
 export const Menus = styled.p`
 	margin-bottom: 8px;
 	font-size: 22px;
+`;
+
+export const RecommendImg = styled.img`
+	height: 120px;
+	width: 80px;
+`;
+
+export const P = styled.p`
+	font-size: 16px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+`;
+
+export const H3 = styled.h3`
+	font-size: 18px;
+`;
+
+export const Span = styled.span`
+	color: red;
+	font-size: 17px;
 `;

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Form, P, Img } from '../../styles/Review/ReviewInputstyle';
+import { Form, P, Img, ReviewContainer } from '../../styles/Review/ReviewInputstyle';
 import { Button, PhotoButton, CancelIcon } from '../../styles/Button/ButtonStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
@@ -137,14 +137,16 @@ function ReviewInput() {
 						</PhotoButton>
 						{selectedFiles.length > 0 && (
 							<ul>
-								{selectedFiles.map((file, index) => (
-									<li key={index}>
-										<Img src={URL.createObjectURL(file)} alt={file.name} />
-										<button onClick={() => handleFileDelete(file)}>
-											<CancelIcon src={cancel} alt="cancel" />
-										</button>
-									</li>
-								))}
+								<ReviewContainer>
+									{selectedFiles.map((file, index) => (
+										<li key={index}>
+											<Img src={URL.createObjectURL(file)} alt={file.name} />
+											<button onClick={() => handleFileDelete(file)}>
+												<CancelIcon src={cancel} alt="cancel" />
+											</button>
+										</li>
+									))}
+								</ReviewContainer>
 							</ul>
 						)}
 
