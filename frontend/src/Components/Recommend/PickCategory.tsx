@@ -119,6 +119,7 @@ function PickCategory(props: any) {
 			},
 			data: dataPayload,
 		};
+		console.log(dataPayload);
 		try {
 			const pickRequest = await axios(requestInfo);
 			const recommendList = pickRequest.data;

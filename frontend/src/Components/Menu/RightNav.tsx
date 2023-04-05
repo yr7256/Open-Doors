@@ -1,18 +1,19 @@
-import { Ul, Li, Image, MenuImg, Line } from '../../styles/Menu/styles';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import basicimg from '../../assets/img/basicimg.png';
 import { logout } from '../../store/Cookie';
 import { logoutAccount } from '../../store/AuthSlice';
-import axios from 'axios';
 import '../../styles/Menu/RightNav.css';
+import { Ul, Li, Image, MenuImg, Line, H4 } from '../../styles/Menu/styles';
+
+//사용한 이미지
 import mylocation from '../../assets/img/recomendation.png';
 import registermap from '../../assets/img/myinfomanage.png';
 import donation from '../../assets/img/donation.png';
-import help from '../../assets/img/help.png';
 import logoutImg from '../../assets/img/logout.png';
 import loginImg from '../../assets/img/loginImg.png';
+import signUp from '../../assets/img/signup.png';
 
 type Props = {
 	open: boolean;
@@ -21,34 +22,44 @@ type Props = {
 type UserState = {
 	user: {
 		userImg: string;
+		name: string;
 	};
 };
 
 function RightNav(props: Props) {
+	const [myImage, setMyImage] = useState(`${basicimg}`);
+	const name = useSelector((state: UserState) => state.user.name);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const LogoutHandler = () => {
 		dispatch(logoutAccount());
 		logout();
-		axios
-			.get('/api/users/logout', {
-				headers: { Authorization: `Bearer ${accessToken}` },
-			})
-			.then((res) => console.log(res.data));
+		navigate('/map');
+		window.localStorage.clear();
 	};
 	const LoginHandler = () => {
 		navigate('/Login');
 	};
 	const accessToken = localStorage.getItem('accessToken');
-	const username = localStorage.getItem('username');
-	const [myImage, setMyImage] = useState(`${basicimg}`);
+
 	return (
 		<>
 			<Ul open={props.open}>
-				<MenuImg>
-					<Image src={myImage} alt="my-image" />
-					<p>{username}</p>
-				</MenuImg>
+				{accessToken ? (
+					<MenuImg>
+						<Image src={myImage} alt="my-image" onClick={() => navigate('/Mypage')} />
+						<h2>{name}</h2>
+					</MenuImg>
+				) : (
+					<>
+						<MenuImg>
+							<Image src={signUp} alt="sign-up" onClick={() => navigate('/Login')} />
+							<H4>아직 가입을 안하셨나요?</H4>
+							<h2 onClick={() => navigate('/Signup')}>가입 하러가기</h2>
+						</MenuImg>
+					</>
+				)}
+
 				<NavLink
 					to="/myloc"
 					style={({ isActive }) => ({
@@ -83,18 +94,6 @@ function RightNav(props: Props) {
 					<Li className="flex items-center">
 						<img className="menubarIcon" src={donation} alt="donation" />
 						기부하기
-					</Li>
-				</NavLink>
-				<NavLink
-					to="/help"
-					style={({ isActive }) => ({
-						fontWeight: isActive ? 'bold' : '',
-						color: isActive ? '#0DADEA' : '',
-					})}
-				>
-					<Li className="flex items-center">
-						<img className="menubarIcon" src={help} alt="help" />
-						문의하기
 					</Li>
 				</NavLink>
 				<div className="loginout">
