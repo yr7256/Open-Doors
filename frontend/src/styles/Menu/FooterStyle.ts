@@ -6,12 +6,12 @@ export const FooterBlock = styled.div`
 	width: 100%;
 	justify-content: center;
 	& > div {
-		width: 25vw;
+		width: 33vw;
 	}
 `;
 
 export const FooterPlace = styled.div`
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	width: 100%;
 	height: 9vh;
