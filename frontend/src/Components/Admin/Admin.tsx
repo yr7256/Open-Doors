@@ -15,7 +15,7 @@ const Admin = (props: MapProps) => {
 		<>
 			{mapdata.map((item: any) => (
 				<div key={item.id} onClick={() => goDetailPage(item.id)}>
-					{item.state !== 'access' ? (
+					{item.state === 'ready' ? (
 						<>
 							<span>{item.id} </span> <span>{item.spotName}</span>
 						</>

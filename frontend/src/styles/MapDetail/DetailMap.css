@@ -1,0 +1,24 @@
+#detailPageMap {
+  width: 88vw;
+  height: 30vh;
+  margin: auto;
+}
+
+.detailMapHead {
+  display: flex;
+  flex-direction: column;
+  margin : 20px;
+}
+
+.detailMapHeadContent {
+  display: flex;
+  margin: 8px 0 12px 0;
+}
+
+.detailMapHeadContent > * {
+  margin: 0 6px 0 0;
+}
+
+.detailMapHeadInfo {
+  color: #6393CB;
+}
