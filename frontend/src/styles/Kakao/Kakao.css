@@ -1,0 +1,21 @@
+#map {
+  width: 100vw;
+  height: 93vh;
+  position: absolute;
+}
+
+#test {
+  width: 100vw;
+  height: 25vh;
+  border-radius: 15px 15px 0 0;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  background-color: white;
+  display: none;
+  position: absolute;
+  top: 75vh;
+  z-index: 10;
+}
+
+#test > p {
+  margin: 1vh;
+}
