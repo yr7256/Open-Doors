@@ -11,6 +11,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,16 @@ public class BusServiceImpl implements BusService {
     public JSONObject saveBusStationInfo(BusStationInfo busStationInfo) {
         busStationRepo.save(busStationInfo);
         return null;
+    }
+
+    @Override
+    public List<BusInfo> getBusInfos() {
+        return busRepo.findAll();
+    }
+
+    @Override
+    public List<BusStationInfo> getBusStationInfos() {
+        return busStationRepo.findAll();
     }
 
 

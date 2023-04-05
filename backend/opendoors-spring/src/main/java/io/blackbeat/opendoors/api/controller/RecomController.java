@@ -6,6 +6,7 @@ import io.blackbeat.opendoors.api.request.SpotDto;
 import io.blackbeat.opendoors.api.response.ReponseCollabDto;
 import io.blackbeat.opendoors.api.response.ReponseItemBasedDto;
 import io.blackbeat.opendoors.api.response.SpotForDjangoDto;
+import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
 import io.blackbeat.opendoors.db.entity.User;
@@ -53,9 +54,14 @@ public class RecomController {
             JSONArray innerArray = jsonArray.getJSONArray(i);
             Long spotId = innerArray.getLong(0);
             double distance = innerArray.getDouble(1);
+            Spot spot  = spotService.getSpotById(spotId);
             reponseItemBasedDto.setSpot(spotService.getSpotById(spotId));
             reponseItemBasedDto.setDistance(distance);
+            for(SpotSfInfo sfInfo : spot.getSpotSfInfos()){
+                reponseItemBasedDto.getSfIndoIds().add(sfInfo.getSfInfo().getId());
+            }
             reponseItemBasedDtos.add(reponseItemBasedDto);
+
         }
         return reponseItemBasedDtos;
     }
@@ -77,9 +83,13 @@ public class RecomController {
             double distance = nestedArray.getDouble(1);
             String reason = nestedArray.getString(2);
             // use the extracted values as needed
+            Spot spot = spotService.getSpotById(spotId);
             reponseCollabDto.setSpot(spotService.getSpotById(spotId));
             reponseCollabDto.setDistance(distance);
             reponseCollabDto.setReason(reason);
+            for(SpotSfInfo sfInfo : spot.getSpotSfInfos()){
+                reponseCollabDto.getSfInfoIds().add(sfInfo.getSfInfo().getId());
+            }
             reponseCollabDtos.add(reponseCollabDto);
         }
 
