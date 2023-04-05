@@ -17,8 +17,9 @@ def reformat_arrival_data(item, bus_number_plates):
     # 정류장 기본정보로 묶여야할 item
     dist = item.get('distance')
     stop_name = bus_stop_arr_info[0].get('STOP_NAME')
+    
 
-    res_dict = {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]} # 최종구조.
+    res_dict = {'stop_name': stop_name, 'stop_id': bus_stop_id, 'dist': dist, 'arr_infos':[]} # 최종구조.
 
     # 해당 정류장에 도착하는 버스별로 각각 가지는 정보들
     for arr_item in bus_stop_arr_info:
