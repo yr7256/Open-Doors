@@ -34,7 +34,6 @@ function LoginInput() {
 			username: username,
 			password: password,
 		};
-		console.log(loginPayload);
 
 		const loginPost = {
 			url: '/api/user/login',

@@ -70,7 +70,7 @@ function SignUpInput() {
 	const [isName, setIsName] = useState(false);
 
 	// 아이디 중복 검사
-	const [isIdAvailable, setIsIdAvailable] = useState(false);
+	const [isIdAvailable, setIsIdAvailable] = useState('');
 
 	const isSignUpButtonDisabled = !(id && password && passwordCheck && realName);
 
@@ -167,15 +167,19 @@ function SignUpInput() {
 
 		try {
 			const submitUserForm = await axios(requestInfo);
-			console.log(submitUserForm);
-			console.log('회원가입이 완료되었습니다');
-			navigate('/Login');
-		} catch (err: any) {
-			console.log('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요');
-			setIdValidMessage(err.response.data.message);
-			console.log(err);
+			axios
+				.get(`https://j8b205.p.ssafy.io/api/user/duplicate?id=${id}`)
+				.then((res) => {
+					navigate('/Login');
+				})
+				.catch((err) => {
+					setIsIdAvailable('중복된 아이디입니다.');
+				});
+		} catch (err) {
+			alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
 		}
 	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -185,13 +189,13 @@ function SignUpInput() {
 						<br />
 						<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />
 						<Message className="message">
-							{idMessage} {idValidMessage}
+							{isIdAvailable === '이미 가입된 아이디입니다.' ? isIdAvailable : idMessage}
 						</Message>
 						<div className="form-el">
 							<Label htmlFor="password">비밀번호</Label> <br />
 							<Input
 								id="password"
-								name="password"
+								name="current-password"
 								type="password"
 								value={password}
 								onChange={onChangePassword}
