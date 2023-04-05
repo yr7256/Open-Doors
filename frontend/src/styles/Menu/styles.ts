@@ -128,5 +128,5 @@ export const Line = styled.div`
 
 export const H4 = styled.p`
 	font-size: 22px;
-	margin-top: 4px;
+	margin-bottom: 8px;
 `;

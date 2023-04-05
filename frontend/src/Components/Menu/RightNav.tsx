@@ -51,9 +51,9 @@ function RightNav(props: Props) {
 				) : (
 					<>
 						<MenuImg>
-							<Image src={signUp} alt="sign-up" onClick={() => navigate('/Signup')} />
+							<Image src={signUp} alt="sign-up" onClick={() => navigate('/Login')} />
 							<H4>아직 가입을 안하셨나요?</H4>
-							<H4 onClick={() => navigate('/Signup')}>가입 하러가기</H4>
+							<h2 onClick={() => navigate('/Signup')}>가입 하러가기</h2>
 						</MenuImg>
 					</>
 				)}
