@@ -105,6 +105,10 @@ public class ReviewController {
                 }
                 responseReview.setSfInfoIds(ids);
                 responseReview.setUsername(review.getUsername());
+                User user = userService.getUser(review.getUsername());
+                for(SfInfo sfInfo : user.getSfInfoIds()){
+                    responseReview.getUserSfInfoIds().add(sfInfo.getId());
+                }
                 responseReview.setSpotId(review.getSpotId());
                 responseReview.setImages(review.getImages());
                 responseReviews.add(responseReview);

@@ -13,6 +13,7 @@ public class ResponseReview {
     private String username;
     private double reviewScore;
     private String reviewContent;
+    private Collection<Long> userSfInfoIds = new ArrayList<>();
     private Collection<Long> sfInfoIds = new ArrayList<>();
     private Collection<Image> images = new ArrayList<>();
 }
