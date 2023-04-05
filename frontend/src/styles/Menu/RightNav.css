@@ -1,0 +1,11 @@
+.loginout {
+  position: absolute;
+  bottom: 1vh;
+  width: 100%;
+}
+
+.menubarIcon {
+  width: 36px;
+  height: 36px;
+  margin-right: 8px;
+}
