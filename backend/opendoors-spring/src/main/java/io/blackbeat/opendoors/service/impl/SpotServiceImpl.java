@@ -5,10 +5,7 @@ import io.blackbeat.opendoors.db.entity.Place.Menu;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Place.Spot;
 import io.blackbeat.opendoors.db.entity.Place.SpotSfInfo;
-import io.blackbeat.opendoors.db.repository.MenuRepo;
-import io.blackbeat.opendoors.db.repository.SfInfoRepo;
-import io.blackbeat.opendoors.db.repository.SpotRepo;
-import io.blackbeat.opendoors.db.repository.SpotSfInfoRepo;
+import io.blackbeat.opendoors.db.repository.*;
 import io.blackbeat.opendoors.service.SpotService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +24,8 @@ public class SpotServiceImpl implements SpotService {
     private final SfInfoRepo sfInfoRepo;
     private final SpotSfInfoRepo spotSfInfoRepo;
     private final MenuRepo menuRepo;
+    private final PointRecordRepo pointRecordRepo;
+
     @Override
     public Spot saveSpot(Spot spot) {
         log.info("장소 {}를 데이터베이스에 저장합니다." , spot.getSpotName());

@@ -3,8 +3,10 @@ package io.blackbeat.opendoors.service.impl;
 import io.blackbeat.opendoors.api.request.LoginDto;
 import io.blackbeat.opendoors.api.response.TokenDto;
 import io.blackbeat.opendoors.db.entity.Place.SfInfo;
+import io.blackbeat.opendoors.db.entity.Point;
 import io.blackbeat.opendoors.db.entity.Role;
 import io.blackbeat.opendoors.db.entity.User;
+import io.blackbeat.opendoors.db.repository.PointRepo;
 import io.blackbeat.opendoors.db.repository.RoleRepo;
 import io.blackbeat.opendoors.db.repository.SfInfoRepo;
 import io.blackbeat.opendoors.db.repository.UserRepo;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PointRepo pointRepo;
 
 
 //    @Override
@@ -78,6 +82,12 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         log.info("유저 {}를 데이터베이스에 저장합니다.", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Point point = Point.builder()
+                .username(user.getUsername())
+                .totalPoint(0)
+                .pointRecords(new ArrayList<>())
+                .build();
+        pointRepo.save(point);
         return userRepo.save(user);
     }
 
