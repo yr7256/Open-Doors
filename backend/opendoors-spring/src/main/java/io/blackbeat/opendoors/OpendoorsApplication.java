@@ -1,47 +1,42 @@
 package io.blackbeat.opendoors;
 
+import io.blackbeat.opendoors.config.FileStorageProperties;
+import io.blackbeat.opendoors.db.entity.Place.SfInfo;
 import io.blackbeat.opendoors.db.entity.Role;
-import io.blackbeat.opendoors.db.entity.User;
+import io.blackbeat.opendoors.service.SpotService;
 import io.blackbeat.opendoors.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import java.util.ArrayList;
-
+@EnableJpaAuditing
 @SpringBootApplication
+@EnableConfigurationProperties(FileStorageProperties.class)
 public class OpendoorsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OpendoorsApplication.class, args);
-	}
-	@Bean
-	public PasswordEncoder passwordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
-	@Bean
-	CommandLineRunner run(UserService userService){
-		return agrs -> {
-			userService.saveRole(new Role(null, "ROLE_USER"));
-			userService.saveRole(new Role(null, "ROLE_MANAGER"));
-			userService.saveRole(new Role(null, "ROLE_ADMIN"));
-			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+    public static void main(String[] args) {
+        SpringApplication.run(OpendoorsApplication.class, args);
+    }
 
-			userService.saveUser(new User(null, "John Travolta", "john", "1234","man", false, new ArrayList<>()));
-			userService.saveUser(new User(null, "Will Smith", "will", "1234", "man", false, new ArrayList<>()));
-			userService.saveUser(new User(null, "Jim Carry", "jim", "1234", "man", false, new ArrayList<>()));
-			userService.saveUser(new User(null, "Arnold Schwarzenegger", "arnold", "1234", "man", false, new ArrayList<>()));
+    @Bean
+    CommandLineRunner run(UserService userService, SpotService spotService) {
+        return agrs -> {
+            userService.saveRole(new Role(null, "ROLE_USER"));
+            userService.saveRole(new Role(null, "ROLE_MANAGER"));
+            userService.saveRole(new Role(null, "ROLE_ADMIN"));
+            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-			userService.addRoleToUser("john", "ROLE_USER");
-			userService.addRoleToUser("john", "ROLE_MANAGER");
-			userService.addRoleToUser("will", "ROLE_MANAGER");
-			userService.addRoleToUser("jim", "ROLE_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_SUPER_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_USER");
-		};
-	}
+            spotService.saveSfInfo(new SfInfo(null, "WheelChair"));
+            spotService.saveSfInfo(new SfInfo(null, "Guide Dog"));
+            spotService.saveSfInfo(new SfInfo(null, "WheelChair Elevator"));
+            spotService.saveSfInfo(new SfInfo(null, "Free Parking"));
+            spotService.saveSfInfo(new SfInfo(null, "Disabled Toilet"));
+            spotService.saveSfInfo(new SfInfo(null, "Elevator"));
+            spotService.saveSfInfo(new SfInfo(null, "Several people"));
+            spotService.saveSfInfo(new SfInfo(null, "First Floor"));
+        };
+    }
 }

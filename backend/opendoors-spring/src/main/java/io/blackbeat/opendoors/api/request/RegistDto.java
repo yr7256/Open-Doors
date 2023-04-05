@@ -1,27 +1,13 @@
 package io.blackbeat.opendoors.api.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+import io.blackbeat.opendoors.db.entity.User;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class RegistDto {
-
-    @NotNull
-    private String username;
-
-    @NotNull
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-
-    @NotNull
-    private String name;
-
-    @NotNull
-    private String gender;
-
-    @NotNull
-    private Boolean isDisabled;
-
-
+    private User user;
+    private List<Long> sfInfoIds = new ArrayList<>();
 }
