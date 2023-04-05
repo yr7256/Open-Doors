@@ -28,13 +28,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
 	const [height, setHeight] = useState(window.innerHeight * 0.45);
 	const [width, setWidth] = useState(window.innerWidth);
-	const [getChild, setGetChild] = useState<any[]>([]);
+	const [getChild, setGetChild] = useState<[]>([]);
 	const isRecommend: any = useSelector((s: any) => s.userRecommend.isRecommend);
-	// console.log(isRecommend);
-	// const handleResize = (event: any, data: any) => {
-	// 	const { deltaY } = data;
-	// 	setHeight((prevHeight) => prevHeight - deltaY);
-	// };
 
 	const handleResize = (event: any, data: any) => {
 		const { deltaY } = data;

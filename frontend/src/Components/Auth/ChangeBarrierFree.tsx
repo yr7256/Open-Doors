@@ -34,6 +34,7 @@ function ChangeBarrierFree() {
 		console.log(selectedFacilities);
 	};
 
+	// 백엔드 미구현
 	const changeBarrierFree = async () => {
 		const accessToken = localStorage.getItem('accessToken');
 		const requestInfo = {
@@ -47,9 +48,9 @@ function ChangeBarrierFree() {
 		};
 		try {
 			const submitReviewForm = await axios(requestInfo);
-			console.log(submitReviewForm);
+			// console.log(submitReviewForm);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

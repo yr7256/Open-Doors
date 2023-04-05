@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Line, Name } from '../../styles/Recommend/Recommendstyle';
+import {
+	Line,
+	Name,
+	Span,
+	Div,
+	Today,
+	SpotName,
+	Distance,
+	Ptag,
+	Square,
+	Reason,
+	RecommendImage,
+} from '../../styles/Recommend/Recommendstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as faRegularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faSolidThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +39,7 @@ type UserState = {
 };
 
 function TodayRecommend(props: any) {
+	const [recommendImage, setRecommendImage] = useState<[]>([]);
 	const [goodState, setGoodState] = useState<boolean>(false);
 	const [badState, setBadState] = useState<boolean>(false);
 	const name = useSelector((state: UserState) => state.user.name);
@@ -70,80 +83,97 @@ function TodayRecommend(props: any) {
 		false,
 	]);
 
-	// const handleLike = (e: any) => {};
-
-	// const mapBarrierFree = props.getChild.map((v: any, idx: number) => {
-	// 	return v.spot.spotSfInfos;
-	// });
-	// console.log(mapBarrierFree);
-
-	// const barrierFree = props.getChild.map(
-	// 	(v: { distance: number; reason: string; spot: any; spotSfInfos: [] }, i: any) => {
-	// 		return v.spot.spotSfInfos;
-	// 	}
-	// );
-
-	// console.log(barrierFree);
-
-	// const barrierFree = BarrierFreeList.filter((v: any) => {
-	// 	return mapBarrierFree.includes(v.id);
-	// });
-	// console.log(barrierFree);
-
-	// const barrierFreeImages = barrierFree.map((v: any) => v.image);
-
 	// 이미지 불러오기
-	// useEffect(() => {
-	// 	{props.getChild.map((v: {images: string}, i: number) => (
 
-	// 	))}
-	// 	axios.get(``);
-	// });
+	useEffect(() => {
+		const imgArr: any = [];
+		props.getChild.map((v: any, i: number) => {
+			console.log(v.spot.id, v.spot.images[0].pathName);
+			const imageRequest = async () => {
+				const getImg = await axios.get(
+					`https://j8b205.p.ssafy.io/api/spot/image/${v.spot.id}/${v.spot.images[0].pathName}`
+				);
+				imgArr.push(getImg.config.url);
+				if (i === 9) {
+					setRecommendImage(imgArr);
+				}
+
+				// imgArr.push(imageRequest);
+				// if (i === 9) {
+				// 	setRecommendImage(imgArr);
+				// }
+			};
+			imageRequest();
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	console.log(recommendImage);
 
 	return (
 		<>
-			<div className="grid grid-cols-12 gap-0">
-				<div className="col-start-2 col-span-3">
-					<Name>{name}</Name>
-				</div>
-				<div className="col-start-5 col-span-3">
-					<h4>님을 위한</h4>
-				</div>
-				<div className="col-start-8 col-span-4">
-					<h2>오늘의 추천!</h2>
+			<div className="grid grid-cols-12 gap-1">
+				<div className="col-start-2 col-span-11">
+					<Div>
+						<Name>{name}</Name>
+						<Span>님을 위한</Span>
+						<Today>오늘의 추천!</Today>
+					</Div>
 				</div>
 			</div>
 			<Line />
-			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: any) => (
-				<React.Fragment key={i}>
-					<p>{v.distance}</p>
-					<p>{v.spot.spotName}</p>
-					<p>{v.spot.spotAddress}</p>
-					<div>
-						<p>추천</p>
-						<p>{v.reason}</p>
-						<FontAwesomeIcon
-							icon={recommendGoodArr[i] ? faSolidThumbsUp : faRegularThumbsUp}
-							onClick={() => {
-								const changeArr = recommendGoodArr.slice();
-								changeArr[i] = !changeArr[i];
-								setRecommendGoodArr(changeArr);
-								// 여기서 axios 하기
-								// axios.get('').then().catch();
-							}}
-						/>
-						<FontAwesomeIcon
-							icon={recommendBadArr[i] ? faSolidThumbsDown : faRegularThumbsDown}
-							onClick={() => {
-								const changeArr = recommendBadArr.slice();
-								changeArr[i] = !changeArr[i];
-								setRecommendBadArr(changeArr);
-							}}
-							rotation={90}
-						/>
-					</div>
+			<br />
+
+			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: number) => (
+				<div className="grid grid-cols-16 gap-1" key={i}>
+					<React.Fragment>
+						<div className="col-start-2 col-span-12">
+							<RecommendImage src={recommendImage[i]} alt="recommend-image" />
+						</div>
+						<div className="col-start-2 col-span-12">
+							<SpotName>{v.spot.spotName}</SpotName>
+						</div>
+						<div className="col-start-2 col-span-12">
+							<Ptag>{v.spot.spotAddress}</Ptag>
+						</div>
+						<div className="col-start-2 col-span-12">
+							<Ptag>
+								현재위치에서 <Distance>{v.distance}m</Distance>
+							</Ptag>
+						</div>
+						<div className="col-start-2 col-span-2">
+							<Square>
+								<p>추천</p>
+							</Square>
+						</div>
+						<div className="col-start-4 col-span-7">
+							<Reason>{v.reason}</Reason>
+						</div>
+						<div className="col-start-11 col-span-4">
+							<FontAwesomeIcon
+								style={{ marginRight: '12px', fontSize: '32px' }}
+								icon={recommendGoodArr[i] ? faSolidThumbsUp : faRegularThumbsUp}
+								onClick={() => {
+									const changeArr = recommendGoodArr.slice();
+									changeArr[i] = !changeArr[i];
+									setRecommendGoodArr(changeArr);
+									// 여기서 axios 하기
+									// axios.get('').then().catch();
+								}}
+							/>
+							<FontAwesomeIcon
+								style={{ fontSize: '32px' }}
+								icon={recommendBadArr[i] ? faSolidThumbsDown : faRegularThumbsDown}
+								onClick={() => {
+									const changeArr = recommendBadArr.slice();
+									changeArr[i] = !changeArr[i];
+									setRecommendBadArr(changeArr);
+								}}
+								rotation={90}
+							/>
+						</div>
+					</React.Fragment>
 					<br />
-				</React.Fragment>
+				</div>
 			))}
 		</>
 	);

@@ -11,7 +11,7 @@ function DetailPhoto() {
 		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
 			console.log(res.data);
 			const imgArr: any[] = [];
-			res.data.data.images.map((img: any, index: any) => {
+			res.data.data.images.map((img: any, index: number) => {
 				const a = async () => {
 					const b = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
@@ -24,6 +24,7 @@ function DetailPhoto() {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	console.log(placeImage);
 
 	return (
 		<>

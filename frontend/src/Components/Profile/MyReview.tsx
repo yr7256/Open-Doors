@@ -14,13 +14,10 @@ type UserState = {
 
 function MyReview() {
 	const [reviewData, setReviewData] = useState<[]>([]);
-	const [placeImage, setPlaceImage] = useState<any>([]);
+	const [placeImage, setPlaceImage] = useState<[]>([]);
 	const [noReview, setNoReview] = useState<string>('');
 	const userName = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
-
-	console.log(userName);
-	// https://j8b205.p.ssafy.io
 
 	useEffect(() => {
 		axios
@@ -37,16 +34,16 @@ function MyReview() {
 					setReviewData(response.data.data);
 				}
 
-				// const imgArr: any[] = [];
-				// response.data.data.images.map((img: any, index: any) => {
-				// 	const getImage = async () => {
-				// 		const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
-				// 		imgArr.push(requestImage.config.url);
-				// 		if (index === response.data.data.image.length) {
-				// 			setPlaceImage(imgArr);
-				// 		}
-				// 	};
-				// });
+				// 	const imgArr: any[] = [];
+				// 	response.data.data.images.map((img: any, index: any) => {
+				// 		const getImage = async () => {
+				// 			const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
+				// 			imgArr.push(requestImage.config.url);
+				// 			if (index === response.data.data.image.length) {
+				// 				setPlaceImage(imgArr);
+				// 			}
+				// 		};
+				// 	});
 			})
 			.catch((err) => {
 				console.log(err);
@@ -73,11 +70,11 @@ function MyReview() {
 					</>
 				) : (
 					<>
-						{reviewData.map((v: { username: string; reviewContent: string; reviewScore: number }, i: number) => (
+						{reviewData.map((v: { spotName: string; reviewContent: string; reviewScore: number }, i: number) => (
 							<React.Fragment key={i}>
 								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-2">
-										<h2>{v.username}</h2>
+									<div className="col-start-2 col-span-6">
+										<h2>{v.spotName}</h2>
 									</div>
 									<div className="col-start-8 col-span-2"></div>
 									<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
@@ -94,6 +91,9 @@ function MyReview() {
 					</>
 				)}
 			</ReviewArea>
+			<br />
+			<br />
+			<br />
 		</>
 	);
 }

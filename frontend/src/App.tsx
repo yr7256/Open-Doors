@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Map from './pages/Map/Map';
 import SignUp from './pages/Auth/SignUp';
@@ -41,6 +40,7 @@ type UserState = {
 };
 
 function App() {
+	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
@@ -53,7 +53,6 @@ function App() {
 	useEffect(() => {
 		handleResize();
 		window.addEventListener('resize', handleResize);
-
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
@@ -61,7 +60,7 @@ function App() {
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
-			console.log('로그아웃됐다');
+			// navigate('/Login');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
