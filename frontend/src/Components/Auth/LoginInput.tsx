@@ -59,7 +59,6 @@ function LoginInput() {
 
 			// 로컬 스토리지에 액세스 토큰 저장
 			localStorage.setItem('accessToken', accessToken);
-			localStorage.setItem('username', username);
 			// setCookie(refreshToken);
 
 			// dispatch를 위해 get해서 유저정보 불러오기

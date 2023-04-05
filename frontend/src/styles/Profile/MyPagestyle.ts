@@ -52,3 +52,7 @@ export const CenterP = styled.div`
 	font-size: 28px;
 	font-weight: bold;
 `;
+
+export const Total = styled.p`
+	margin-top: 8px;
+`;

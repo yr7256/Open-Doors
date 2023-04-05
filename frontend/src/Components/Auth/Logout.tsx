@@ -18,19 +18,17 @@ function Logout() {
 	const navigate = useNavigate();
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 
+	const config = {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	};
+
 	const handleLogout = () => {
 		dispatch(logoutAccount());
 		logout();
 		navigate('/Login');
-
-		const logoutGet = () => {
-			axios
-				.get('https://j8b205.p.ssafy.io/api/users/logout', {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				})
-				.then((res) => console.log(res.data));
-		};
-		logoutGet();
+		window.localStorage.clear();
 	};
 	return (
 		<>

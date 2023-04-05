@@ -4,7 +4,6 @@ import 'react-resizable/css/styles.css';
 import '../../styles/Menu/Modal.css';
 import TrafficInfo from '../Traffic/TrafficInfo';
 import PickCategory from '../Recommend/PickCategory';
-import Bookmark from '../Bookmark/Bookmark';
 import { useSelector } from 'react-redux';
 import TodayRecommend from '../Recommend/TodayRecommend';
 
@@ -113,7 +112,6 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 					{children}
 					{id === 'recommend' && isRecommend ? <TodayRecommend getChild={getChild} /> : null}
 					{id === 'recommend' && !isRecommend ? <PickCategory receiveResponse={receiveResponse} /> : null}
-					{id === 'bookmark' ? <Bookmark /> : null}
 					{id === 'trafficinfo' ? <TrafficInfo /> : null}
 				</div>
 			</ResizableBox>

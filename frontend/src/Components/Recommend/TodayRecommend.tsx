@@ -129,6 +129,7 @@ function TodayRecommend(props: any) {
 								changeArr[i] = !changeArr[i];
 								setRecommendGoodArr(changeArr);
 								// 여기서 axios 하기
+								// axios.get('').then().catch();
 							}}
 						/>
 						<FontAwesomeIcon
