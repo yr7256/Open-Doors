@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { DonationDescStyle } from '../../styles/Donation/DonationStyled';
+import together from '../../assets/img/together.png';
 
 function DonationDesc() {
 	function LinkHandler() {
@@ -16,7 +17,7 @@ function DonationDesc() {
 			<span>에 기부합니다.</span>
 			<br />
 			<div className="linkDiv" onClick={LinkHandler}>
-				<img src="" alt="퍼즐조각" />
+				<img src={together} alt="퍼즐조각" />
 				<a>대전종합사회복지관 바로가기</a>
 			</div>
 		</DonationDescStyle>

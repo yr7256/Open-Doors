@@ -27,6 +27,11 @@ export const DonationDescStyle = styled.div`
 		margin-left: 0.5em;
 		line-height: 150%;
 	}
+
+	& > div > img {
+		width: 12%;
+		height: 12%;
+	}
 `;
 
 export const DonationLine = styled.div`
@@ -116,6 +121,11 @@ export const DonationFormOuterDiv = styled.div`
 		text-align: center;
 		margin-top: 3%;
 		font-size: 0.8rem;
+	}
+
+	& > div > div > div > img {
+		width: 25%;
+		height: 25%;
 	}
 `;
 
