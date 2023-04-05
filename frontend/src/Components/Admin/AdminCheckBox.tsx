@@ -51,6 +51,9 @@ const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 			<div className="AdminBtnStyle">
 				<Button onClick={LocSubmit}>등록 완료</Button>
 			</div>
+			<div className="AdminBtnStyle">
+				<Button className='AdminDetailCancelBtn'>등록 취소</Button>
+			</div>
 		</div>
 	);
 };

@@ -31,6 +31,7 @@ import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
 import Admin from './Components/Admin/Admin';
 import AdminDetail from './Components/Admin/AdminDetail';
+import AdminRoute from './pages/Routes/AdminRoute';
 
 type UserState = {
 	user: {
@@ -85,8 +86,10 @@ function App() {
 			<Routes>
 				{/* <Route path="/*" element={<NotFound />} /> */}
 				<Route path="/*" element={<Map mapdata={mapdata} />} />
-				<Route path="/admin/*" element={<Admin mapdata={mapdata} />} />
-				<Route path="/admin/:id" element={<AdminDetail />} />
+				<Route element={<AdminRoute />}>
+					<Route path="/admin" element={<Admin data={mapdata} />} />
+					<Route path="/admin/:id" element={<AdminDetail />} />
+				</Route>
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
