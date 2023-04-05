@@ -13,6 +13,16 @@ import FreeParking from '../../assets/img/Barrierfree/parking.png';
 import DisabledToilet from '../../assets/img/Barrierfree/toilet.png';
 import WheelChair from '../../assets/img/Barrierfree/wheelchair.png';
 import star from '../../assets/img/star.png';
+import { useSelector } from 'react-redux';
+import '../../styles/MyLocation/Mylocation.css'
+
+type UserState = {
+	user: {
+		username: string;
+		password: string;
+		accessToken: string;
+	};
+};
 
 const sfImages: { [key: string]: string } = {
 	'WheelChair Elevator': WheelChairElevator,
@@ -27,6 +37,7 @@ const sfImages: { [key: string]: string } = {
 
 const Mylocation = () => {
 	const [mapdata, setMapdata] = useState([]) as any;
+	const username = useSelector((state: UserState) => state.user.username);
 	const navigate = useNavigate();
 	const getData = async () => {
 		// event.preventDefault();
@@ -63,7 +74,7 @@ const Mylocation = () => {
 				<h1>내가 등록한 장소</h1>
 			</Head>
 			<Line />
-			{mapdata.map((item: any, index: any) => (
+			{mapdata.filter((item: any) => item.username === username).map((item: any, index: any) => (
 				<MylocContainer key={index}>
 										<h1 className="spotname">{item.spotName}</h1>
 					<div className="bfImgs">
@@ -74,10 +85,10 @@ const Mylocation = () => {
 					</div>
 					<p className="spotaddress">{item.spotAddress}</p>
 					<p>{item.spotTelNumber}</p>
-					<div className="bfImgs">
+					<div className="MylocbfImgs">
 						{item?.spotSfInfos?.map((i: any) => (
 							<div key={i.id}>
-								<img className="Icon" src={sfImages[i.sfInfo.sfName]} alt="" />
+								<img className="MylocIcon" src={sfImages[i.sfInfo.sfName]} alt="" />
 							</div>
 						))}
 					</div>

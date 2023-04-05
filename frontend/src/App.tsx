@@ -86,10 +86,10 @@ function App() {
 			<Routes>
 				{/* <Route path="/*" element={<NotFound />} /> */}
 				<Route path="/*" element={<Map mapdata={mapdata} />} />
-				{/* <Route element={<AdminRoute />}> */}
-					<Route path="/admin" element={<Admin mapdata={mapdata} />} />
+				<Route element={<AdminRoute />}>
+					<Route path="/admin" element={<Admin data={mapdata} />} />
 					<Route path="/admin/:id" element={<AdminDetail />} />
-				{/* </Route> */}
+				</Route>
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
