@@ -12,20 +12,28 @@ import {
 	BusArrDiv,
 } from '../../styles/Traffic/TrafficStyled';
 
-const TrafficInfoBody = () => {
-	interface ArrInfoProps {
-		route_no: number;
-		expected_time_min: number;
-		bus_stop_position: number;
-		destination: string;
-	}
+import TrafficBusArrDiv from './TrafficBusArrDiv';
 
-	interface BusStopProps {
-		stop_name: string;
-		stop_id: number;
-		dist: number;
-		arr_infos: ArrInfoProps[];
-	}
+interface TrafficInfoBodyProps {
+	busStop: BusStopProps;
+}
+
+interface ArrInfoProps {
+	route_no: number;
+	expected_time_min: number;
+	bus_stop_position: number;
+	destination: string;
+}
+
+interface BusStopProps {
+	stop_name: string;
+	stop_id: number;
+	dist: number;
+	arr_infos: ArrInfoProps[];
+}
+
+const TrafficInfoBody: React.FC<TrafficInfoBodyProps> = ({ busStop }) => {
+	const busArrComponents = busStop.arr_infos.map((arrInfo, idx) => <TrafficBusArrDiv key={idx} arrInfo={arrInfo} />);
 
 	return (
 		<TrafficInfoBox>
@@ -36,19 +44,7 @@ const TrafficInfoBody = () => {
 			</div>
 			<div className="horizontalLine" />
 
-			{/* BusArrDiv 비어있으면? */}
-			<BusArrDiv>
-				<div className="flexrow">
-					<div className="">
-						<em>{'102'}</em>
-					</div>
-					<div className="spanContainer">
-						<span className="min">{4}분</span>
-						<span className="position">{4}정류장</span>
-					</div>
-				</div>
-				<div className="direction">{'한밭대학교방면'}</div>
-			</BusArrDiv>
+			{busArrComponents}
 		</TrafficInfoBox>
 	);
 };

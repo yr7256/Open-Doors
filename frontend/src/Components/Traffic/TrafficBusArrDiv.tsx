@@ -12,33 +12,32 @@ import {
 	BusArrDiv,
 } from '../../styles/Traffic/TrafficStyled';
 
-const TrafficBusArrDiv = () => {
-	interface ArrInfoProps {
-		route_no: number;
-		expected_time_min: number;
-		bus_stop_position: number;
-		destination: string;
-	}
+interface TrafficBusArrDivProps {
+	arrInfo: ArrInfoProps;
+}
 
-	interface BusStopProps {
-		stop_name: string;
-		stop_id: number;
-		dist: number;
-		arr_infos: ArrInfoProps[];
-	}
+interface ArrInfoProps {
+	route_no: number;
+	expected_time_min: number;
+	bus_stop_position: number;
+	destination: string;
+}
+
+const TrafficBusArrDiv: React.FC<TrafficBusArrDivProps> = ({ arrInfo }) => {
+	// TrafficBusArrDiv 컴포넌트
 
 	return (
 		<BusArrDiv>
 			<div className="flexrow">
 				<div className="">
-					<em>{'102'}</em>
+					<em>{arrInfo.route_no}</em>
 				</div>
 				<div className="spanContainer">
-					<span className="min">{4}분</span>
-					<span className="position">{4}정류장</span>
+					<span className="min">{arrInfo.expected_time_min}분</span>
+					<span className="position">{arrInfo.bus_stop_position}정류장</span>
 				</div>
 			</div>
-			<div className="direction">{'한밭대학교방면'}</div>
+			<div className="direction">{arrInfo.destination}방면</div>
 		</BusArrDiv>
 	);
 };
