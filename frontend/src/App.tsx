@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -30,7 +29,6 @@ import { logoutAccount } from './store/AuthSlice';
 import Mylocation from './Components/MyLocation/Mylocation';
 import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
-import Help from './Components/Help/Help';
 import Admin from './Components/Admin/Admin';
 import AdminDetail from './Components/Admin/AdminDetail';
 
@@ -108,7 +106,7 @@ function App() {
 			<Routes>
 				{/* <Route path="/*" element={<NotFound />} /> */}
 				<Route path="/*" element={<Map mapdata={mapdata} />} />
-				<Route path="/admin/*" element={<Admin mapdata={mapdata}/>} />
+				<Route path="/admin/*" element={<Admin mapdata={mapdata} />} />
 				<Route path="/admin/:id" element={<AdminDetail />} />
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
@@ -135,7 +133,6 @@ function App() {
 					<Route path="main" element={<SearchAddressMain />} />
 					<Route path="marker" element={<SearchAddressMap />} />
 				</Route>
-				<Route path="/help" element={<Help />} />
 			</Routes>
 		</BrowserRouter>
 	);

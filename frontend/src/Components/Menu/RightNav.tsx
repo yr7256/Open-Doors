@@ -10,9 +10,9 @@ import '../../styles/Menu/RightNav.css';
 import mylocation from '../../assets/img/recomendation.png';
 import registermap from '../../assets/img/myinfomanage.png';
 import donation from '../../assets/img/donation.png';
-import help from '../../assets/img/help.png';
 import logoutImg from '../../assets/img/logout.png';
 import loginImg from '../../assets/img/loginImg.png';
+import signUp from '../../assets/img/signup.png';
 
 type Props = {
 	open: boolean;
@@ -30,11 +30,8 @@ function RightNav(props: Props) {
 	const LogoutHandler = () => {
 		dispatch(logoutAccount());
 		logout();
-		axios
-			.get('/api/users/logout', {
-				headers: { Authorization: `Bearer ${accessToken}` },
-			})
-			.then((res) => console.log(res.data));
+		navigate('/map');
+		window.localStorage.clear();
 	};
 	const LoginHandler = () => {
 		navigate('/Login');
@@ -45,10 +42,18 @@ function RightNav(props: Props) {
 	return (
 		<>
 			<Ul open={props.open}>
-				<MenuImg>
-					<Image src={myImage} alt="my-image" />
-					<p>{username}</p>
-				</MenuImg>
+				{accessToken ? (
+					<MenuImg>
+						<Image src={myImage} alt="my-image" onClick={() => navigate('/Mypage')} />
+						<p>{username}</p>
+					</MenuImg>
+				) : (
+					<>
+						<img src={signUp} alt="sign-up" />
+						<p>아직도 회원가입을 안하셨나요?</p>
+					</>
+				)}
+
 				<NavLink
 					to="/myloc"
 					style={({ isActive }) => ({
@@ -83,18 +88,6 @@ function RightNav(props: Props) {
 					<Li className="flex items-center">
 						<img className="menubarIcon" src={donation} alt="donation" />
 						기부하기
-					</Li>
-				</NavLink>
-				<NavLink
-					to="/help"
-					style={({ isActive }) => ({
-						fontWeight: isActive ? 'bold' : '',
-						color: isActive ? '#0DADEA' : '',
-					})}
-				>
-					<Li className="flex items-center">
-						<img className="menubarIcon" src={help} alt="help" />
-						문의하기
 					</Li>
 				</NavLink>
 				<div className="loginout">

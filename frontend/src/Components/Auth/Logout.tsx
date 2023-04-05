@@ -17,20 +17,33 @@ function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
+	console.log(accessToken);
+
+	const config = {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	};
 
 	const handleLogout = () => {
 		dispatch(logoutAccount());
 		logout();
 		navigate('/Login');
+		window.localStorage.clear();
 
-		const logoutGet = () => {
-			axios
-				.get('https://j8b205.p.ssafy.io/api/users/logout', {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				})
-				.then((res) => console.log(res.data));
-		};
-		logoutGet();
+		// const logoutGet = () => {
+		// 	axios
+		// 		.get('https://j8b205.p.ssafy.io/api/users/logout', config)
+		// 		.then((res) => {
+		// 			console.log(res);
+		// 			navigate('/Login');
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log(err);
+		// 			alert('로그아웃에 실패하셨습니다.');
+		// 		});
+		// };
+		// logoutGet();
 	};
 	return (
 		<>
