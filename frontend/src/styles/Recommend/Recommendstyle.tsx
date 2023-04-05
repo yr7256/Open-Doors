@@ -29,6 +29,7 @@ export const Today = styled.span`
 `;
 
 export const SpotName = styled.h2`
+	margin-top: 8px;
 	margin-bottom: 8px;
 `;
 
@@ -38,6 +39,7 @@ export const Distance = styled.span`
 `;
 
 export const Ptag = styled.p`
+	margin-top: 8px;
 	margin-bottom: 8px;
 `;
 
@@ -55,7 +57,11 @@ export const Reason = styled.p`
 `;
 
 export const RecommendImage = styled.img`
-	height: 400px;
-	weight: 200px;
-	margin: 0;
+	height: 100px;
+	width: 80px;
+`;
+
+export const EndLine = styled.div`
+	border-top: 1px solid #d9d9d9;
+	width: 300px;
 `;
