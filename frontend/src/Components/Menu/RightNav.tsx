@@ -22,10 +22,13 @@ type Props = {
 type UserState = {
 	user: {
 		userImg: string;
+		name: string;
 	};
 };
 
 function RightNav(props: Props) {
+	const [myImage, setMyImage] = useState(`${basicimg}`);
+	const name = useSelector((state: UserState) => state.user.name);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const LogoutHandler = () => {
@@ -38,15 +41,14 @@ function RightNav(props: Props) {
 		navigate('/Login');
 	};
 	const accessToken = localStorage.getItem('accessToken');
-	const username = localStorage.getItem('username');
-	const [myImage, setMyImage] = useState(`${basicimg}`);
+
 	return (
 		<>
 			<Ul open={props.open}>
 				{accessToken ? (
 					<MenuImg>
 						<Image src={myImage} alt="my-image" onClick={() => navigate('/Mypage')} />
-						<h4>{username}</h4>
+						<h2>{name}</h2>
 					</MenuImg>
 				) : (
 					<>
