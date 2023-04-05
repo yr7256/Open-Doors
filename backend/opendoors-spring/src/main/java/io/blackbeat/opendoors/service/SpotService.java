@@ -20,5 +20,5 @@ public interface SpotService {
     Spot getSpotById(Long id);
     List<Spot> getSpotsByTitle(String title);
     Spot getSpotByName(String spotName);
-
+    void deleteSpot(Long id);
 }
