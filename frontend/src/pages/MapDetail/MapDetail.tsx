@@ -17,7 +17,7 @@ function MapDetail() {
 	const [placeDetail, setPlaceDetail] = useState<[]>([]);
 	const [placeName, setPlaceName] = useState('');
 	const [placeImage, setPlaceImage] = useState<any>([]);
-	const [category, setCategory] = useState<any>('Home');
+	const [category, setCategory] = useState<string>('Home');
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ function MapDetail() {
 			setPlaceName(res.data.data.spotName);
 			console.log(res.data);
 			const imgArr: any[] = [];
-			res.data.data.images.map((img: any, index: any) => {
+			res.data.data.images.map((img: any, index: number) => {
 				// axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`).then((response) => {
 				// 	// images.append(response.config.url);
 				// 	console.log(response);

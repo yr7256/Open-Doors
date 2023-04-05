@@ -17,7 +17,6 @@ import guideDog from '../../../assets/img/Barrierfree/guidedog.png';
 import parking from '../../../assets/img/Barrierfree/parking.png';
 import toilet from '../../../assets/img/Barrierfree/toilet.png';
 import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
-import { validateHeaderName } from 'http';
 
 function DetailReview() {
 	const [detailData, setDetailData] = useState<[]>([]);
@@ -41,6 +40,7 @@ function DetailReview() {
 		axios
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then((response) => {
+				console.log(response.data.data);
 				setDetailData(response.data.data);
 				const imgArr: any[] = [];
 				response.data.data.map((v: any, i: number) => {

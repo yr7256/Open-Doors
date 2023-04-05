@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Icon } from '../../../styles/MapDetail/DetailHomestyle';
 
 //barrierfree 아이콘 import
 import disabledElv from '../../../assets/img/Barrierfree/disabled-elevator.png';
@@ -18,7 +19,9 @@ interface SpotType {
 }
 
 function DetailRecommend() {
+	const [recommendImage, setRecommendImage] = useState<[]>([]);
 	const [recommendPlace, setRecommendPlace] = useState<any[]>([]);
+	const [placeName, setPlaceName] = useState('');
 	const { id } = useParams();
 
 	// 추천 누르자마자 추천 정보 10개 뜸
@@ -28,27 +31,31 @@ function DetailRecommend() {
 				spotId: id,
 			})
 			.then((res) => {
-				const placeArr: any = [];
-				res.data.map((name: string, index: number) => {
-					placeArr.push(name);
-					setRecommendPlace(placeArr);
-					// const place = async () => {
-					// 	const placeReqeust = await axios.get(`https://j8b205.p.ssafy.io/api/spot/${name[0]}`);
-					// 	placeArr.push(placeReqeust.data.data);
-					// 	if (index === res.data.data.length - 1) {
-					// 		setRecommendPlace(placeArr);
-					// 	}
-					// };
-					// place();
+				setRecommendPlace(res.data);
+				console.log(res.data);
+				const imgArr: any = [];
+				res.data.map((name: any, index: number) => {
+					// console.log(name.spot.images[0].pathName);
+					const place = async () => {
+						const placeReqeust = await axios.get(
+							`https://j8b205.p.ssafy.io/api/spot/image/${name.spot.id}/${name.spot.images[0].pathName}`
+						);
+						imgArr.push(placeReqeust.config.url);
+						if (index === 9) {
+							setRecommendImage(imgArr);
+						}
+					};
+					place();
 				});
 			})
 			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(recommendPlace);
 
-	const spotInfo = recommendPlace.map((v: any) => {
-		return v;
+	useEffect(() => {
+		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
+			setPlaceName(res.data.data.spotName);
+		});
 	});
 
 	// barrierfree 종류
@@ -63,20 +70,42 @@ function DetailRecommend() {
 		{ id: 8, sfName: '가족/어린이 이용에 적합', image: family },
 	];
 
+	console.log(recommendImage);
 	return (
 		<>
-			{spotInfo.map((v: { spot: SpotType; distance: number }, i: number) => (
+			{recommendPlace.map((v: { spot: SpotType; distance: number; sfIndoIds: any }, i: number) => (
 				<React.Fragment key={i}>
 					<div className="grid grid-cols-12 gap-1">
 						<div className="col-start-2 col-span-10">
 							<h2>{v.spot.spotName} </h2>
-							<h2>{v.spot.spotAddress}</h2>
-							<h2>{v.distance}m</h2>
+							<p>{v.spot.spotAddress}</p>
+							<p>
+								{placeName}에서 {v.distance}m
+							</p>
+							<div className="flex flex-row">
+								{v.sfIndoIds.map((sfId: number, index: number) => {
+									const barrierFree = BarrierFreeList.find((bf) => bf.id === sfId);
+									if (barrierFree) {
+										return (
+											<React.Fragment key={index}>
+												<Icon src={barrierFree.image} alt={barrierFree.sfName} />
+											</React.Fragment>
+										);
+									}
+								})}
+							</div>
+							<img src={recommendImage[i]} alt="recommend-image" />
 							<br />
 						</div>
 					</div>
 				</React.Fragment>
 			))}
+			{/* {recommendImage.map((v: any, i: number) => (
+				<img key={i} src={v.data}></img>
+			))} */}
+			<br />
+			<br />
+			<br />
 		</>
 	);
 }

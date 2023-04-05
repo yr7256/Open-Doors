@@ -10,6 +10,10 @@ export const Number = styled.a`
 	font-size: 24px;
 `;
 
+export const NoNumber = styled.p`
+	font-size: 24px;
+`;
+
 export const Line = styled.div`
 	height: 2px;
 	background-color: #d9d9d9;

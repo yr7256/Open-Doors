@@ -70,3 +70,9 @@ export const CancelIcon = styled.img`
 	right: 0.5%;
 	padding: 0;
 `;
+
+export const Icon = styled.image`
+	weight: 36px;
+	height: 36px;
+	margin: 0;
+`;

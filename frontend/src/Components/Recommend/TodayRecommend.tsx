@@ -114,7 +114,7 @@ function TodayRecommend(props: any) {
 				</div>
 			</div>
 			<Line />
-			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: any) => (
+			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: number) => (
 				<React.Fragment key={i}>
 					<p>{v.distance}</p>
 					<p>{v.spot.spotName}</p>
