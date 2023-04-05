@@ -73,7 +73,7 @@ function DetailRecommend() {
 	console.log(recommendImage);
 	return (
 		<>
-			{recommendPlace.map((v: { spot: SpotType; distance: number; sfIndoIds: any }, i: number) => (
+			{recommendPlace.map((v: { spot: SpotType; distance: number; sfIndoIds: [] }, i: number) => (
 				<React.Fragment key={i}>
 					<div className="grid grid-cols-12 gap-1">
 						<div className="col-start-2 col-span-10">

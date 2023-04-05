@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import writereview from '../../../assets/img/writereview.png';
 import { Img, WriteReview } from '../../../styles/MapDetail/DetailHomestyle';
-import { ReviewArea, H2, Line, P, NoReview } from '../../../styles/Review/MapReviewstyle';
+import { ReviewArea, H2, Line, P, NoReview, ReviewImage, Icon } from '../../../styles/Review/MapReviewstyle';
+import { PhotoContainer } from '../../../styles/MapDetail/MapDetailstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -45,13 +45,12 @@ function DetailReview() {
 				const imgArr: any[] = [];
 				response.data.data.map((v: any, i: number) => {
 					const name = v.username;
+					console.log(v);
 					v.images.map((img: any, index: number) => {
-						console.log(name, img.pathName);
 						const getImage = async () => {
 							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
-							console.log(requestImage);
 							imgArr.push(requestImage.config.url);
-							if (index === response.data.data.images.length - 1) {
+							if (imgArr.length === v.images.length) {
 								setPlaceImage(imgArr);
 							}
 						};
@@ -63,40 +62,6 @@ function DetailReview() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	console.log(detailData);
-
-	// useEffect(() => {
-	// 	axios
-	// 		.get(`http://j8b205.p.ssafy.io:8080/api/review/${id}`)
-	// 		.then((res) => console.log(res))
-	// 		.catch((err) => console.log(err));
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, []);
-
-	// 일치하는 barrierfree만 출력
-	// const mapBarrierFree = detailData.map((idx: any) => {
-	// 	return idx.sfInfoIds;
-	// });
-
-	// const barrierFree = BarrierFreeList.filter((v: any) => {
-	// 	return mapBarrierFree.includes(v.id);
-	// });
-	// console.log(barrierFree);
-
-	// const anotherMapBarrierFree = mapBarrierFree.map((idx: any) => {
-	// 	idx.map((v: any) => {
-	// 		console.log(v);
-	// 		return BarrierFreeList.map((k) => {
-	// 			return k;
-	// 		});
-	// 	});
-	// });
-	// console.log(anotherMapBarrierFree);
-
-	// const barrierFree = BarrierFreeList.filter((v: any) => {
-	// 	return mapBarrierFree.includes(v.id);
-	// });
-
-	// const userBarrierFree =  userData.map((v: any) =>);
 
 	return (
 		<>
@@ -122,29 +87,51 @@ function DetailReview() {
 					</>
 				) : (
 					<>
-						{detailData.map((v: { username: string; reviewContent: string; reviewScore: number }, i: number) => (
-							<React.Fragment key={i}>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-2">
-										<h2>{v.username}</h2>
+						{detailData.map(
+							(v: { username: string; reviewContent: string; reviewScore: number; sfInfoIds: [] }, i: number) => (
+								<React.Fragment key={i}>
+									<div className="grid grid-cols-12 gap-1">
+										<div className="col-start-2 col-span-2">
+											<h2>{v.username}</h2>
+										</div>
+										<div className="col-start-8 col-span-2"></div>
+										<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
+										<h3>{v.reviewScore}.0</h3>
 									</div>
-									<div className="col-start-8 col-span-2"></div>
-									<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
-									<h3>{v.reviewScore}.0</h3>
-								</div>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-10">
-										<img></img>
+									<div className="grid grid-cols-12 gap-1">
+										<div className="col-start-2 col-span-10">
+											<PhotoContainer>
+												{v.sfInfoIds.map((sfId: number, index: number) => {
+													const barrierFree = BarrierFreeList.find((bf) => bf.id === sfId);
+													if (barrierFree) {
+														return (
+															<React.Fragment key={index}>
+																<Icon src={barrierFree.image} alt={barrierFree.sfName} />
+															</React.Fragment>
+														);
+													}
+												})}
+											</PhotoContainer>
+										</div>
 									</div>
-								</div>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-10">
-										<P>{v.reviewContent}</P>
+									<div className="grid grid-cols-12 gap-1">
+										<div className="col-start-2 col-span-10">
+											<PhotoContainer>
+												{placeImage.map((value: string, index: number) => (
+													<ReviewImage src={placeImage[index]} key={value} alt="review-image"></ReviewImage>
+												))}
+											</PhotoContainer>
+										</div>
 									</div>
-								</div>
-								<Line />
-							</React.Fragment>
-						))}
+									<div className="grid grid-cols-12 gap-1">
+										<div className="col-start-2 col-span-10">
+											<P>{v.reviewContent}</P>
+										</div>
+									</div>
+									<Line />
+								</React.Fragment>
+							)
+						)}
 					</>
 				)}
 			</ReviewArea>
