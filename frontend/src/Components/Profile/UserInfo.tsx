@@ -13,12 +13,13 @@ type UserState = {
 function UserInfo() {
 	const userName = useSelector((state: UserState) => state.user.username);
 	const name = useSelector((state: UserState) => state.user.name);
-	console.log(userName, name);
 
 	return (
 		<>
-			<CenterP>{name}</CenterP>
-			<p>기부포인트</p>
+			<CenterP>
+				{name}
+				<p>기부포인트</p>
+			</CenterP>
 		</>
 	);
 }

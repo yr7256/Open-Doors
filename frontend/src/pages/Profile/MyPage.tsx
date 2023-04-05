@@ -2,9 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoBackPage from '../../Components/Menu/goBackPage';
 import UserInfo from '../../Components/Profile/UserInfo';
-import Logout from '../../Components/Auth/Logout';
 import MyImg from '../../Components/Profile/MyImg';
-// import Footer from '../../Components/Menu/Footer';
 import Donation from '../../assets/img/donation.png';
 import ClickReview from '../../assets/img/clickreview.png';
 import MyInfoManage from '../../assets/img/myinfomanage.png';
@@ -41,7 +39,6 @@ function MyPage() {
 			<Line />
 			<MyImg />
 			<UserInfo />
-			<Logout />
 			<ThickLine />
 			<div className="grid grid-cols-12 gap-1" onClick={moveMyInfo}>
 				<div className="col-start-2 col-span-2">
