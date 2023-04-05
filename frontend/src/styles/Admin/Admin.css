@@ -9,6 +9,7 @@
 
 .Admincontent {
   border: #cccccc 1px solid;
+  width: 80vw;
 }
 
 .AdminIconImgs {
@@ -42,4 +43,18 @@
 
 .checkBoxContainer {
   margin: 5px 0 5px 0;
+}
+
+.AdmincontentImg {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.AdmincontentImg > img {
+  width: 20%;
+}
+
+.AdminDetailCancelBtn {
+  color: red !important;
+  border: red 1px solid !important;
 }
