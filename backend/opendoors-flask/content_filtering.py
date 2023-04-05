@@ -9,6 +9,9 @@ import pandas as pd
 # 통합된 matrix가 들어오니까 쪼개고, 분류해서 기능제공. 😀 pk매핑 유지 해야됨.
 def content_based_recom(ref_arr, spot_matrix, category=None):
     # ref_arr = [1, 1,0,0,0,0,0,0,0, 36.3965, 127.4027, 4.49, 244]
+    print(9)
+    print(spot_matrix[-1])
+    print('의심됨.')
 
     cat_col_num = 13 # 맨 마지막에 끼워넣을것임.
     # spot_matrix의 cat이 1(카페)인 곳들만 선택
@@ -44,7 +47,9 @@ def content_based_recom(ref_arr, spot_matrix, category=None):
     manhattan_scores = convert_manhattan_distances(manhattan_distances) # 0-10의 스코어가 나온다.
     
     # rating_scores = [rating_score(rating_df[idx][0], rating[idx][1]) for idx in range(matrix_size)]
+    print('여기까지는 아마 잘 되고 있을거야!')
     rating_scores = [rating_score(*rating) for rating in rating_df.itertuples(index=False)] # 0-10의 스코어가 나온다.
+    print('이게 나오면 문제 없어진거!')
     
     # 위의 시설유사도, 맨하탄거리, rating_score 반영된걸 취합 후, 상위 10개 반환.
     scores_sum = sum_scores(facility_scores, manhattan_scores, rating_scores) # 0-30의 스코어가 나온다.
@@ -109,10 +114,21 @@ def facility_cos_sim(ref_facility_arr, facility_matrix):
 
 # 가중치 조절 추후에 진행
 def rating_score(avg_score, count):
-    score_weight = 1
-    count_weight = 1
-
-    return (avg_score*score_weight + log10(count)*count_weight)
+    try:
+        
+        score_weight = 1
+        count_weight = 1
+        if not count: # log10에 0이 들어오는 문제 제거.
+            count = 1
+        res = (avg_score*score_weight + log10(count)*count_weight)
+        
+        return res
+    except Exception as e:
+        
+        print(e)
+        print(avg_score)
+        print(count)
+        
 
 
 def sum_scores(facility_scores, manhattan_scores, rating_scores):

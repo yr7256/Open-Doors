@@ -49,16 +49,29 @@ def post_test():
 def content_recom():
     try:
         data = request.json
+        
         ref_spot_dict_str = data['userSpot']
+        
         ref_spot_dict = json.loads(ref_spot_dict_str)
+        
         cat_num = ref_spot_dict.get('category')
+        
         spot_info_matrix_dto = data['spots']
         
+        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        # print(f'ref_spot_dict_str: {ref_spot_dict_str}')
+        # print(f'cat_num: {cat_num}')
+        # print(f'spot_info_matrix_dto: {spot_info_matrix_dto[:20]}')
+        
+        
         ref_arr = transform_dto_to_spot_arr(ref_spot_dict)
+        
         spot_info_matrix = transform_dto_to_spot_matrix(spot_info_matrix_dto)
+        
         
         # 추천 메인로직 모듈화
         res_ordered_by_spotId, manhattan_distances, facility_scores = content_based_recom(ref_arr, spot_info_matrix, cat_num)
+        
         # hybrid filtering 위해 필요없는 해당 로직에서는 필요없는 변수 생성.
         
         res_sorted_by_score = sorted(res_ordered_by_spotId, reverse=True)
@@ -67,9 +80,11 @@ def content_recom():
         return jsonify(top10_res_formatted)
     
     except ValueError as e:
+        print('value error')
         print(e)
         abort(400, str(e))
     except KeyError as e:
+        print('key error')
         print(e)
         abort(400, f'Missing key: {str(e)}')
     except Exception as e:
@@ -197,7 +212,7 @@ def fetch_bus_stop_info():
         spot_coor = (spot_lat, spot_lng)
         
         haversine_dist = haversine(bus_stop_coor, spot_coor, unit='m')
-        if haversine_dist <= 500: # 500m이내라면?
+        if haversine_dist <= 300: # 500m이내라면?
             bus_stop_within_500m_data = {'bus_stop_data' : bus_stop, 'distance' : haversine_dist}
             bus_stop_within_500m.append(bus_stop_within_500m_data)
 
