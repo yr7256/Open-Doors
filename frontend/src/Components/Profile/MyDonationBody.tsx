@@ -81,7 +81,9 @@ function MyDonationBody({ cardDatas }: MyDonationBodyProps) {
 
 	return (
 		<>
-			<MyDonationBodyStyled>{cardComponents}</MyDonationBodyStyled>
+			<MyDonationBodyStyled>
+				<div className="cards-container">{cardComponents}</div>
+			</MyDonationBodyStyled>
 		</>
 	);
 }
