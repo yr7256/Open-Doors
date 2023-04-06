@@ -81,12 +81,15 @@ function ChangePassword() {
 					},
 				})
 				.then((response) => {
-					// setUserDispatch(response);
+					alert('비밀번호가 변경되었습니다.');
 					const name = response.data.name;
 					const username = response.data.username;
 					dispatch(loginAccount({ username: username, password: newPassword, accessToken: accessToken, name: name }));
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {
+					// console.log(err);
+					alert('비밀번호가 변경되지 않았습니다. 다시 시도해 주세요.');
+				});
 		} catch (err) {
 			// console.log(err);
 		}

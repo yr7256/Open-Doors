@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Line = styled.div`
 	margin-top: 1rem;
 	border-top: 1px solid #d9d9d9;
-	weight: 60%;
+	width: 60%;
 	margin-left: 1rem;
 	margin-right: 1rem;
 `;
@@ -44,12 +44,11 @@ export const Ptag = styled.p`
 `;
 
 export const Square = styled.div`
-	weight: 56px:
-	height: 44px;
-	background-color: #CFDEEF;
+	width: 56px;
+	height: 40px;
+	background-color: #cfdeef;
 	text-align: center;
-	padding: 0.3rem;
-	margin-top: 4px;
+	padding: 0.5rem;
 `;
 
 export const Reason = styled.p`
@@ -58,7 +57,7 @@ export const Reason = styled.p`
 `;
 
 export const RecommendImage = styled.img`
-	height: 96px;
+	height: 108px;
 	width: 80px;
 `;
 

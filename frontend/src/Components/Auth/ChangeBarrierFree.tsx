@@ -34,7 +34,6 @@ function ChangeBarrierFree() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// console.log(selectedFacilities);
 	};
 
 	const changeBarrierFree = async () => {
@@ -47,11 +46,11 @@ function ChangeBarrierFree() {
 				}
 			);
 			// console.log(response);
-			alert('변경되었습니다.');
+			alert('배리어프리 항목이 변경되었습니다.');
 			navigate('/Mypage/MyInfoManage');
 		} catch (error) {
 			// console.log(error);
-			alert('변경되지 않았습니다.');
+			alert('배리어프리 항목이 변경되지 않았습니다. 다시 시도해 주세요.');
 		}
 	};
 

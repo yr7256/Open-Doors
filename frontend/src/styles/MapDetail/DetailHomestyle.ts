@@ -44,7 +44,7 @@ export const Container = styled.div`
 `;
 
 export const Names = styled.h4`
-	margin-top: 19px;
+	margin-top: 16px;
 	/* margin-bottom: 8px; */
 `;
 

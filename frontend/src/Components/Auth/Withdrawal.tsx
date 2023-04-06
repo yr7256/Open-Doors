@@ -26,8 +26,6 @@ function Withdrawal({ title, alert, closeModal }: Props) {
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	// console.log(password);
-	// console.log(accessToken);
 
 	const DeleteUser = () => {
 		axios
@@ -40,7 +38,6 @@ function Withdrawal({ title, alert, closeModal }: Props) {
 				},
 			})
 			.then(() => {
-				// console.log('회원탈퇴라니');
 				dispatch(logoutAccount());
 				logout();
 				navigate('/signup');

@@ -20,9 +20,7 @@ import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
 
 function DetailReview() {
 	const [detailData, setDetailData] = useState<[]>([]);
-	// const [placeImage, setPlaceImage] = useState<any>([]);
 	const [placeImages, setPlaceImages] = useState<Record<string, string[]>>({});
-	// const [placeImages, setPlaceImages] = useState<Record<number, string[]>>({}); // 😀 0902시도
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -42,28 +40,20 @@ function DetailReview() {
 		axios
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then(async (response) => {
-				console.log(response.data.data);
 				setDetailData(response.data.data);
-
 				const allImages = await Promise.all(
 					response.data.data.map(async (resObj: any, i: number) => {
 						const uniqueKey = `${resObj.username}-${resObj.reviewContent}-${i}`;
-
 						const name = resObj.username;
-
 						const imgArr = await Promise.all(
 							resObj.images.map(async (imgObj: any, index: number) => {
 								const requestImage = await axios.get(
 									`https://j8b205.p.ssafy.io/api/spot/image/${name}/${imgObj.pathName}`
 								);
-								// console.log(requestImage);
 								const imageUrl = requestImage.config.url;
-								// console.log('Image URL:', imageUrl); // 이미지 URL 출력
 								return imageUrl;
 							})
 						);
-
-						// return { [resObj.id]: imgArr };
 						return { [uniqueKey]: imgArr };
 					})
 				);
@@ -71,7 +61,9 @@ function DetailReview() {
 				const imagesObj = Object.assign({}, ...allImages);
 				setPlaceImages(imagesObj);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				// console.log(err)
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -107,7 +99,7 @@ function DetailReview() {
 											<h2>{v.username}</h2>
 										</div>
 										<div className="col-start-8 col-span-2"></div>
-										<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
+										<FontAwesomeIcon icon={faSolidStar} color="red" />
 										<h3>{v.reviewScore}.0</h3>
 									</div>
 									<div className="grid grid-cols-12 gap-1">

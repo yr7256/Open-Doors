@@ -88,6 +88,7 @@ function ReviewInput() {
 			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
 			// console.log(err);
+			alert('리뷰 등록에 실패하였습니다. 다시 시도해 주세요.');
 		}
 	};
 
