@@ -1,0 +1,14 @@
+.MylocIcon {
+  width: 48px;
+}
+
+.MylocbfImgs {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.MylocbfImgs > * {
+  margin: 8px 8px 8px 0;
+}

@@ -1,0 +1,81 @@
+#map {
+  width: 100%;
+  height: 83vh;
+  min-height: 50vh;
+  /* position: absolute; */
+  /* height: 100%; */
+  /* display: flex; */
+  /* flex-grow: 1 !important; */
+}
+
+#wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#test {
+  width: 100vw;
+  height: 30vh;
+  border-radius: 25px 25px 0 0;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  background-color: white;
+  display: none;
+  position: absolute;
+  /* top: 75vh; */
+  bottom: 9vh;
+  z-index: 10;
+  padding: 3vh 0 0 0;
+}
+
+#test > p {
+  margin: 1vh;
+}
+
+#form {
+  height: 8vh;
+  margin-left: 3vw;
+}
+
+#searchBarContainer {
+  width: 60vw;
+}
+
+/* #menuDiv {
+  position: absolute;
+  display: inline-flex;
+  justify-content: space-between; 
+  top: 0;
+  z-index: 150;
+} */
+
+.modalInfo {
+  margin: 5px 0 0 0;
+}
+
+.modalInfo > * {
+  margin: 16px 0 16px 0;
+}
+
+.Icon {
+  width: 48px;
+  height: 48px;
+}
+
+.smallIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.bfImgs {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.bfImgs > * {
+  margin: 8px 8px 8px 0;
+}
+

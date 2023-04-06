@@ -1,0 +1,72 @@
+.filebox .upload-name {
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 78%;
+  color: #999999;
+}
+
+.filebox .upload-name {
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 78%;
+  color: #999999;
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.filesize {
+  width: 100px;
+  height: 100px;
+}
+
+#wrap {
+  width: 100vw;
+}
+
+.box {
+  margin: 15px 0 15px 0;
+}
+
+.addressName {
+  font-size: 18px;
+  color: rgb(156 163 175);
+  text-align: left;
+}
+
+.mapbtn {
+  background-color: #6393CB;
+  height: 40px;
+  width: 64px;
+  color: white;
+  border-radius: 5px;
+}
+
+.file-label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.FileBtnStyle {
+  position: relative;
+}

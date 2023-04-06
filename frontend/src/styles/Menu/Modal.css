@@ -1,0 +1,47 @@
+.modal {
+  position: fixed;
+  left: 0;
+  bottom: 9vh;
+  background-color: white;
+  z-index: 130;
+  overflow: auto;
+  border-radius: 25px 25px 0 0;
+  padding: 1vh;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.resize-handle-top {
+  cursor: row-resize;
+  height: 40px;
+  width: 80vw;
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 50%;
+  transform:translateX(-50%);
+}
+
+.handle-line {
+  background-color: black;
+  height: 3px;
+  width: 20vw;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform:translateX(-50%);
+}
+
+.modalInfo {
+  padding: 10px 15px 0 15px;
+}
+
+.close {
+  font-size: 30px;
+}
