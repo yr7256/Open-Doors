@@ -20,6 +20,7 @@ const TrafficInfo = () => {
 	const [lat, setLat] = useState(0);
 	const [lng, setLng] = useState(0);
 	const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
+	const [noTrafficInfoMessage, setNoTrafficInfoMessage] = useState<string | null>(null);
 	// const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
 
 	interface ArrInfoProps {
@@ -44,7 +45,7 @@ const TrafficInfo = () => {
 		trafficInfoArr && trafficInfoArr.length > 0 ? (
 			trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
 		) : lat ? (
-			<NoTrafficInfo>주변 교통정보가 없습니다.</NoTrafficInfo>
+			<NoTrafficInfo>{noTrafficInfoMessage}</NoTrafficInfo>
 		) : (
 			<NoTrafficInfo>위치정보를 받아올 수 없습니다.</NoTrafficInfo>
 		);
@@ -97,6 +98,11 @@ const TrafficInfo = () => {
 			})
 			.catch((err) => {
 				console.error(err);
+				if (err.response && err.response.status === 500) {
+					setNoTrafficInfoMessage('주변 교통정보가 없습니다.');
+				} else {
+					setNoTrafficInfoMessage('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+				}
 			});
 	}, [lat, lng]);
 

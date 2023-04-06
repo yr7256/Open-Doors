@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const NoTrafficInfo = styled.div`
+	margin-top: 10%;
 	display: flex;
 	justify-content: center;
 	width: 100%;
