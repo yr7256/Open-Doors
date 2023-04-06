@@ -14,7 +14,7 @@ import {
 	Review,
 } from '../../styles/MapDetail/MapDetailstyle';
 import back from '../../assets/img/back.png';
-import whitecancel from '../../assets/img/whitecancel.png';
+import cancel from '../../assets/img/cancel.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -60,7 +60,7 @@ function MapDetail() {
 		<>
 			<MainImage>
 				<BackIcon onClick={() => navigate(-1)} src={back} />
-				<CancelIcon onClick={() => navigate('/map')} src={whitecancel} />
+				<CancelIcon onClick={() => navigate('/map')} src={cancel} />
 				<Img src={placeImage[0]} alt="home-image"></Img>
 			</MainImage>
 			<br />
