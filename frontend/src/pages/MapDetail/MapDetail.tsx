@@ -2,17 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {
-	Img,
-	H1,
-	Line,
-	MainImage,
-	BackIcon,
-	CancelIcon,
-	Div,
-	Score,
-	Review,
-} from '../../styles/MapDetail/MapDetailstyle';
+import { Img, Line, MainImage, BackIcon, CancelIcon, Div, Score, Margin } from '../../styles/MapDetail/MapDetailstyle';
 import back from '../../assets/img/back.png';
 import cancel from '../../assets/img/cancel.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +11,7 @@ import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 // component
 import PlaceNav from '../../Components/PlaceInfo/PlaceNav';
 import Footer from '../../Components/Menu/Footer';
+import { Span } from '../../styles/MapDetail/DetailHomestyle';
 
 function MapDetail() {
 	const [placeName, setPlaceName] = useState('');
@@ -63,16 +54,18 @@ function MapDetail() {
 				<CancelIcon onClick={() => navigate('/map')} src={cancel} />
 				<Img src={placeImage[0]} alt="home-image"></Img>
 			</MainImage>
-			<br />
-			<H1>{placeName}</H1>
 			<Div>
 				<span>
-					<FontAwesomeIcon icon={faSolidStar} color="red" />
+					<h1>{placeName}</h1>
 				</span>
-				<Score>{reviewScore}</Score>
-				<Review>|</Review>
-				<Review>리뷰 </Review>
-				<Review>{reviewCount}</Review>
+				<Margin>
+					<span>
+						<FontAwesomeIcon icon={faSolidStar} color="red" />
+					</span>
+					<span>
+						<Score>{reviewScore}</Score>
+					</span>
+				</Margin>
 			</Div>
 			<Line />
 			<PlaceNav category={category} onSelect={onSelect} />
