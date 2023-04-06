@@ -20,6 +20,7 @@ const TrafficInfo = () => {
 	const [lat, setLat] = useState(0);
 	const [lng, setLng] = useState(0);
 	const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
+	// const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
 
 	interface ArrInfoProps {
 		route_no: number;
@@ -39,50 +40,38 @@ const TrafficInfo = () => {
 		trafficInfoArr: TrafficInfo[];
 	}
 
-	const trafficComponents = trafficInfoArr ? (
-		trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
-	) : lat ? (
-		<NoTrafficInfo>주변 교통정보가 없습니다.</NoTrafficInfo>
-	) : (
-		<NoTrafficInfo>위치정보를 받아올 수 없습니다.</NoTrafficInfo>
-	);
+	const trafficComponents =
+		trafficInfoArr && trafficInfoArr.length > 0 ? (
+			trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
+		) : lat ? (
+			<NoTrafficInfo>주변 교통정보가 없습니다.</NoTrafficInfo>
+		) : (
+			<NoTrafficInfo>위치정보를 받아올 수 없습니다.</NoTrafficInfo>
+		);
+
+	// const trafficComponents =
+	// 	trafficInfoArr.length > 0 ? (
+	// 		trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
+	// 	) : lat ? (
+	// 		<NoTrafficInfo>주변 교통정보가 없습니다.</NoTrafficInfo>
+	// 	) : (
+	// 		<NoTrafficInfo>위치정보를 받아올 수 없습니다.</NoTrafficInfo>
+	// 	);
 
 	// 장애인콜택시 버튼 클릭
-	function LinkHandler() {
-		window.location.href = 'tel:1588-1668';
-	}
-	// 😀 모바일에서는 전화. 웹에서는 링크거는 동작
 	// function LinkHandler() {
-	// 	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-	// 	if (isMobile) {
-	// 		window.location.href = "tel:1588-1668";
-	// 	} else {
-	// 		window.open('https://www.djcall.or.kr/', '_blank');
-	// 	}
+	// 	window.location.href = 'tel:1588-1668';
 	// }
+	// 😀 모바일에서는 전화. 웹에서는 링크거는 동작
+	function LinkHandler() {
+		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-	// const fetchTrafficInfo = () => {
-	// 	const accessToken = localStorage.getItem('accessToken'); //내부함수 구현 어떻게 해놨는지 몰라서, 토큰 필요한지 모름. 일단 이렇게. 😀
-	// 	const headers = {
-	// 		'Content-type': 'application/json',
-	// 		Authorization: `Bearer ${accessToken}`,
-	// 	};
-	// 	axios
-	// 		.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/donation`, { headers }) // api주소 모름 😀
-	// 		.then((res) => {
-	// 			// console.log(res);
-	// 			// console.log(res.data);
-	// 			// console.log('asdasd');
-	// 			// const { trafficInfoArr } = res.data;
-	// 			const { trafficInfoArr: newTrafficInfoArr } = res.data;
-
-	// 			setTrafficInfoArr(newTrafficInfoArr);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.error(err);
-	// 		});
-	// };
+		if (isMobile) {
+			window.location.href = 'tel:1588-1668';
+		} else {
+			window.open('https://www.djcall.or.kr/', '_blank');
+		}
+	}
 
 	const fetchTrafficInfo = useCallback(() => {
 		const accessToken = localStorage.getItem('accessToken');
@@ -97,12 +86,13 @@ const TrafficInfo = () => {
 		console.log(typeof lat);
 
 		axios
-			.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/bus/user/busInfo?userLat=${lat}&userLng=${lng}`)
+			.get<TrafficInfo[]>(`https://j8b205.p.ssafy.io/api/bus/user/busInfo?userLat=${lat}&userLng=${lng}`)
 			.then((res) => {
 				console.log('res나온다');
 				console.log(res);
 				console.log(res.data);
-				const { trafficInfoArr: newTrafficInfoArr } = res.data;
+				// const { trafficInfoArr: newTrafficInfoArr } = res.data;
+				const newTrafficInfoArr = res.data;
 				setTrafficInfoArr(newTrafficInfoArr);
 			})
 			.catch((err) => {
@@ -131,7 +121,7 @@ const TrafficInfo = () => {
 			<TrafficInfoHeaderContainer>
 				<TrafficInfoHeader>
 					<span>주변 </span>
-					<em>300m </em>
+					<em>500m </em>
 					<span>교통 정보</span>
 				</TrafficInfoHeader>
 			</TrafficInfoHeaderContainer>
