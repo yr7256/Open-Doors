@@ -71,6 +71,7 @@ function App() {
 	const getData = async () => {
 		try {
 			const response = await axios.get('/api/spots');
+			console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {
 			// console.log(error);
