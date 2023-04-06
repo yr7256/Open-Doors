@@ -13,7 +13,6 @@ import {
 	Square,
 	Reason,
 	RecommendImage,
-	EndLine,
 	Icon,
 } from '../../styles/Recommend/Recommendstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -91,8 +90,6 @@ function TodayRecommend(props: any) {
 	useEffect(() => {
 		const imgArr: any = [];
 		props.getChild.map((v: any, i: number) => {
-			console.log(v);
-			console.log(v.spot.id, v.spot.images[0].pathName);
 			const imageRequest = async () => {
 				const getImg = await axios.get(
 					`https://j8b205.p.ssafy.io/api/spot/image/${v.spot.id}/${v.spot.images[0].pathName}`
@@ -161,21 +158,18 @@ function TodayRecommend(props: any) {
 							onClick={() => {
 								const changeArr = recommendGoodArr.slice();
 								changeArr[i] = !changeArr[i];
-								const isLikeOrDislike = recommendGoodArr[i] ? true : false;
 								setRecommendGoodArr(changeArr);
 								// 여기서 axios 하기
-								if (recommendGoodArr[i]) {
+								if (recommendGoodArr[i] === false) {
 									axios({
 										url: 'https://j8b205.p.ssafy.io/api/user/like',
 										method: 'post',
 										data: {
 											username: username,
 											SpotId: v.spot.id,
-											isLikeOrDisLike: true,
+											isLikeOrDisLike: 1,
 										},
-									})
-										.then((res) => console.log(res))
-										.catch((err) => console.log(err));
+									});
 								}
 							}}
 						/>
@@ -185,20 +179,17 @@ function TodayRecommend(props: any) {
 							onClick={() => {
 								const changeArr = recommendBadArr.slice();
 								changeArr[i] = !changeArr[i];
-								const isLikeOrDislike = recommendBadArr[i] ? true : false;
 								setRecommendBadArr(changeArr);
-								if (recommendBadArr[i]) {
+								if (recommendBadArr[i] === false) {
 									axios({
 										url: 'https://j8b205.p.ssafy.io/api/user/like',
 										method: 'post',
 										data: {
 											username: username,
 											SpotId: v.spot.id,
-											isLikeOrDisLike: false,
+											isLikeOrDisLike: 0,
 										},
-									})
-										.then((res) => console.log(res))
-										.catch((err) => console.log(err));
+									});
 								}
 							}}
 							rotation={90}

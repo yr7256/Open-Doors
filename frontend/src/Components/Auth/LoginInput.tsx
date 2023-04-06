@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Banner, Img, P, Notyet } from '../../styles/Auth/LoginInputstyle';
 import { Label, Message, Input } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
@@ -37,7 +37,6 @@ function LoginInput() {
 
 		const loginPost = {
 			url: '/api/user/login',
-			// url: 'http://localhost:8080/api/user/login',
 			method: 'POST',
 			data: loginPayload,
 		};
@@ -46,7 +45,6 @@ function LoginInput() {
 			const accessToken = loginRequest.data.accessToken;
 
 			// 로그인 성공 후 액세스 토큰을 리프레시 토큰에 저장 (리프레시 토큰 백엔드 미구현)
-			// loginRequest가 어떻게 오냐에 따라서 뒤가 바뀔 수도 있음
 			// const refreshToken = loginRequest.data.refresh_token;
 
 			// 로컬 스토리지에 액세스 토큰 저장
@@ -70,7 +68,6 @@ function LoginInput() {
 		} catch (err: any) {
 			if (err.response) {
 				// 서버에서 반환된 에러 메시지를 사용자에게 표시
-				console.log(err.response.data.message);
 				setErrorMessage(err.response.data.message);
 			} else {
 				console.log('네트워크 오류로 인해 로그인에 실패했습니다.');
