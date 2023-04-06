@@ -46,6 +46,12 @@ public class SpotController {
     private final PointRepo pointRepo;
     private final PointRecordRepo pointRecordRepo;
 
+    @GetMapping("/spots/mylocation/{username}")
+    public SpotSearchDto myLocation(@PathVariable String username){
+        List<Spot> spotList = spotService.getSpotsByUsername(username);
+        return SpotSearchDto.of("200", username +  "가 등록한 모든 장소의 목록입니다.", spotList);
+    }
+
     @GetMapping("/spots/search/{title}")
     public SpotSearchDto getSpotsContaintTitle(@PathVariable String title) {
         List<Spot> spotList = spotService.getSpotsByTitle(title);

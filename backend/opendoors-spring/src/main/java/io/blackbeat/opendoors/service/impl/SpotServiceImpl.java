@@ -94,6 +94,11 @@ public class SpotServiceImpl implements SpotService {
     }
 
     @Override
+    public List<Spot> getSpotsByUsername(String username) {
+        return spotRepo.findAllByUsername(username);
+    }
+
+    @Override
     public Spot getSpotByName(String spotName) {
         return spotRepo.findBySpotName(spotName);
     }
