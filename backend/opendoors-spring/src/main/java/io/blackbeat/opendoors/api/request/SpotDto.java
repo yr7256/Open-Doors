@@ -19,5 +19,6 @@ import java.util.List;
 public class SpotDto {
     private Spot spot;
     private List<Long> sfInfos = new ArrayList<>();
+    private String username;
     private List<MultipartFile> spotImages = new ArrayList<>();
 }

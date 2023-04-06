@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Form, P, Img } from '../../styles/Review/ReviewInputstyle';
+import { Form, P, Img, ReviewContainer } from '../../styles/Review/ReviewInputstyle';
 import { Button, PhotoButton, CancelIcon } from '../../styles/Button/ButtonStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +29,6 @@ function ReviewInput() {
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const { id } = useParams();
 	const navigate = useNavigate();
-	// console.log(id);
 
 	const onChangeReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const currentReview = e.target.value;
@@ -70,7 +69,7 @@ function ReviewInput() {
 						},
 					})
 					.then((res) => {
-						console.log(res);
+						// console.log(res);
 						setReviewData(res.data);
 					});
 			} else {
@@ -82,36 +81,16 @@ function ReviewInput() {
 						},
 					})
 					.then((res) => {
-						console.log(res);
+						// console.log(res);
 						setReviewData(res.data);
 					});
 			}
 			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
+			alert('리뷰 등록에 실패하였습니다. 다시 시도해 주세요.');
 		}
 	};
-
-	// 	const requestInfo = {
-	// 		url: 'http://192.168.31.134:8080/api/review/save',
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-type': 'application/json',
-	// 		},
-	// 		data: {
-	// 			spotId: 2,
-	// 			username: 'ssafy8878',
-	// 			reviewScore: starScore,
-	// 			reviewContent: review,
-	// 		},
-	// 	};
-	// 	try {
-	// 		const submitReviewForm = await axios(requestInfo);
-	// 		console.log(submitReviewForm);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
 
 	return (
 		<>
@@ -120,7 +99,6 @@ function ReviewInput() {
 					<div className="col-start-2 col-span-2">
 						<P>별점주기</P>
 					</div>
-					{/* <div className="col-start-4 col-span-2">{starScore}.0</div> */}
 				</div>
 				<div className="grid grid-cols-8 gap-1">
 					<div className="col-start-2 col-span-2">
@@ -160,14 +138,16 @@ function ReviewInput() {
 						</PhotoButton>
 						{selectedFiles.length > 0 && (
 							<ul>
-								{selectedFiles.map((file, index) => (
-									<li key={index}>
-										<Img src={URL.createObjectURL(file)} alt={file.name} />
-										<button onClick={() => handleFileDelete(file)}>
-											<CancelIcon src={cancel} alt="cancel" />
-										</button>
-									</li>
-								))}
+								<ReviewContainer>
+									{selectedFiles.map((file, index) => (
+										<li key={index}>
+											<Img src={URL.createObjectURL(file)} alt={file.name} />
+											<button onClick={() => handleFileDelete(file)}>
+												<CancelIcon src={cancel} alt="cancel" />
+											</button>
+										</li>
+									))}
+								</ReviewContainer>
 							</ul>
 						)}
 

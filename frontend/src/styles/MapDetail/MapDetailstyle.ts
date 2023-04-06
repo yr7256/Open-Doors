@@ -26,15 +26,11 @@ export const Link = styled(NavLink)`
 	}
 `;
 
-export const H1 = styled.h1`
-	text-align: center;
-`;
-
 export const Photo = styled.img`
 	object-fit: cover;
-	width: 150px;
-	height: 150px;
-	margin-right: 1rem;
+	width: 144px;
+	height: 144px;
+	margin-left: 1rem;
 	margin-bottom: 1rem;
 `;
 
@@ -47,6 +43,7 @@ export const H4 = styled.h4`
 export const PhotoContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	position: relative;
 `;
 
 export const MainImage = styled.div`
@@ -56,17 +53,45 @@ export const MainImage = styled.div`
 `;
 
 export const BackIcon = styled.img`
-	weight: 32px;
-	height: 32px;
-	margin: 1rem;
+	width: 44px;
+	height: 44px;
+	margin: 0.8rem;
 	position: absolute;
 `;
 
 export const CancelIcon = styled.img`
-	weight: 40px;
+	width: 40px;
 	height: 40px;
 	margin: 0.9rem;
 	position: absolute;
 	right: 0.5%;
 	padding: 0;
+`;
+
+export const Icon = styled.image`
+	width: 36px;
+	height: 36px;
+	margin: 0;
+`;
+
+export const Div = styled.div`
+	margin-top: 1rem;
+	text-align: center;
+`;
+
+export const Score = styled.span`
+	font-size: 24px;
+	font-weight: bold;
+	margin-right: 0.4rem;
+	margin-left: 0.4rem;
+`;
+
+export const Review = styled.span`
+	font-size: 24px;
+	margin-right: 0.2rem;
+	margin-left: 0.2rem;
+`;
+
+export const Margin = styled.div`
+	margin-top: 6px;
 `;

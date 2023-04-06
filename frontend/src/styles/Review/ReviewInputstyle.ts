@@ -40,3 +40,8 @@ export const Input = styled.input`
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 `;
+
+export const ReviewContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`;

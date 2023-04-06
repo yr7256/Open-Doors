@@ -3,7 +3,17 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
-import { Img, Number, Line, Icon, BigIcon, Container, Names, Menus } from '../../../styles/MapDetail/DetailHomestyle';
+import {
+	Img,
+	Number,
+	Line,
+	Icon,
+	BigIcon,
+	Container,
+	Names,
+	Menus,
+	NoNumber,
+} from '../../../styles/MapDetail/DetailHomestyle';
 import location from '../../../assets/img/location.png';
 import call from '../../../assets/img/call.png';
 
@@ -31,15 +41,10 @@ function DetailHome() {
 	// dropbarrierfree
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const onToggle = () => setIsOpen(!isOpen);
-	const onOptionClicked = (value: string, index: number) => () => {
-		setIsOpen(false);
-	};
 
 	useEffect(() => {
 		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
 			setPlaceDetail(res.data);
-			console.log(res.data);
-
 			if (res.data.data.spotAddress === '') {
 				setPlaceLocation('위치 정보가 없습니다.');
 			} else {
@@ -48,19 +53,14 @@ function DetailHome() {
 
 			setPlaceMenus(res.data.data.menus);
 			if (res.data.data.spotTelNumber === '') {
-				setPhoneNumber('전화 번호가 없습니다.');
+				setPhoneNumber('');
 			} else {
 				setPhoneNumber(res.data.data.spotTelNumber);
 			}
 			setPlaceBarrierFree(res.data.data.spotSfInfos);
 
 			const imgArr: any[] = [];
-			res.data.data.images.map((img: any, index: any) => {
-				// axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`).then((response) => {
-				// 	// images.append(response.config.url);
-				// 	console.log(response);
-				// 	setPlaceImage([...placeImage, response.config.url]);
-				// });
+			res.data.data.images.map((img: any, index: number) => {
 				const a = async () => {
 					const b = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
@@ -87,8 +87,8 @@ function DetailHome() {
 	];
 
 	// 일치하는 barrierfree만 출력
-	const mapBarrierFree = placeBarrierFree.map((idx: any) => {
-		return idx.sfInfo.id;
+	const mapBarrierFree = placeBarrierFree.map((v: any) => {
+		return v.sfInfo.id;
 	});
 
 	const barrierFree = BarrierFreeList.filter((v: any) => {
@@ -113,9 +113,15 @@ function DetailHome() {
 				<div className="col-start-2 col-span-1">
 					<Img src={call} alt="call" />
 				</div>
-				<div className="col-start-3 col-span-9">
-					<Number>{placePhoneNumber}</Number>
-				</div>
+				{placePhoneNumber === '' ? (
+					<div className="col-start-3 col-span-9">
+						<NoNumber>전화 번호가 없습니다.</NoNumber>
+					</div>
+				) : (
+					<div className="col-start-3 col-span-9">
+						<Number>{placePhoneNumber}</Number>
+					</div>
+				)}
 			</div>
 			<Line />
 			<div className="grid grid-cols-12 gap-1">
@@ -149,17 +155,18 @@ function DetailHome() {
 							{barrierFreeNames.map((v: any) => (
 								<Names key={v}>{v}</Names>
 							))}
-							<br />
-							<br />
-							<br />
-							<br />
 						</div>
 					</div>
 				)}
 			</div>
 			<Line />
 			{placeMenus.length === 0 ? (
-				''
+				<>
+					<br />
+					<br />
+					<br />
+					<br />
+				</>
 			) : (
 				<>
 					<div className="grid grid-cols-12 gap-1">

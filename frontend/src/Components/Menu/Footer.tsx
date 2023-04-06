@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Recomendation from '../../assets/img/recomendation.png';
-import Bookmark from '../../assets/img/Bookmark.png';
 import Transportation from '../../assets/img/transportation.png';
 import My from '../../assets/img/My.png';
 import { FooterBlock, FooterPlace, Image, FooterP, Line } from '../../styles/Menu/FooterStyle';
@@ -15,6 +14,7 @@ interface ModalState {
 
 const Footer: React.FC = () => {
 	const dispatch = useDispatch();
+	const accessToken = localStorage.getItem('accessToken');
 	const initialModalState: ModalState = {
 		recommend: false,
 		bookmark: false,
@@ -57,18 +57,21 @@ const Footer: React.FC = () => {
 						<Image src={Recomendation} />
 						<FooterP>추천</FooterP>
 					</div>
-					<div onClick={() => openModal(Object.keys(initialModalState)[1])}>
-						<Image src={Bookmark} />
-						<FooterP>즐겨찾기</FooterP>
-					</div>
 					<div onClick={() => openModal(Object.keys(initialModalState)[2])}>
 						<Image src={Transportation} />
 						<FooterP>교통정보</FooterP>
 					</div>
-					<div onClick={moveToMy}>
-						<Image src={My} />
-						<FooterP>MY</FooterP>
-					</div>
+					{accessToken ? (
+						<div onClick={moveToMy}>
+							<Image src={My} />
+							<FooterP>MY</FooterP>
+						</div>
+					) : (
+						<div onClick={() => navigate('/Login')}>
+							<Image src={My} />
+							<FooterP>MY</FooterP>
+						</div>
+					)}
 				</FooterBlock>
 			</FooterPlace>
 		</>

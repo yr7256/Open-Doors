@@ -5,6 +5,4 @@ import lombok.Data;
 @Data
 public class RecommendContentDto {
     private Long spotId;
-    private double spotLat;
-    private double spotLng;
 }

@@ -3,8 +3,10 @@ package io.blackbeat.opendoors.service;
 import io.blackbeat.opendoors.db.entity.Donation;
 import io.blackbeat.opendoors.db.entity.DonationRecord;
 import io.blackbeat.opendoors.db.entity.Point;
+import io.blackbeat.opendoors.db.entity.PointRecord;
 import io.blackbeat.opendoors.db.repository.DonationRecordRepo;
 import io.blackbeat.opendoors.db.repository.DonationRepo;
+import io.blackbeat.opendoors.db.repository.PointRecordRepo;
 import io.blackbeat.opendoors.db.repository.PointRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class DonationService {
     private final DonationRepo donationRepo;
     private final DonationRecordRepo donationRecordRepo;
     private final PointRepo pointRepo;
+    private final PointRecordRepo pointRecordRepo;
 
     public Integer getTotalDonationAmount() {
         Donation donation = donationRepo.findById(1)
@@ -58,17 +61,23 @@ public class DonationService {
             throw new IllegalArgumentException("포인트가 부족합니다.");
         }
 
+        donation.increaseTotalDonationAmount(donationAmount);
         DonationRecord donationRecord = DonationRecord.builder()
                 .username(username)
                 .donationAmount(donationAmount)
                 .build();
 
         point.decreasePoint(donationAmount);
-        donation.increaseTotalDonationAmount(donationAmount);
+        PointRecord pointRecord = PointRecord.builder()
+                .username(username)
+                .source("대전종합사회복지관")
+                .pointChange(-donationAmount)
+                .build();
 
+        donationRepo.save(donation);
         donationRecordRepo.save(donationRecord);
         pointRepo.save(point);
-        donationRepo.save(donation);
+        pointRecordRepo.save(pointRecord);
     }
 
     public String getThisMonth() {

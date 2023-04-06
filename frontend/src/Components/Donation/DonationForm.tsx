@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { DonationFormOuterDiv, InputBox, Button, DonationButton } from '../../styles/Donation/DonationStyled';
 import axios, { AxiosError } from 'axios';
+import handtohand from '../../assets/img/handtohand.png';
 
 type UserState = {
 	user: {
@@ -71,10 +72,14 @@ function DonationForm() {
 				.put<FundraiserInfoResponse>('https://j8b205.p.ssafy.io/api/donation', data, { headers }) // 😀 요청 수정 필요함.
 				.then((response) => {
 					// const { data } = response.data;
+					alert(
+						`${donationPoint}포인트가 기부되었습니다.\n기부된 포인트는 ${name}님의 이름으로 대전종합사회복지관에 기부됩니다.`
+					);
+					fetchDonationInfo();
 					setCurrentPoint(currentPoint - donationPoint);
 				})
 				.catch((error: AxiosError<FundraiserInfoErrorResponse>) => {
-					console.log(error.response?.data);
+					// console.log(error.response?.data);
 					console.error(error);
 				});
 		} else {
@@ -82,33 +87,14 @@ function DonationForm() {
 		}
 	};
 
-	// const
-	useEffect(() => {
-		console.log(userName);
+	// 전체 모금액, 이번달 모금액을 전달받는 함수.
+	// console.log('모금액받아오자');
+	const fetchDonationInfo = () => {
 		const accessToken = localStorage.getItem('accessToken');
 		const headers = {
 			'Content-type': 'application/json',
 			Authorization: `Bearer ${accessToken}`,
 		};
-		// console.log(`토근 잘옴 ${accessToken}`);
-
-		// 유저정보가 있으면, 현재 가진 포인트를 끌어오는 함수.
-		if (userName) {
-			axios
-				.get<MyPointResponse>(`https://j8b205.p.ssafy.io/api/point`, { headers })
-				.then((response) => {
-					const data = response.data;
-					// console.log(data);
-					// console.log(response);
-					setCurrentPoint(data.totalPoint);
-				})
-				.catch((error) => {
-					console.error(error);
-				});
-		}
-
-		// 전체 모금액, 이번달 모금액을 전달받는 함수.
-		// console.log('모금액받아오자');
 		axios
 			.get<FundraiserInfoResponse>(`https://j8b205.p.ssafy.io/api/donation`, { headers })
 			.then((res) => {
@@ -122,6 +108,34 @@ function DonationForm() {
 			.catch((err) => {
 				console.error(err);
 			});
+	};
+	// const
+	useEffect(() => {
+		// console.log(userName);
+		const accessToken = localStorage.getItem('accessToken');
+		const headers = {
+			'Content-type': 'application/json',
+			Authorization: `Bearer ${accessToken}`,
+		};
+		// console.log(`토근 잘옴 ${accessToken}`);
+
+		// 유저정보가 있으면, 현재 가진 포인트를 끌어오는 함수.
+		if (userName) {
+			axios
+				.get<MyPointResponse>(`https://j8b205.p.ssafy.io/api/point`, { headers })
+				.then((response) => {
+					const data = response.data;
+					console.log('내 포인트 얼마?');
+					console.log(data);
+					console.log(response);
+					setCurrentPoint(data.totalPoint);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+
+		fetchDonationInfo();
 	}, [userName]);
 
 	return (
@@ -129,7 +143,7 @@ function DonationForm() {
 			<div className="flexCol">
 				<div className="yellowDiv">
 					<div className="flexRowCenter">
-						<img src="" alt="손그림"></img>
+						<img src={handtohand} alt="손그림"></img>
 						<div className="flexEndLetters">
 							<em className="fundraiserTitle textRight">open doors 모금함</em>
 							{/* <br /> */}

@@ -4,17 +4,8 @@ import 'react-resizable/css/styles.css';
 import '../../styles/Menu/Modal.css';
 import TrafficInfo from '../Traffic/TrafficInfo';
 import PickCategory from '../Recommend/PickCategory';
-import Bookmark from '../Bookmark/Bookmark';
 import { useSelector } from 'react-redux';
 import TodayRecommend from '../Recommend/TodayRecommend';
-
-// const ResizableBoxWithRef = React.forwardRef<HTMLDivElement, any>(
-//   (props, ref) => (
-//     <ResizableBox ref={ref} {...props}>
-//       {props.children}
-//     </ResizableBox>
-//   )
-// );
 
 interface ModalProps {
 	id: string;
@@ -29,13 +20,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
 	const [height, setHeight] = useState(window.innerHeight * 0.45);
 	const [width, setWidth] = useState(window.innerWidth);
-	const [getChild, setGetChild] = useState<any[]>([]);
+	const [getChild, setGetChild] = useState<[]>([]);
 	const isRecommend: any = useSelector((s: any) => s.userRecommend.isRecommend);
-	// console.log(isRecommend);
-	// const handleResize = (event: any, data: any) => {
-	// 	const { deltaY } = data;
-	// 	setHeight((prevHeight) => prevHeight - deltaY);
-	// };
 
 	const handleResize = (event: any, data: any) => {
 		const { deltaY } = data;
@@ -49,16 +35,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 		});
 	};
 
-	// const wrapperRef = useRef<HTMLDivElement>(null);
-
-	// const handleClickOutside = (event: MouseEvent) => {
-	// 	if (wrapperRef.current && !wrapperRef.current?.contains(event.target as Node)) {
-	// 		handleClose();
-	// 	}
-	// };
-
 	const contentRef = useRef<HTMLDivElement>(null);
-
 	const handleClickOutside = (event: MouseEvent) => {
 		if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
 			handleClose();
@@ -74,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	}, []);
 
 	const updateDimensions = () => {
-		setHeight(window.innerHeight * 0.45);
+		setHeight(window.innerHeight * 0.35);
 		setWidth(window.innerWidth);
 	};
 
@@ -113,7 +90,6 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 					{children}
 					{id === 'recommend' && isRecommend ? <TodayRecommend getChild={getChild} /> : null}
 					{id === 'recommend' && !isRecommend ? <PickCategory receiveResponse={receiveResponse} /> : null}
-					{id === 'bookmark' ? <Bookmark /> : null}
 					{id === 'trafficinfo' ? <TrafficInfo /> : null}
 				</div>
 			</ResizableBox>
