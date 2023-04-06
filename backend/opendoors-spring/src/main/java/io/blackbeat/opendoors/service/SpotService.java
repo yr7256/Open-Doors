@@ -21,5 +21,5 @@ public interface SpotService {
     List<Spot> getSpotsByTitle(String title);
     List<Spot> getSpotsByUsername(String username);
     Spot getSpotByName(String spotName);
-
+    void deleteSpot(Long id);
 }

@@ -175,9 +175,9 @@ def fetch_bus_stop_info():
     '''
     json 형식 
     [
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
         ...
     ]
 

@@ -165,4 +165,9 @@ public class SpotController {
         }
     }
 
+    @DeleteMapping("/spot/{id}")
+    public ResponseEntity<?> deleteSpot(@PathVariable Long id) {
+        spotService.deleteSpot(id);
+        return ResponseEntity.ok().build();
+    }
 }
