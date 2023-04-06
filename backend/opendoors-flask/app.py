@@ -49,27 +49,42 @@ def post_test():
 def content_recom():
     try:
         data = request.json
+        
         ref_spot_dict_str = data['userSpot']
+        
         ref_spot_dict = json.loads(ref_spot_dict_str)
+        
         cat_num = ref_spot_dict.get('category')
+        
         spot_info_matrix_dto = data['spots']
         
+        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        # print(f'ref_spot_dict_str: {ref_spot_dict_str}')
+        # print(f'cat_num: {cat_num}')
+        # print(f'spot_info_matrix_dto: {spot_info_matrix_dto[:20]}')
+        
+        
         ref_arr = transform_dto_to_spot_arr(ref_spot_dict)
+        
         spot_info_matrix = transform_dto_to_spot_matrix(spot_info_matrix_dto)
+        
         
         # 추천 메인로직 모듈화
         res_ordered_by_spotId, manhattan_distances, facility_scores = content_based_recom(ref_arr, spot_info_matrix, cat_num)
+        
         # hybrid filtering 위해 필요없는 해당 로직에서는 필요없는 변수 생성.
         
         res_sorted_by_score = sorted(res_ordered_by_spotId, reverse=True)
         top10_res = res_sorted_by_score[:10]
-        top10_res_formatted = [(item[1], round(item[2]*1000,-2)) for item in top10_res]
+        top10_res_formatted = [(item[1], round(item[2]*1000,-2) if item[2] > 100 else round(item[2])) for item in top10_res]
         return jsonify(top10_res_formatted)
     
     except ValueError as e:
+        print('value error')
         print(e)
         abort(400, str(e))
     except KeyError as e:
+        print('key error')
         print(e)
         abort(400, f'Missing key: {str(e)}')
     except Exception as e:
@@ -160,9 +175,9 @@ def fetch_bus_stop_info():
     '''
     json 형식 
     [
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
-        {'stop_name': stop_name, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
+        {'stop_name': stop_name, 'stop_id': bus_stop_id: 85310, 'dist': dist, 'arr_infos':[]},
         ...
     ]
 
@@ -208,6 +223,7 @@ def fetch_bus_stop_info():
     
     # print(arr_datas)
     # result = json.dumps(arr_datas, ensure_ascii=False)
+    print(arr_datas)
 
     return jsonify(arr_datas)
 

@@ -8,6 +8,7 @@ import io.blackbeat.opendoors.db.entity.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     User saveUser(User user);
@@ -19,5 +20,6 @@ public interface UserService {
     List<User> getUsers();
     Boolean existsByUsername(String username);
     void changePassword(String username, String beforePassword, String newPassword);
+    void changePreference(String username, List<Long> sfInfoIds);
     void deleteUser(String username, String password);
 }

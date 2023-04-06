@@ -184,17 +184,19 @@ def verify_recom_reason(recom_arr, manhattan_distances, facility_scores, expecte
     for recom_item in recom_arr:
         pk = recom_item[1]
         idx = pk - 1
+        dist = manhattan_distances[idx]
+        dist = round(dist*1000,-2) if dist <100 else round(dist)
 
-        if facility_scores[idx] > 0.5:
-            result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '배려시설유사도가 높아요!'])
+        if facility_scores[idx] > 0.65:
+            result.append([recom_item, dist, '배려시설유사도가 높아요!'])
         elif manhattan_distances[idx] < 0.5:
-            result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '방문하기 좋은 위치에 있어요!'])
+            result.append([recom_item, dist, '방문하기 좋은 위치에 있어요!'])
         elif expected_rating_arr[idx] > 3.5:
-            result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '비슷한 취향의 사용자들이 추천한 장소에요!'])
+            result.append([recom_item, dist, '비슷한 취향의 사용자들이 추천한 장소에요!'])
         elif spot_review_count_arr[idx] > 500:
-            result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '우리동네 핫 플레이스!'])
+            result.append([recom_item, dist, '우리동네 핫 플레이스!'])
         else:
-            result.append([recom_item, round(manhattan_distances[idx],-2), '주변 사용자들의 평가가 좋은 장소에요!'])
+            result.append([recom_item, dist, '주변 사용자들의 평가가 좋은 장소에요!'])
 
     return result
 

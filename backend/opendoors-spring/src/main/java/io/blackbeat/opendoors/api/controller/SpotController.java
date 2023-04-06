@@ -46,6 +46,12 @@ public class SpotController {
     private final PointRepo pointRepo;
     private final PointRecordRepo pointRecordRepo;
 
+    @GetMapping("/spots/mylocation/{username}")
+    public SpotSearchDto myLocation(@PathVariable String username){
+        List<Spot> spotList = spotService.getSpotsByUsername(username);
+        return SpotSearchDto.of("200", username +  "가 등록한 모든 장소의 목록입니다.", spotList);
+    }
+
     @GetMapping("/spots/search/{title}")
     public SpotSearchDto getSpotsContaintTitle(@PathVariable String title) {
         List<Spot> spotList = spotService.getSpotsByTitle(title);
@@ -66,7 +72,7 @@ public class SpotController {
     }
 
     @GetMapping("/spot/image/{spotId}/{pathName}")
-    public ResponseEntity<Resource> getSpotImage(@PathVariable Long spotId, @PathVariable String pathName, HttpServletRequest request) {
+    public ResponseEntity<Resource> getSpotImage(@PathVariable String spotId, @PathVariable String pathName, HttpServletRequest request) {
         Resource resource = storageService.loadFileAsResource(String.valueOf(spotId), pathName);
         String contentType = null;
         try {
@@ -108,7 +114,7 @@ public class SpotController {
             PointRecord pointRecord = PointRecord.builder()
                     .username(spot.getUsername())
                     .source("배리어프리 장소 등록")
-                    .pointChange(10)
+                    .pointChange(100)
                     .build();
             pointRecordRepo.save(pointRecord);
         } else {
@@ -130,6 +136,9 @@ public class SpotController {
     public CommonDto<Object> saveSpot(@RequestPart SpotDto spotDto, @RequestPart(value = "spotImages", required = false) List<MultipartFile> images) {
         ModelMapper modelMapper = new ModelMapper();
         Spot spot = modelMapper.map(spotDto.getSpot(), Spot.class);
+        if (spot.getState() == null || spot.getState().equals("")) {
+            spot.setState("ready");
+        }
         List<String> imageLocations = new ArrayList<>();
         try {
             spotService.saveSpot(spot);
@@ -156,4 +165,9 @@ public class SpotController {
         }
     }
 
+    @DeleteMapping("/spot/{id}")
+    public ResponseEntity<?> deleteSpot(@PathVariable Long id) {
+        spotService.deleteSpot(id);
+        return ResponseEntity.ok().build();
+    }
 }

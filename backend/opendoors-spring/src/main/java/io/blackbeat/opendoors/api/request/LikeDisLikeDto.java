@@ -6,5 +6,5 @@ import lombok.Data;
 public class LikeDisLikeDto {
     private String username;
     private Long SpotId;
-    private boolean isLikeOrDisLike;
+    private int isLikeOrDisLike;
 }
