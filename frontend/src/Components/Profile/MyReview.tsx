@@ -15,8 +15,6 @@ type UserState = {
 
 function MyReview() {
 	const [reviewData, setReviewData] = useState<[]>([]);
-	const [placeImage, setPlaceImage] = useState<any>([]);
-	const [noReview, setNoReview] = useState<string>('');
 	const userName = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 
@@ -32,22 +30,6 @@ function MyReview() {
 					setReviewData([]);
 				} else {
 					setReviewData(response.data.data);
-					response.data.data.map((v: any, i: number) => {
-						const name = v.username;
-						const imgArr: any[] = [];
-						v.images.map((img: any, index: number) => {
-							const getImage = async () => {
-								const requestImage = await axios.get(
-									`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`
-								);
-								imgArr.push(requestImage.config.url);
-								if (imgArr.length === v.images.length) {
-									setPlaceImage(imgArr);
-								}
-							};
-							getImage();
-						});
-					});
 				}
 			})
 			.catch((err) => {
@@ -56,8 +38,41 @@ function MyReview() {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	// console.log(reviewData);
-	// console.log(placeImage);
+
+	const renderReviewImages = (images: any[]) => {
+		return images.map((img, index) => {
+			const imageUrl = `https://j8b205.p.ssafy.io/api/spot/image/${userName}/${img.pathName}`;
+			return <ReviewImage src={imageUrl} key={index} alt="review-image" />;
+		});
+	};
+
+	const renderReviews = () => {
+		return reviewData.map(
+			(v: { spotName: string; reviewContent: string; reviewScore: number; images: any[] }, i: number) => (
+				<React.Fragment key={i}>
+					<div className="grid grid-cols-12 gap-1">
+						<div className="col-start-2 col-span-6">
+							<h2>{v.spotName}</h2>
+						</div>
+						<div className="col-start-8 col-span-2"></div>
+						<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
+						<h3>{v.reviewScore}.0</h3>
+					</div>
+					<div className="grid grid-cols-12 gap-1">
+						<div className="col-start-2 col-span-10">
+							<PhotoContainer>{renderReviewImages(v.images)}</PhotoContainer>
+						</div>
+					</div>
+					<div className="grid grid-cols-12 gap-1">
+						<div className="col-start-2 col-span-10">
+							<P>{v.reviewContent}</P>
+						</div>
+					</div>
+					<Line />
+				</React.Fragment>
+			)
+		);
+	};
 
 	return (
 		<>
@@ -68,41 +83,13 @@ function MyReview() {
 				<div className="col-start-5 col-span-2">{reviewData === null ? '' : <H2>{reviewData.length}</H2>}</div>
 			</div>
 			<ReviewArea>
-				{reviewData === null ? (
+				{reviewData.length === 0 ? (
 					<>
 						<NoReview>아직 등록하신 리뷰가 없습니다.</NoReview>
 						<NoReview>어서 리뷰를 남겨주세요!</NoReview>
 					</>
 				) : (
-					<>
-						{reviewData.map((v: { spotName: string; reviewContent: string; reviewScore: number }, i: number) => (
-							<React.Fragment key={i}>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-6">
-										<h2>{v.spotName}</h2>
-									</div>
-									<div className="col-start-8 col-span-2"></div>
-									<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
-									<h3>{v.reviewScore}.0</h3>
-								</div>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-10">
-										<PhotoContainer>
-											{placeImage.map((value: string, index: number) => (
-												<ReviewImage src={placeImage[index]} key={index} alt="review-image"></ReviewImage>
-											))}
-										</PhotoContainer>
-									</div>
-								</div>
-								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-10">
-										<P>{v.reviewContent}</P>
-									</div>
-								</div>
-								<Line />
-							</React.Fragment>
-						))}
-					</>
+					<>{renderReviews()}</>
 				)}
 			</ReviewArea>
 			<br />

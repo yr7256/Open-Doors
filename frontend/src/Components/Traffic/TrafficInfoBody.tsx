@@ -10,6 +10,10 @@ import {
 	TrafficTitleWrapper,
 	TrafficInfoBox,
 	BusArrDiv,
+	NoTrafficInfo,
+	BusStopInfo,
+	BusStopNum,
+	BusIcon,
 } from '../../styles/Traffic/TrafficStyled';
 
 import TrafficBusArrDiv from './TrafficBusArrDiv';
@@ -33,16 +37,21 @@ interface BusStopProps {
 }
 
 const TrafficInfoBody: React.FC<TrafficInfoBodyProps> = ({ busStop }) => {
-	const busArrComponents = busStop.arr_infos.map((arrInfo, idx) => <TrafficBusArrDiv key={idx} arrInfo={arrInfo} />);
+	const busArrComponents =
+		busStop.arr_infos.length > 0 ? (
+			busStop.arr_infos.map((arrInfo, idx) => <TrafficBusArrDiv key={idx} arrInfo={arrInfo} />)
+		) : (
+			<NoTrafficInfo>해당 정류장의 도착정보가 없습니다.</NoTrafficInfo>
+		);
 
 	return (
 		<TrafficInfoBox>
-			<img src={bus} alt="버스아이콘"></img>
-			<div className="busStopInfo">
+			<BusStopInfo>
+				<BusIcon src={bus} alt="버스아이콘"></BusIcon>
 				<span className="busStopTitle">{busStop.stop_name}</span>
-				<span className="busStopNum">{busStop.stop_id}</span>
-				<span className="busStopNum">{busStop.dist}</span>
-			</div>
+				<span className="busStopNum">{`(${busStop.stop_id})`}</span>
+				<BusStopNum>{Math.round(busStop.dist)}m</BusStopNum>
+			</BusStopInfo>
 			<div className="horizontalLine" />
 
 			{busArrComponents}

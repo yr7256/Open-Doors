@@ -5,12 +5,24 @@ export const NoTrafficInfo = styled.div`
 	justify-content: center;
 	width: 100%;
 	color: #d9d9d9;
+	height: 20%;
 `;
 
 export const TrafficInfoHeaderContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	width: 100%;
+`;
+
+export const BusStopInfo = styled.div`
+	// display: inline-block;
+	display: flex;
+	align-items: center; // 추가 😀
+`;
+
+export const BusStopNum = styled.span`
+	margin-left: auto;
+	margin-right: 5%;
 `;
 
 export const TrafficInfoHeader = styled.div`
@@ -77,8 +89,10 @@ export const TrafficInfoBoxWrapper = styled.div``;
 // `;
 
 export const TrafficInfoBox = styled.div`
+	// display: flex; // 추가
 	border-radius: 5px;
 	border: 2px solid #d9d9d9;
+	margin-bottom: 5%;
 
 	& > .busStopTitle {
 		font-size: 1rem;
@@ -112,6 +126,17 @@ export const TrafficInfoBox = styled.div`
 		width: 100%;
 		border-top: 2px solid #d9d9d9;
 	}
+`;
+
+export const BusIcon = styled.img`
+	display: inline-block;
+	// transform: scale(1.5);
+	vertical-align: center; // 추가
+	// margin-top: 1.5%;
+	margin-left: 1.5%;
+	margin-right: 1.5%;
+	width: 10%;
+	height: 10%;
 `;
 
 export const BusArrDiv = styled.div`
