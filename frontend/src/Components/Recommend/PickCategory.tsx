@@ -125,6 +125,7 @@ function PickCategory(props: any) {
 			setResponseData(recommendList);
 			props.receiveResponse(recommendList);
 			console.log(recommendList);
+
 			dispatch(recommend({ isRecommend: true }));
 			console.log('선택완료');
 		} catch (err) {
