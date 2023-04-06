@@ -212,7 +212,7 @@ def fetch_bus_stop_info():
         spot_coor = (spot_lat, spot_lng)
         
         haversine_dist = haversine(bus_stop_coor, spot_coor, unit='m')
-        if haversine_dist <= 300: # 500m이내라면?
+        if haversine_dist <= 500: # 500m이내라면?
             bus_stop_within_500m_data = {'bus_stop_data' : bus_stop, 'distance' : haversine_dist}
             bus_stop_within_500m.append(bus_stop_within_500m_data)
 
@@ -223,6 +223,7 @@ def fetch_bus_stop_info():
     
     # print(arr_datas)
     # result = json.dumps(arr_datas, ensure_ascii=False)
+    print(arr_datas)
 
     return jsonify(arr_datas)
 
