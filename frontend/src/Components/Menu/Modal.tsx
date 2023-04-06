@@ -7,14 +7,6 @@ import PickCategory from '../Recommend/PickCategory';
 import { useSelector } from 'react-redux';
 import TodayRecommend from '../Recommend/TodayRecommend';
 
-// const ResizableBoxWithRef = React.forwardRef<HTMLDivElement, any>(
-//   (props, ref) => (
-//     <ResizableBox ref={ref} {...props}>
-//       {props.children}
-//     </ResizableBox>
-//   )
-// );
-
 interface ModalProps {
 	id: string;
 	title: string;
@@ -43,16 +35,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 		});
 	};
 
-	// const wrapperRef = useRef<HTMLDivElement>(null);
-
-	// const handleClickOutside = (event: MouseEvent) => {
-	// 	if (wrapperRef.current && !wrapperRef.current?.contains(event.target as Node)) {
-	// 		handleClose();
-	// 	}
-	// };
-
 	const contentRef = useRef<HTMLDivElement>(null);
-
 	const handleClickOutside = (event: MouseEvent) => {
 		if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
 			handleClose();
@@ -68,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({ id, title, show, handleClose, children })
 	}, []);
 
 	const updateDimensions = () => {
-		setHeight(window.innerHeight * 0.45);
+		setHeight(window.innerHeight * 0.35);
 		setWidth(window.innerWidth);
 	};
 

@@ -93,8 +93,8 @@ function LoginInput() {
 				<P>더 많은 서비스를 이용할 수 있습니다.</P>
 			</Banner>
 			<form onSubmit={handleSubmit}>
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-11">
+				<div className="flex justify-center">
+					<div className="flex flex-col">
 						<Label>아이디</Label>
 						<Input id="id" name="id" placeholder={'   아이디'} onChange={handleIdChange} />
 						<br />
@@ -109,12 +109,10 @@ function LoginInput() {
 						/>
 						<Message>{errorMessage}</Message>
 
-						<div className="grid grid-cols-16 gap-1">
-							<div className="col-start-2 col-end-12">
-								<Button onClick={submitLogin}>로그인</Button>
-								<Notyet>아직 가입을 하지 않으셨나요?</Notyet>
-								<Button onClick={moveSignup}>가입 하러가기</Button>
-							</div>
+						<div>
+							<Button onClick={submitLogin}>로그인</Button>
+							<Notyet>아직 가입을 하지 않으셨나요?</Notyet>
+							<Button onClick={moveSignup}>가입 하러가기</Button>
 						</div>
 					</div>
 				</div>
