@@ -86,10 +86,10 @@ const TrafficInfo = () => {
 
 	const fetchTrafficInfo = useCallback(() => {
 		const accessToken = localStorage.getItem('accessToken');
-		// const headers = {
-		// 	'Content-type': 'application/json',
-		// 	Authorization: `Bearer ${accessToken}`,
-		// };
+		const headers = {
+			'Content-type': 'application/json',
+			// Authorization: `Bearer ${accessToken}`,
+		};
 		console.log(lat);
 		console.log(lng);
 		console.log('이제 타입');
