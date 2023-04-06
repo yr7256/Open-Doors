@@ -184,8 +184,10 @@ def verify_recom_reason(recom_arr, manhattan_distances, facility_scores, expecte
     for recom_item in recom_arr:
         pk = recom_item[1]
         idx = pk - 1
+        dist = manhattan_distances[idx]
+        dist = round(dist*1000,-2) if dist <100 else round(dist)
 
-        if facility_scores[idx] > 0.5:
+        if facility_scores[idx] > 0.65:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '배려시설유사도가 높아요!'])
         elif manhattan_distances[idx] < 0.5:
             result.append([recom_item, round(manhattan_distances[idx]*1000,-2), '방문하기 좋은 위치에 있어요!'])

@@ -76,7 +76,7 @@ def content_recom():
         
         res_sorted_by_score = sorted(res_ordered_by_spotId, reverse=True)
         top10_res = res_sorted_by_score[:10]
-        top10_res_formatted = [(item[1], round(item[2]*1000,-2)) for item in top10_res]
+        top10_res_formatted = [(item[1], round(item[2]*1000,-2) if item[2] > 100 else round(item[2])) for item in top10_res]
         return jsonify(top10_res_formatted)
     
     except ValueError as e:
