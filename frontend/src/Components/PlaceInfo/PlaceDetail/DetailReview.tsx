@@ -20,7 +20,9 @@ import wheelchair from '../../../assets/img/Barrierfree/wheelchair.png';
 
 function DetailReview() {
 	const [detailData, setDetailData] = useState<[]>([]);
-	const [placeImage, setPlaceImage] = useState<any>([]);
+	// const [placeImage, setPlaceImage] = useState<any>([]);
+	const [placeImages, setPlaceImages] = useState<Record<string, string[]>>({});
+	// const [placeImages, setPlaceImages] = useState<Record<number, string[]>>({}); // 😀 0902시도
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -39,23 +41,33 @@ function DetailReview() {
 	useEffect(() => {
 		axios
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
-			.then((response) => {
+			.then(async (response) => {
+				console.log(response.data.data);
 				setDetailData(response.data.data);
 
-				response.data.data.map((v: any, i: number) => {
-					const name = v.username;
-					const imgArr: any[] = [];
-					v.images.map((img: any, index: number) => {
-						const getImage = async () => {
-							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
-							imgArr.push(requestImage.config.url);
-							if (imgArr.length === v.images.length) {
-								setPlaceImage(imgArr);
-							}
-						};
-						getImage();
-					});
-				});
+				const allImages = await Promise.all(
+					response.data.data.map(async (resObj: any, i: number) => {
+						const uniqueKey = `${resObj.username}-${resObj.reviewContent}-${i}`;
+						const name = resObj.username;
+						const imgArr = await Promise.all(
+							resObj.images.map(async (imgObj: any, index: number) => {
+								const requestImage = await axios.get(
+									`https://j8b205.p.ssafy.io/api/spot/image/${name}/${imgObj.pathName}`
+								);
+								// console.log(requestImage);
+								const imageUrl = requestImage.config.url;
+								// console.log('Image URL:', imageUrl); // 이미지 URL 출력
+								return imageUrl;
+							})
+						);
+
+						// return { [resObj.id]: imgArr };
+						return { [uniqueKey]: imgArr };
+					})
+				);
+
+				const imagesObj = Object.assign({}, ...allImages);
+				setPlaceImages(imagesObj);
 			})
 			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,8 +127,8 @@ function DetailReview() {
 									<div className="grid grid-cols-12 gap-1">
 										<div className="col-start-2 col-span-10">
 											<PhotoContainer>
-												{placeImage.map((value: string, index: number) => (
-													<ReviewImage src={placeImage[index]} key={index} alt="review-image"></ReviewImage>
+												{placeImages[`${v.username}-${v.reviewContent}-${i}`]?.map((value: string, index: number) => (
+													<ReviewImage src={value} key={index} alt="review-image"></ReviewImage>
 												))}
 											</PhotoContainer>
 										</div>
