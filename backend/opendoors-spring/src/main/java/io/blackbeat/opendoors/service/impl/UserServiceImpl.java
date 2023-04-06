@@ -152,6 +152,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changePreference(String username, List<Long> sfInfoIds) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+
+        List<SfInfo> changeSfInfoIds = new ArrayList<>();
+        for (Long sfInfoId : sfInfoIds) {
+            SfInfo sfInfo = sfInfoRepo.findById(sfInfoId).orElseThrow();
+            changeSfInfoIds.add(sfInfo);
+        }
+
+        user.setSfInfoIds(changeSfInfoIds);
+        userRepo.save(user);
+    }
+
+    @Override
     public void deleteUser(String username, String password) {
         User user = userRepo.findByUsername(username);
         if (user == null) {

@@ -1,11 +1,7 @@
 package io.blackbeat.opendoors.api.controller;
 
 
-import io.blackbeat.opendoors.api.request.LikeDisLikeDto;
-import io.blackbeat.opendoors.api.request.ChangePasswordDto;
-import io.blackbeat.opendoors.api.request.LoginDto;
-import io.blackbeat.opendoors.api.request.PointDto;
-import io.blackbeat.opendoors.api.request.RegistDto;
+import io.blackbeat.opendoors.api.request.*;
 import io.blackbeat.opendoors.api.response.CommonDto;
 import io.blackbeat.opendoors.api.response.TokenDto;
 import io.blackbeat.opendoors.db.entity.DisLike;
@@ -64,15 +60,14 @@ public class UserController {
     }
 
     @PostMapping("/user/like")
-    public CommonDto<Object> likeDisLikeSpot(LikeDisLikeDto likeDisLikeDto){
+    public CommonDto<Object> likeDisLikeSpot(LikeDisLikeDto likeDisLikeDto) {
         User user = userService.getUser(likeDisLikeDto.getUsername());
-        if(likeDisLikeDto.isLikeOrDisLike() == true){
+        if (likeDisLikeDto.isLikeOrDisLike() == true) {
             LikeSpot likeSpot = new LikeSpot();
             likeSpot.setSpotId(likeDisLikeDto.getSpotId());
             likeSpot.setUsername(likeSpot.getUsername());
             user.getLikeSpot().add(likeSpot);
-        }
-        else{
+        } else {
             DisLike dislikeSpot = new DisLike();
             dislikeSpot.setSpotId(likeDisLikeDto.getSpotId());
             dislikeSpot.setUsername(dislikeSpot.getUsername());
@@ -80,6 +75,7 @@ public class UserController {
         }
         return CommonDto.of("200", "좋아요 싫어요 정보가 저장되었습니다.", likeDisLikeDto.getUsername());
     }
+
     @GetMapping("/user/point/{username}")
     public CommonDto<Object> getPoints(@PathVariable String username) {
         User user = userRepo.findByUsername(username);
@@ -141,6 +137,12 @@ public class UserController {
     @PutMapping("/user/change/password")
     public ResponseEntity<?> changePassword(@AuthenticationPrincipal String username, @RequestBody ChangePasswordDto changePasswordDto) {
         userService.changePassword(username, changePasswordDto.getBeforePassword(), changePasswordDto.getNewPassword());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/change/preference")
+    public ResponseEntity<?> changePreference(@AuthenticationPrincipal String username, @RequestBody Map<String, List<Long>> request) {
+        userService.changePreference(username, request.get("sfInfoIds"));
         return ResponseEntity.ok().build();
     }
 
