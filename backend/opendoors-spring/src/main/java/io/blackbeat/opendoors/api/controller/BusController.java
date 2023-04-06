@@ -20,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.websocket.server.PathParam;
-
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -29,25 +27,24 @@ import javax.websocket.server.PathParam;
 public class BusController {
     private final BusService busService;
     private final SpotService spotService;
+
     @PostMapping("/bus/info/save")
-    public CommonDto<Object> savebusInfo(@RequestBody BusInfo busInfo){
-        try{
+    public CommonDto<Object> savebusInfo(@RequestBody BusInfo busInfo) {
+        try {
             busService.saveBusInfo(busInfo);
-            return CommonDto.of("200" , "버스 정보 저장됨" , busInfo.getBusNumPad());
-        }
-        catch (Exception e){
-            return CommonDto.of("400" , "내용 : " + e.getMessage() ,null);
+            return CommonDto.of("200", "버스 정보 저장됨", busInfo.getBusNumPad());
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
 
     @PostMapping("/bus/stationInfo/save")
-    public CommonDto<Object> saveBusStationInfo(@RequestBody BusStationInfo busStationInfo){
-        try{
-        busService.saveBusStationInfo(busStationInfo);
-        return CommonDto.of("200" , "버스 정류장 정보 저장됨" , busStationInfo.getBusName());
-        }
-        catch (Exception e){
-            return CommonDto.of("400" , "내용 : " + e.getMessage() ,null);
+    public CommonDto<Object> saveBusStationInfo(@RequestBody BusStationInfo busStationInfo) {
+        try {
+            busService.saveBusStationInfo(busStationInfo);
+            return CommonDto.of("200", "버스 정류장 정보 저장됨", busStationInfo.getBusName());
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
 
@@ -71,10 +68,10 @@ public class BusController {
         String busStation = objectMapper.writeValueAsString(requestBusDto.getBusStations()).replaceAll("\\\\", "");
         String lat = objectMapper.writeValueAsString(requestBusDto.getLat()).replaceAll("\\\\", "");
         String lng = objectMapper.writeValueAsString(requestBusDto.getLng()).replaceAll("\\\\", "");
-        json.put("buses" , bus);
-        json.put("busStations" , busStation);
-        json.put("lat" , lat);
-        json.put("lng" , lng);
+        json.put("buses", bus);
+        json.put("busStations", busStation);
+        json.put("lat", lat);
+        json.put("lng", lng);
 
 
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
@@ -86,7 +83,7 @@ public class BusController {
     }
 
     @GetMapping("/bus/user/busInfo")
-    public String getUSerBusStationInfo(@RequestParam("userLat") String userLat ,  @RequestParam("userLng") String userLng) throws JsonProcessingException, JSONException {
+    public String getUSerBusStationInfo(@RequestParam("userLat") Double userLat, @RequestParam("userLng") Double userLng) throws JsonProcessingException, JSONException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -100,17 +97,15 @@ public class BusController {
         String busStation = objectMapper.writeValueAsString(requestBusDto.getBusStations()).replaceAll("\\\\", "");
         String lat = objectMapper.writeValueAsString(userLat).replaceAll("\\\\", "");
         String lng = objectMapper.writeValueAsString(userLng).replaceAll("\\\\", "");
-        json.put("buses" , bus);
-        json.put("busStations" , busStation);
-        json.put("lat" , lat);
-        json.put("lng" , lng);
+        json.put("buses", bus);
+        json.put("busStations", busStation);
+        json.put("lat", lat);
+        json.put("lng", lng);
 
 
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/busInfo", request, String.class);
         String responseBody = response.getBody();
         return responseBody;
-
-
     }
 }
