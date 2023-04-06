@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -83,4 +85,32 @@ public class BusController {
 
     }
 
+    @GetMapping("/bus/user/busInfo")
+    public String getUSerBusStationInfo(@RequestParam("userLat") String userLat ,  @RequestParam("userLng") String userLng) throws JsonProcessingException, JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ObjectMapper objectMapper = new ObjectMapper();
+        RequestBusDto requestBusDto = new RequestBusDto();
+        requestBusDto.setBusStations(busService.getBusStationInfos());
+        requestBusDto.setBuses(busService.getBusInfos());
+
+        JSONObject json = new JSONObject();
+        RestTemplate restTemplate = new RestTemplate();
+        String bus = objectMapper.writeValueAsString(requestBusDto.getBuses()).replaceAll("\\\\", "");
+        String busStation = objectMapper.writeValueAsString(requestBusDto.getBusStations()).replaceAll("\\\\", "");
+        String lat = objectMapper.writeValueAsString(userLat).replaceAll("\\\\", "");
+        String lng = objectMapper.writeValueAsString(userLng).replaceAll("\\\\", "");
+        json.put("buses" , bus);
+        json.put("busStations" , busStation);
+        json.put("lat" , lat);
+        json.put("lng" , lng);
+
+
+        HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://j8b205.p.ssafy.io:5000/recom/busInfo", request, String.class);
+        String responseBody = response.getBody();
+        return responseBody;
+
+
+    }
 }
