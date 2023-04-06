@@ -60,9 +60,9 @@ public class UserController {
     }
 
     @PostMapping("/user/like")
-    public CommonDto<Object> likeDisLikeSpot(LikeDisLikeDto likeDisLikeDto) {
+    public CommonDto<Object> likeDisLikeSpot(@RequestBody LikeDisLikeDto likeDisLikeDto) {
         User user = userService.getUser(likeDisLikeDto.getUsername());
-        if (likeDisLikeDto.isLikeOrDisLike() == true) {
+        if (likeDisLikeDto.getIsLikeOrDisLike() == 1) {
             LikeSpot likeSpot = new LikeSpot();
             likeSpot.setSpotId(likeDisLikeDto.getSpotId());
             likeSpot.setUsername(likeSpot.getUsername());
@@ -73,6 +73,7 @@ public class UserController {
             dislikeSpot.setUsername(dislikeSpot.getUsername());
             user.getDisLikeSpot().add(dislikeSpot);
         }
+        userRepo.save(user);
         return CommonDto.of("200", "좋아요 싫어요 정보가 저장되었습니다.", likeDisLikeDto.getUsername());
     }
 
