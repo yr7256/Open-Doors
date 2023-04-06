@@ -86,10 +86,10 @@ const TrafficInfo = () => {
 
 	const fetchTrafficInfo = useCallback(() => {
 		const accessToken = localStorage.getItem('accessToken');
-		const headers = {
-			'Content-type': 'application/json',
-			Authorization: `Bearer ${accessToken}`,
-		};
+		// const headers = {
+		// 	'Content-type': 'application/json',
+		// 	Authorization: `Bearer ${accessToken}`,
+		// };
 		console.log(lat);
 		console.log(lng);
 		console.log('이제 타입');
@@ -97,9 +97,7 @@ const TrafficInfo = () => {
 		console.log(typeof lat);
 
 		axios
-			.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/bus/user/busInfo?userLat=${lat}&userLng=${lng}`, {
-				headers,
-			})
+			.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/bus/user/busInfo?userLat=${lat}&userLng=${lng}`)
 			.then((res) => {
 				console.log('res나온다');
 				console.log(res);
