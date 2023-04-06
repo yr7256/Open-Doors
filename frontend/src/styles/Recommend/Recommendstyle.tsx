@@ -40,7 +40,7 @@ export const Distance = styled.span`
 
 export const Ptag = styled.p`
 	margin-top: 8px;
-	margin-bottom: 8px;
+	margin-bottom: 4px;
 `;
 
 export const Square = styled.div`
@@ -49,6 +49,7 @@ export const Square = styled.div`
 	background-color: #CFDEEF;
 	text-align: center;
 	padding: 0.3rem;
+	margin-top: 4px;
 `;
 
 export const Reason = styled.p`
@@ -57,11 +58,18 @@ export const Reason = styled.p`
 `;
 
 export const RecommendImage = styled.img`
-	height: 100px;
+	height: 96px;
 	width: 80px;
 `;
 
 export const EndLine = styled.div`
 	border-top: 1px solid #d9d9d9;
 	width: 300px;
+`;
+
+export const Icon = styled.img`
+	width: 32px;
+	height: 32px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 `;

@@ -14,6 +14,7 @@ import {
 	Reason,
 	RecommendImage,
 	EndLine,
+	Icon,
 } from '../../styles/Recommend/Recommendstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as faRegularThumbsUp } from '@fortawesome/free-regular-svg-icons';
@@ -45,6 +46,7 @@ function TodayRecommend(props: any) {
 	const [badState, setBadState] = useState<boolean>(false);
 	const name = useSelector((state: UserState) => state.user.name);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
+	const username = useSelector((state: UserState) => state.user.username);
 
 	console.log(props.getChild);
 
@@ -89,6 +91,7 @@ function TodayRecommend(props: any) {
 	useEffect(() => {
 		const imgArr: any = [];
 		props.getChild.map((v: any, i: number) => {
+			console.log(v);
 			console.log(v.spot.id, v.spot.images[0].pathName);
 			const imageRequest = async () => {
 				const getImg = await axios.get(
@@ -98,11 +101,6 @@ function TodayRecommend(props: any) {
 				if (i === 9) {
 					setRecommendImage(imgArr);
 				}
-
-				// imgArr.push(imageRequest);
-				// if (i === 9) {
-				// 	setRecommendImage(imgArr);
-				// }
 			};
 			imageRequest();
 		});
@@ -124,7 +122,7 @@ function TodayRecommend(props: any) {
 			<Line />
 			<br />
 
-			{props.getChild.map((v: { distance: number; reason: string; spot: any }, i: number) => (
+			{props.getChild.map((v: { distance: number; reason: string; spot: any; sfInfoIds: [] }, i: number) => (
 				<div className="grid grid-cols-16 gap-1" key={i}>
 					<div className="col-start-2 col-span-12">
 						<SpotName>{v.spot.spotName}</SpotName>
@@ -134,6 +132,20 @@ function TodayRecommend(props: any) {
 						</Ptag>
 					</div>
 					<RecommendImage src={recommendImage[i]} alt="recommend-image" />
+					<div className="col-start-2 col-span-12">
+						<div className="flex flex-row">
+							{v.sfInfoIds.map((sfId: number, index: number) => {
+								const barrierFree = BarrierFreeList.find((bf) => bf.id === sfId);
+								if (barrierFree) {
+									return (
+										<React.Fragment key={index}>
+											<Icon src={barrierFree.image} alt={barrierFree.sfName} />
+										</React.Fragment>
+									);
+								}
+							})}
+						</div>
+					</div>
 					<div className="col-start-2 col-span-2">
 						<Square>
 							<p>추천</p>
@@ -149,9 +161,22 @@ function TodayRecommend(props: any) {
 							onClick={() => {
 								const changeArr = recommendGoodArr.slice();
 								changeArr[i] = !changeArr[i];
+								const isLikeOrDislike = recommendGoodArr[i] ? true : false;
 								setRecommendGoodArr(changeArr);
 								// 여기서 axios 하기
-								// axios.get('').then().catch();
+								if (recommendGoodArr[i]) {
+									axios({
+										url: 'https://j8b205.p.ssafy.io/api/user/like',
+										method: 'post',
+										data: {
+											username: username,
+											SpotId: v.spot.id,
+											isLikeOrDisLike: true,
+										},
+									})
+										.then((res) => console.log(res))
+										.catch((err) => console.log(err));
+								}
 							}}
 						/>
 						<FontAwesomeIcon
@@ -160,7 +185,21 @@ function TodayRecommend(props: any) {
 							onClick={() => {
 								const changeArr = recommendBadArr.slice();
 								changeArr[i] = !changeArr[i];
+								const isLikeOrDislike = recommendBadArr[i] ? true : false;
 								setRecommendBadArr(changeArr);
+								if (recommendBadArr[i]) {
+									axios({
+										url: 'https://j8b205.p.ssafy.io/api/user/like',
+										method: 'post',
+										data: {
+											username: username,
+											SpotId: v.spot.id,
+											isLikeOrDisLike: false,
+										},
+									})
+										.then((res) => console.log(res))
+										.catch((err) => console.log(err));
+								}
 							}}
 							rotation={90}
 						/>
