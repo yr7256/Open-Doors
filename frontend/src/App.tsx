@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
@@ -33,18 +33,10 @@ import AdminDetail from './Components/Admin/AdminDetail';
 import AdminRoute from './pages/Routes/AdminRoute';
 import Mainpage from './Components/Menu/Mainpage';
 
-type UserState = {
-	user: {
-		isLogged: boolean;
-		accessToken: string;
-	};
-};
-
 function App() {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const accessToken = useSelector((state: UserState) => state.user.accessToken);
-	const isLogged = useSelector((state: UserState) => state.user.isLogged);
+	const accessToken = window.localStorage.getItem('accessToken');
 
 	const handleResize = () => {
 		const vh = window.innerHeight * 0.01;
@@ -61,6 +53,7 @@ function App() {
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
+			window.localStorage.clear();
 			// navigate('/Login');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
