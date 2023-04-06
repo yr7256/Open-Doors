@@ -41,13 +41,8 @@ type UserState = {
 
 function TodayRecommend(props: any) {
 	const [recommendImage, setRecommendImage] = useState<any[]>([]);
-	const [goodState, setGoodState] = useState<boolean>(false);
-	const [badState, setBadState] = useState<boolean>(false);
 	const name = useSelector((state: UserState) => state.user.name);
-	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const username = useSelector((state: UserState) => state.user.username);
-
-	console.log(props.getChild);
 
 	// barrierfree 종류
 	const BarrierFreeList = [
@@ -97,7 +92,7 @@ function TodayRecommend(props: any) {
 				);
 				setRecommendImage(imgArr);
 			} catch (error) {
-				console.error('Error fetching images:', error);
+				// console.error('Error fetching images:', error);
 			}
 		};
 		fetchImages();
@@ -120,7 +115,7 @@ function TodayRecommend(props: any) {
 
 			{props.getChild.map((v: { distance: number; reason: string; spot: any; sfInfoIds: [] }, i: number) => (
 				<div className="grid grid-cols-16 gap-1" key={i}>
-					<div className="flex col-start-2 col-span-12">
+					<div className="flex col-start-2 col-span-12" style={{ justifyContent: 'space-between' }}>
 						<div className="flex flex-col">
 							<SpotName>{v.spot.spotName}</SpotName>
 							<Ptag>{v.spot.spotAddress}</Ptag>

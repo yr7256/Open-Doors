@@ -101,7 +101,6 @@ function PickCategory(props: any) {
 				pickId.push(v.id);
 			});
 		}
-		// console.log(pickId);
 		const dataPayload = {
 			username: username,
 			spotCategory: pickId,
@@ -118,18 +117,14 @@ function PickCategory(props: any) {
 			},
 			data: dataPayload,
 		};
-		// console.log(dataPayload);
 		try {
 			const pickRequest = await axios(requestInfo);
 			const recommendList = pickRequest.data;
 			setResponseData(recommendList);
 			props.receiveResponse(recommendList);
-			// console.log(recommendList);
 			dispatch(recommend({ isRecommend: true }));
-			// console.log('선택완료');
 		} catch (err) {
-			// console.log('안됐잖아');
-			// console.log(err);
+			alert('추천에 실패하였습니다. 다시 시도해 주세요');
 		}
 	};
 

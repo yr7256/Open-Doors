@@ -27,6 +27,7 @@ export const NoReview = styled.h4`
 `;
 
 export const ReviewImage = styled.img`
+	flex-shrink: 0;
 	width: 100px;
 	height: 100px;
 	margin-right: 4px;

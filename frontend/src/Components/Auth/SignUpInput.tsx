@@ -131,11 +131,6 @@ function SignUpInput() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (isChecked) {
-			console.log(id, password, passwordCheck, realName);
-		} else {
-			// console.log(realName, id, password, formBirth, selectedFacilities, gender);
-		}
 	};
 
 	// 회원가입 post 보내기
@@ -194,8 +189,9 @@ function SignUpInput() {
 							<Label htmlFor="password">비밀번호</Label> <br />
 							<Input
 								id="password"
-								name="current-password"
+								name="password"
 								type="password"
+								autoComplete="off"
 								value={password}
 								onChange={onChangePassword}
 								placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
@@ -208,6 +204,7 @@ function SignUpInput() {
 								id="passwordConfirm"
 								name="passwordConfirm"
 								type="password"
+								autoComplete="off"
 								value={passwordCheck}
 								onChange={onChangePasswordConfirm}
 								placeholder={'  비밀번호 확인'}
@@ -258,7 +255,7 @@ function SignUpInput() {
 									<Label>
 										<Condition
 											type="checkbox"
-											checked={selectedFacilities.some((f) => f.id === facility.id)}
+											checked={selectedFacilities.some((f: any) => f.id === facility.id)}
 											onChange={() => toggleCheckbox(facility)}
 										/>
 										{facility.label}

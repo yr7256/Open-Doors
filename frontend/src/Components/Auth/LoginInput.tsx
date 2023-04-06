@@ -62,15 +62,18 @@ function LoginInput() {
 					const name = response.data.name;
 					dispatch(loginAccount({ username: username, password: password, accessToken: accessToken, name: name }));
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {
+					// console.log(err)
+					alert('로그인에 실패하였습니다. 다시 시도해 주세요.');
+				});
 
 			navigate('/map');
 		} catch (err: any) {
 			if (err.response) {
 				// 서버에서 반환된 에러 메시지를 사용자에게 표시
-
 				setErrorMessage(err.response.data.message);
 			} else {
+				alert('네트워크 오류로 인해 로그인에 실패했습니다.');
 				// console.log('네트워크 오류로 인해 로그인에 실패했습니다.');
 			}
 			// console.log(err);
