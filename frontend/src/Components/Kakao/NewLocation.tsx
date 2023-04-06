@@ -72,19 +72,6 @@ const NewLocation = () => {
 		// console.log(registerData.registerMap.spotImages);
 	};
 
-	const handleFileUpload = () => {
-		// do something with the selected files
-		// console.log(selectedFiles);
-	};
-
-	// const checkListHandler = (data: string, isChecked: boolean) => {
-	// 	if (isChecked) {
-	// 		setCheckedList([...checkedList, data]);
-	// 	} else if (!isChecked) {
-	// 		setCheckedList(checkedList.filter((el) => el !== data));
-	// 	}
-	// };
-
 	const goSearch = () => {
 		navigate('/map/newlocation/search');
 	};
@@ -97,9 +84,6 @@ const NewLocation = () => {
 		dispatch(RegisterMapAction.addTospotBuildingName(event.target.value));
 	};
 
-	// const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	dispatch(RegisterMapAction.addTospotCategory(event.target.value));
-	// };
 	const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		const selectedIndex = event.target.options.selectedIndex;
 		const selectedId = event.target.options[selectedIndex].id;
@@ -144,8 +128,11 @@ const NewLocation = () => {
 				},
 			});
 			console.log(response);
+			alert('등록되었습니다.')
+			goMainPage();
 		} catch (err) {
 			console.error(err);
+			alert('등록되지 않았습니다.')
 		}
 	};
 
@@ -154,9 +141,6 @@ const NewLocation = () => {
 			<Head>
 				<h1
 					className="back"
-					// onClick={() => {
-					// 	navigate('/map');
-					// }}
 					onClick={goMainPage}
 				>
 					&lt;

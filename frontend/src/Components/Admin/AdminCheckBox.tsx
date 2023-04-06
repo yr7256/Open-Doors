@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../../styles/Button/ButtonStyle';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/Admin/Admin.css';
 
 interface AdminCheckBoxProps {
@@ -10,6 +10,7 @@ interface AdminCheckBoxProps {
 
 const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 	const { id } = useParams();
+	const navigate = useNavigate();
 	console.log(id);
 	const [selectedOption, setSelectedOption] = useState('');
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,8 +29,30 @@ const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 				}
 			);
 			console.log(response);
+			alert('등록되었습니다.')
+			navigate('/admin');
 		} catch (err) {
 			console.error(err);
+			alert('등록되지 않았습니다.')
+		}
+	};
+
+	const LocDelete = async () => {
+		try {
+			const response = await axios.delete(
+				`/api/spot/${id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					},
+				}
+			);
+			console.log(response);
+			alert('삭제되었습니다.')
+			navigate('/admin');
+		} catch (err) {
+			console.error(err);
+			alert('삭제되지 않았습니다.')
 		}
 	};
 
@@ -52,7 +75,7 @@ const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 				<Button onClick={LocSubmit}>등록 완료</Button>
 			</div>
 			<div className="AdminBtnStyle">
-				<Button className='AdminDetailCancelBtn'>등록 취소</Button>
+				<Button className='AdminDetailCancelBtn' onClick={LocDelete}>등록 취소</Button>
 			</div>
 		</div>
 	);
