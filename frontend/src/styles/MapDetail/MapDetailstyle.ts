@@ -26,10 +26,6 @@ export const Link = styled(NavLink)`
 	}
 `;
 
-export const H1 = styled.h1`
-	text-align: center;
-`;
-
 export const Photo = styled.img`
 	object-fit: cover;
 	width: 144px;
@@ -57,9 +53,9 @@ export const MainImage = styled.div`
 `;
 
 export const BackIcon = styled.img`
-	width: 32px;
-	height: 32px;
-	margin: 1rem;
+	width: 44px;
+	height: 44px;
+	margin: 0.8rem;
 	position: absolute;
 `;
 
@@ -79,7 +75,7 @@ export const Icon = styled.image`
 `;
 
 export const Div = styled.div`
-	margin-top: 0.5rem;
+	margin-top: 1rem;
 	text-align: center;
 `;
 
@@ -94,4 +90,8 @@ export const Review = styled.span`
 	font-size: 24px;
 	margin-right: 0.2rem;
 	margin-left: 0.2rem;
+`;
+
+export const Margin = styled.div`
+	margin-top: 6px;
 `;
