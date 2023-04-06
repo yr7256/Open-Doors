@@ -20,6 +20,7 @@ function ChangeBarrierFree() {
 		{ id: 8, label: '해당 장소가 1층에 위치함' },
 	];
 
+	const accessToken = localStorage.getItem('accessToken');
 	const [selectedFacilities, setSelectedFacilities] = useState<Facility[]>([]);
 	const toggleCheckbox = (facility: Facility) => {
 		if (selectedFacilities.some((f) => f.id === facility.id)) {
@@ -35,22 +36,37 @@ function ChangeBarrierFree() {
 	};
 
 	// 백엔드 미구현
+	// const changeBarrierFree = async () => {
+	// 	const accessToken = localStorage.getItem('accessToken');
+	// 	const requestInfo = {
+	// 		url: '',
+	// 		method: '',
+	// 		headers: {
+	// 			// 'Content-type': 'application/json',
+	// 			Authorization: `Bearer ${accessToken}`,
+	// 		},
+	// 		data: {},
+	// 	};
+	// 	try {
+	// 		const submitReviewForm = await axios(requestInfo);
+	// 		// console.log(submitReviewForm);
+	// 	} catch (err) {
+	// 		// console.log(err);
+	// 	}
+	// };
+
 	const changeBarrierFree = async () => {
-		const accessToken = localStorage.getItem('accessToken');
-		const requestInfo = {
-			url: '',
-			method: '',
-			headers: {
-				'Content-type': 'application/json',
-				Authorization: `Bearer ${accessToken}`,
-			},
-			data: {},
-		};
 		try {
-			const submitReviewForm = await axios(requestInfo);
-			// console.log(submitReviewForm);
-		} catch (err) {
-			// console.log(err);
+			const response = await axios.put(
+				'/api/user/change/preference',
+				{ sfInfoIds: selectedFacilities },
+				{
+					headers: { Authorization: `Bearer ${accessToken}` },
+				}
+			);
+			console.log(response);
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
