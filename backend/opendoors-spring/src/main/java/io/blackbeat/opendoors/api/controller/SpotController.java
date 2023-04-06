@@ -114,7 +114,7 @@ public class SpotController {
             PointRecord pointRecord = PointRecord.builder()
                     .username(spot.getUsername())
                     .source("배리어프리 장소 등록")
-                    .pointChange(10)
+                    .pointChange(100)
                     .build();
             pointRecordRepo.save(pointRecord);
         } else {
