@@ -107,7 +107,7 @@ function DetailHome() {
 	const barrierFreeNames = barrierFree.map((v: any) => v.sfName);
 	const barrierFreeImages = barrierFree.map((v: any) => v.image);
 
-	console.log(placePhoneNumber);
+	// console.log(placePhoneNumber);
 
 	return (
 		<>

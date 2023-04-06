@@ -14,7 +14,7 @@ const FileUpload: React.FC = () => {
 
 	const handleFileUpload = () => {
 		// do something with the selected files
-		console.log(selectedFiles);
+		// console.log(selectedFiles);
 	};
 
   return (

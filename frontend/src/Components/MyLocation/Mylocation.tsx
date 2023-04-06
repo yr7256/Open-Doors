@@ -40,24 +40,24 @@ const Mylocation = () => {
 	const username = useSelector((state: UserState) => state.user.username);
 	const navigate = useNavigate();
 	const getData = async () => {
-		// event.preventDefault();
 		try {
 			const response = await axios.get(
-				'/api/spots'
+				`/api/spots/mylocation/${username}`
 				// {
 				//   headers: {
 				//     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 				//   },
 				// }
 			);
-			console.log(response);
+			// console.log(response);
 			setMapdata(response.data.spots);
 		} catch (err) {
-			console.error(err);
+			// console.error(err);
 		}
 	};
 	useEffect(() => {
 		getData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -74,7 +74,8 @@ const Mylocation = () => {
 				<h1>내가 등록한 장소</h1>
 			</Head>
 			<Line />
-			{mapdata.filter((item: any) => item.username === username).map((item: any, index: any) => (
+			{mapdata.map((item: any, index: any) => (
+			// {mapdata.filter((item: any) => item.username === username).map((item: any, index: any) => (
 				<MylocContainer key={index}>
 										<h1 className="spotname">{item.spotName}</h1>
 					<div className="bfImgs">

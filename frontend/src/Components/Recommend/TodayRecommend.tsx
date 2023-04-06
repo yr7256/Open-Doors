@@ -47,7 +47,7 @@ function TodayRecommend(props: any) {
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const username = useSelector((state: UserState) => state.user.username);
 
-	console.log(props.getChild);
+	// console.log(props.getChild);
 
 	// barrierfree 종류
 	const BarrierFreeList = [
@@ -103,7 +103,7 @@ function TodayRecommend(props: any) {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(recommendImage);
+	// console.log(recommendImage);
 
 	return (
 		<>

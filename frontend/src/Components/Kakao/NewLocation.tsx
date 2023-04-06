@@ -35,8 +35,6 @@ const NewLocation = () => {
 	const { state } = useLocation();
 	const dispatch = useDispatch();
 	const registerData: any = useSelector((s) => s);
-	// console.log(registerData.RegisterMap)
-	// console.log(registerData.registerMap.checkedList);
 
 	const bflist = [
 		{ id: '1', sfName: '휠체어 접근 가능' },
@@ -72,19 +70,6 @@ const NewLocation = () => {
 		// console.log(registerData.registerMap.spotImages);
 	};
 
-	const handleFileUpload = () => {
-		// do something with the selected files
-		// console.log(selectedFiles);
-	};
-
-	// const checkListHandler = (data: string, isChecked: boolean) => {
-	// 	if (isChecked) {
-	// 		setCheckedList([...checkedList, data]);
-	// 	} else if (!isChecked) {
-	// 		setCheckedList(checkedList.filter((el) => el !== data));
-	// 	}
-	// };
-
 	const goSearch = () => {
 		navigate('/map/newlocation/search');
 	};
@@ -97,9 +82,6 @@ const NewLocation = () => {
 		dispatch(RegisterMapAction.addTospotBuildingName(event.target.value));
 	};
 
-	// const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	dispatch(RegisterMapAction.addTospotCategory(event.target.value));
-	// };
 	const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		const selectedIndex = event.target.options.selectedIndex;
 		const selectedId = event.target.options[selectedIndex].id;
@@ -112,7 +94,8 @@ const NewLocation = () => {
 
 	const goMainPage = () => {
 		// console.log('reset');
-		persistor.purge();
+		// persistor.purge();
+		dispatch(RegisterMapAction.resetData());
 		navigate('/map');
 	};
 
@@ -129,7 +112,7 @@ const NewLocation = () => {
 					spotTelNumber: registerData.registerMap.spotTelNumber,
 					spotLat: state?.lat,
 					spotLng: state?.lng,
-					username: localStorage.getItem('username'),
+					username: registerData.user.username,
 				},
 				sfInfos: registerData.registerMap.checkedList,
 			};
@@ -144,8 +127,11 @@ const NewLocation = () => {
 				},
 			});
 			console.log(response);
+			alert('등록되었습니다.')
+			goMainPage();
 		} catch (err) {
 			console.error(err);
+			alert('등록되지 않았습니다.')
 		}
 	};
 
@@ -154,9 +140,6 @@ const NewLocation = () => {
 			<Head>
 				<h1
 					className="back"
-					// onClick={() => {
-					// 	navigate('/map');
-					// }}
 					onClick={goMainPage}
 				>
 					&lt;

@@ -56,8 +56,8 @@ function MyReview() {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(reviewData);
-	console.log(placeImage);
+	// console.log(reviewData);
+	// console.log(placeImage);
 
 	return (
 		<>

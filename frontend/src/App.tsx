@@ -31,6 +31,7 @@ import NotFound from './Components/Error/NotFound';
 import Admin from './Components/Admin/Admin';
 import AdminDetail from './Components/Admin/AdminDetail';
 import AdminRoute from './pages/Routes/AdminRoute';
+import Mainpage from './Components/Menu/Mainpage';
 
 type UserState = {
 	user: {
@@ -72,7 +73,7 @@ function App() {
 			const response = await axios.get('/api/spots');
 			setMapdata(response.data.spots);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -83,8 +84,9 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* <Route path="/*" element={<NotFound />} /> */}
-				<Route path="/*" element={<Map mapdata={mapdata} />} />
+				<Route path="/" element={<Mainpage />} />
+				<Route path="/*" element={<NotFound />} />
+				<Route path="/map/*" element={<Map mapdata={mapdata} />} />
 				<Route element={<AdminRoute />}>
 					<Route path="/admin" element={<Admin data={mapdata} />} />
 					<Route path="/admin/:id" element={<AdminDetail />} />
