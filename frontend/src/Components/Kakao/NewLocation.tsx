@@ -35,8 +35,6 @@ const NewLocation = () => {
 	const { state } = useLocation();
 	const dispatch = useDispatch();
 	const registerData: any = useSelector((s) => s);
-	// console.log(registerData.RegisterMap)
-	// console.log(registerData.registerMap.checkedList);
 
 	const bflist = [
 		{ id: '1', sfName: '휠체어 접근 가능' },
@@ -96,7 +94,8 @@ const NewLocation = () => {
 
 	const goMainPage = () => {
 		// console.log('reset');
-		persistor.purge();
+		// persistor.purge();
+		dispatch(RegisterMapAction.resetData());
 		navigate('/map');
 	};
 
@@ -113,7 +112,7 @@ const NewLocation = () => {
 					spotTelNumber: registerData.registerMap.spotTelNumber,
 					spotLat: state?.lat,
 					spotLng: state?.lng,
-					username: localStorage.getItem('username'),
+					username: registerData.user.username,
 				},
 				sfInfos: registerData.registerMap.checkedList,
 			};

@@ -46,9 +46,9 @@ function MyEditImg() {
 					// Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 				},
 			});
-			console.log(response);
+			// console.log(response);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

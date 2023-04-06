@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Label, Condition, BarrierLabel } from '../../styles/Auth/SignUpInputstyle';
 import { Button } from '../../styles/Button/ButtonStyle';
+import { useNavigate } from 'react-router-dom';
 
 type Facility = {
 	id: number;
@@ -9,6 +10,7 @@ type Facility = {
 };
 
 function ChangeBarrierFree() {
+	const navigate = useNavigate();
 	const facilitiesList: Facility[] = [
 		{ id: 1, label: '휠체어 접근 가능' },
 		{ id: 2, label: '애완견/도우미견 출입 가능' },
@@ -21,39 +23,19 @@ function ChangeBarrierFree() {
 	];
 
 	const accessToken = localStorage.getItem('accessToken');
-	const [selectedFacilities, setSelectedFacilities] = useState<Facility[]>([]);
+	const [selectedFacilities, setSelectedFacilities] = useState<number[]>([]);
 	const toggleCheckbox = (facility: Facility) => {
-		if (selectedFacilities.some((f) => f.id === facility.id)) {
-			setSelectedFacilities(selectedFacilities.filter((f) => f.id !== facility.id));
+		if (selectedFacilities.includes(facility.id)) {
+			setSelectedFacilities(selectedFacilities.filter((id) => id !== facility.id));
 		} else {
-			setSelectedFacilities([...selectedFacilities, facility]);
+			setSelectedFacilities([...selectedFacilities, facility.id]);
 		}
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(selectedFacilities);
+		// console.log(selectedFacilities);
 	};
-
-	// 백엔드 미구현
-	// const changeBarrierFree = async () => {
-	// 	const accessToken = localStorage.getItem('accessToken');
-	// 	const requestInfo = {
-	// 		url: '',
-	// 		method: '',
-	// 		headers: {
-	// 			// 'Content-type': 'application/json',
-	// 			Authorization: `Bearer ${accessToken}`,
-	// 		},
-	// 		data: {},
-	// 	};
-	// 	try {
-	// 		const submitReviewForm = await axios(requestInfo);
-	// 		// console.log(submitReviewForm);
-	// 	} catch (err) {
-	// 		// console.log(err);
-	// 	}
-	// };
 
 	const changeBarrierFree = async () => {
 		try {
@@ -64,9 +46,12 @@ function ChangeBarrierFree() {
 					headers: { Authorization: `Bearer ${accessToken}` },
 				}
 			);
-			console.log(response);
+			// console.log(response);
+			alert('변경되었습니다.');
+			navigate('/Mypage/MyInfoManage');
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
+			alert('변경되지 않았습니다.');
 		}
 	};
 
@@ -84,7 +69,7 @@ function ChangeBarrierFree() {
 								<Label>
 									<Condition
 										type="checkbox"
-										checked={selectedFacilities.some((f) => f.id === facility.id)}
+										checked={selectedFacilities.some((f) => f === facility.id)}
 										onChange={() => toggleCheckbox(facility)}
 									/>
 									{facility.label}
