@@ -12,10 +12,15 @@ import {
 	TrafficTitleWrapper,
 	TrafficInfoBox,
 	BusArrDiv,
+	NoTrafficInfo,
 } from '../../styles/Traffic/TrafficStyled';
 import axios from 'axios';
 
 const TrafficInfo = () => {
+	const [lat, setLat] = useState(0);
+	const [lng, setLng] = useState(0);
+	const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
+
 	interface ArrInfoProps {
 		route_no: number;
 		expected_time_min: number;
@@ -34,12 +39,12 @@ const TrafficInfo = () => {
 		trafficInfoArr: TrafficInfo[];
 	}
 
-	const [trafficInfoArr, setTrafficInfoArr] = useState<TrafficInfo[]>([]);
-
 	const trafficComponents = trafficInfoArr ? (
 		trafficInfoArr.map((trafficInfo) => <TrafficInfoBody key={trafficInfo.stop_id} busStop={trafficInfo} />)
+	) : lat ? (
+		<NoTrafficInfo>주변 교통정보가 없습니다.</NoTrafficInfo>
 	) : (
-		<div>주변 교통정보가 없습니다.</div>
+		<NoTrafficInfo>위치정보를 받아올 수 없습니다.</NoTrafficInfo>
 	);
 
 	// 장애인콜택시 버튼 클릭
@@ -85,20 +90,43 @@ const TrafficInfo = () => {
 			'Content-type': 'application/json',
 			Authorization: `Bearer ${accessToken}`,
 		};
+		console.log(lat);
+		console.log(lng);
+		console.log('이제 타입');
+		console.log(typeof lat);
+		console.log(typeof lat);
+
 		axios
-			.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/donation`, { headers })
+			.get<TrafficInfoResponse>(`https://j8b205.p.ssafy.io/api/bus/user/busInfo?userLat=${lat}&userLng=${lng}`, {
+				headers,
+			})
 			.then((res) => {
+				console.log('res나온다');
+				console.log(res);
+				console.log(res.data);
 				const { trafficInfoArr: newTrafficInfoArr } = res.data;
 				setTrafficInfoArr(newTrafficInfoArr);
 			})
 			.catch((err) => {
 				console.error(err);
 			});
+	}, [lat, lng]);
+
+	useEffect(() => {
+		if (navigator.geolocation) {
+			// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			navigator.geolocation.getCurrentPosition(function (position) {
+				setLat(position.coords.latitude);
+				setLng(position.coords.longitude);
+			});
+		}
 	}, []);
 
 	useEffect(() => {
-		fetchTrafficInfo();
-	}, [fetchTrafficInfo]); // 😀확인
+		if (lat && lng) {
+			fetchTrafficInfo();
+		}
+	}, [lat, lng, fetchTrafficInfo]);
 
 	return (
 		<>

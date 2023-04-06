@@ -39,8 +39,9 @@ const TrafficInfoBody: React.FC<TrafficInfoBodyProps> = ({ busStop }) => {
 		<TrafficInfoBox>
 			<img src={bus} alt="버스아이콘"></img>
 			<div className="busStopInfo">
-				<span className="busStopTitle">{'삼성화재연수원'}</span>
-				<span className="busStopNum">{'(11052)'}</span>
+				<span className="busStopTitle">{busStop.stop_name}</span>
+				<span className="busStopNum">{busStop.stop_id}</span>
+				<span className="busStopNum">{busStop.dist}</span>
 			</div>
 			<div className="horizontalLine" />
 

@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const NoTrafficInfo = styled.div`
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	color: #d9d9d9;
+`;
+
 export const TrafficInfoHeaderContainer = styled.div`
 	display: flex;
 	justify-content: center;
@@ -90,6 +97,7 @@ export const TrafficInfoBox = styled.div`
 
 	& > img {
 		display: inline-block;
+		transform: scale(1.5);
 		margin-top: 1.5%;
 		margin-left: 1.5%;
 		// margin: 1.5%;
