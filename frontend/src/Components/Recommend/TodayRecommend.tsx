@@ -41,14 +41,14 @@ type UserState = {
 };
 
 function TodayRecommend(props: any) {
-	const [recommendImage, setRecommendImage] = useState<[]>([]);
+	const [recommendImage, setRecommendImage] = useState<any[]>([]);
 	const [goodState, setGoodState] = useState<boolean>(false);
 	const [badState, setBadState] = useState<boolean>(false);
 	const name = useSelector((state: UserState) => state.user.name);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const username = useSelector((state: UserState) => state.user.username);
 
-	// console.log(props.getChild);
+	console.log(props.getChild);
 
 	// barrierfree 종류
 	const BarrierFreeList = [
@@ -87,22 +87,21 @@ function TodayRecommend(props: any) {
 	]);
 
 	// 이미지 불러오기
-
 	useEffect(() => {
-		const imgArr: any = [];
-		props.getChild.map((v: any, i: number) => {
-			// console.log(v.spot.id, v.spot.images[0].pathName);
-			const imageRequest = async () => {
-				const getImg = await axios.get(
-					`https://j8b205.p.ssafy.io/api/spot/image/${v.spot.id}/${v.spot.images[0].pathName}`
+		const fetchImages = async () => {
+			try {
+				const imgArr = await Promise.all(
+					props.getChild.map(async (v: any) => {
+						const getImg = await axios.get(`/api/spot/image/${v.spot.id}/${v.spot.images[0].pathName}`);
+						return getImg.config.url;
+					})
 				);
-				imgArr.push(getImg.config.url);
-				if (i === 9) {
-					setRecommendImage(imgArr);
-				}
-			};
-			imageRequest();
-		});
+				setRecommendImage(imgArr);
+			} catch (error) {
+				console.error('Error fetching images:', error);
+			}
+		};
+		fetchImages();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	// console.log(recommendImage);
@@ -123,14 +122,16 @@ function TodayRecommend(props: any) {
 
 			{props.getChild.map((v: { distance: number; reason: string; spot: any; sfInfoIds: [] }, i: number) => (
 				<div className="grid grid-cols-16 gap-1" key={i}>
-					<div className="col-start-2 col-span-12">
-						<SpotName>{v.spot.spotName}</SpotName>
-						<Ptag>{v.spot.spotAddress}</Ptag>
-						<Ptag>
-							현재위치에서 <Distance>{v.distance}m</Distance>
-						</Ptag>
+					<div className="flex col-start-2 col-span-12">
+						<div className="flex flex-col">
+							<SpotName>{v.spot.spotName}</SpotName>
+							<Ptag>{v.spot.spotAddress}</Ptag>
+							<Ptag>
+								현재위치에서 <Distance>{v.distance}m</Distance>
+							</Ptag>
+						</div>
+						<RecommendImage src={recommendImage[i]} alt="recommend-image" />
 					</div>
-					<RecommendImage src={recommendImage[i]} alt="recommend-image" />
 					<div className="col-start-2 col-span-12">
 						<div className="flex flex-row">
 							{v.sfInfoIds.map((sfId: number, index: number) => {
