@@ -4,14 +4,13 @@ import { useSelector } from 'react-redux';
 
 type UserState = {
 	user: {
-		userImg: string;
-		name: string;
+		username: string;
 	};
 };
 
-// 관리자만 접근 가능
+// 관리자만 접근 
 const AdminRoute = () => {
-	const name = useSelector((state: UserState) => state.user.name);
+	const name = useSelector((state: UserState) => state.user.username);
 
 	if (name !== "admin") {
 		alert('권한이 없습니다.');
