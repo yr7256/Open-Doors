@@ -12,7 +12,7 @@ function MyDonation() {
 	const [cardDatas, setCardDatas] = useState(null);
 
 	useEffect(() => {
-		console.log('asdasd');
+		// console.log('asdasd');
 		const fetchDonations = async () => {
 			try {
 				const accessToken = localStorage.getItem('accessToken');
@@ -25,7 +25,7 @@ function MyDonation() {
 				setTotalPoints(res.data.totalPoint);
 				setCardDatas(res.data.pointRecords);
 			} catch (error) {
-				console.error('Error fetching donations:', error);
+				// console.error('Error fetching donations:', error);
 			}
 		};
 

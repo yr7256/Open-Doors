@@ -72,7 +72,7 @@ function App() {
 			const response = await axios.get('/api/spots');
 			setMapdata(response.data.spots);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 

@@ -3,15 +3,23 @@ import { Button } from '../../styles/Button/ButtonStyle';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/Admin/Admin.css';
+import { useSelector } from 'react-redux';
+
+type UserState = {
+	user: {
+		username: string;
+	};
+};
+
 
 interface AdminCheckBoxProps {
 	options: { key: string; value: string }[];
+	username: string;
 }
 
-const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
+const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options, username }) => {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	console.log(id);
 	const [selectedOption, setSelectedOption] = useState('');
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedOption(event.target.value);
@@ -21,18 +29,18 @@ const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 		try {
 			const response = await axios.post(
 				'/api/spot/access',
-				{ state: 'access', id: id, rate: selectedOption },
+				{ username: username, id: id, rate: selectedOption },
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 					},
 				}
 			);
-			console.log(response);
+			// console.log(response);
 			alert('등록되었습니다.')
 			navigate('/admin');
 		} catch (err) {
-			console.error(err);
+			// console.error(err);
 			alert('등록되지 않았습니다.')
 		}
 	};
@@ -47,11 +55,11 @@ const AdminCheckBox: React.FC<AdminCheckBoxProps> = ({ options }) => {
 					},
 				}
 			);
-			console.log(response);
+			// console.log(response);
 			alert('삭제되었습니다.')
 			navigate('/admin');
 		} catch (err) {
-			console.error(err);
+			// console.error(err);
 			alert('삭제되지 않았습니다.')
 		}
 	};

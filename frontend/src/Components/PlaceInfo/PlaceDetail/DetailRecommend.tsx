@@ -32,7 +32,7 @@ function DetailRecommend() {
 			})
 			.then((res) => {
 				setRecommendPlace(res.data);
-				console.log(res.data);
+				// console.log(res.data);
 				const imgArr: any = [];
 				res.data.map((name: any, index: number) => {
 					// console.log(name.spot.images[0].pathName);
@@ -70,7 +70,7 @@ function DetailRecommend() {
 		{ id: 8, sfName: '가족/어린이 이용에 적합', image: family },
 	];
 
-	console.log(recommendImage);
+	// console.log(recommendImage);
 
 	return (
 		<>

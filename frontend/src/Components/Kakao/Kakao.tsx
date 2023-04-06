@@ -83,13 +83,13 @@ const Kakao = (props: MapProps) => {
 				searchForm?.addEventListener('click', function (e) {
 					e.preventDefault();
 					searchPlaces();
-					console.log('검색');
+					// console.log('검색');
 				});
 
 				const searchKeyword = async (keyword: string) => {
 					try {
 						const response = await axios.get(`api/spots/search/${encodeURIComponent(keyword)}`);
-						console.log(response.data.spots);
+						// console.log(response.data.spots);
 						removeMarker();
 						for (let i = 0; i < response.data.spots.length; i++) {
 							if (response.data.spots[i].state === 'access') {
@@ -97,7 +97,7 @@ const Kakao = (props: MapProps) => {
 							}
 						}
 					} catch (error) {
-						console.log(error);
+						// console.log(error);
 					}
 				};
 

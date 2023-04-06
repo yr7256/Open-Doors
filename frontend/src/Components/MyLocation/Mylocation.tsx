@@ -49,10 +49,10 @@ const Mylocation = () => {
 				//   },
 				// }
 			);
-			console.log(response);
+			// console.log(response);
 			setMapdata(response.data.spots);
 		} catch (err) {
-			console.error(err);
+			// console.error(err);
 		}
 	};
 	useEffect(() => {

@@ -71,7 +71,7 @@ const AdminDetail = () => {
 				a();
 			});
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -106,7 +106,7 @@ const AdminDetail = () => {
 				<hr />
 				<div className="bfContainer">
 					<p>시설 등급 지정</p>
-					<AdminCheckBox options={options} />
+					<AdminCheckBox options={options} username={detaildata.username} />
 				</div>
 			</div>
 		</div>

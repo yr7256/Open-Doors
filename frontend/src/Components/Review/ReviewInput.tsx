@@ -69,7 +69,7 @@ function ReviewInput() {
 						},
 					})
 					.then((res) => {
-						console.log(res);
+						// console.log(res);
 						setReviewData(res.data);
 					});
 			} else {
@@ -81,13 +81,13 @@ function ReviewInput() {
 						},
 					})
 					.then((res) => {
-						console.log(res);
+						// console.log(res);
 						setReviewData(res.data);
 					});
 			}
 			navigate(`/map/detail/${id}/Review`);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

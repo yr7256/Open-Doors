@@ -46,7 +46,7 @@ function TodayRecommend(props: any) {
 	const name = useSelector((state: UserState) => state.user.name);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 
-	console.log(props.getChild);
+	// console.log(props.getChild);
 
 	// barrierfree 종류
 	const BarrierFreeList = [
@@ -89,7 +89,7 @@ function TodayRecommend(props: any) {
 	useEffect(() => {
 		const imgArr: any = [];
 		props.getChild.map((v: any, i: number) => {
-			console.log(v.spot.id, v.spot.images[0].pathName);
+			// console.log(v.spot.id, v.spot.images[0].pathName);
 			const imageRequest = async () => {
 				const getImg = await axios.get(
 					`https://j8b205.p.ssafy.io/api/spot/image/${v.spot.id}/${v.spot.images[0].pathName}`
@@ -108,7 +108,7 @@ function TodayRecommend(props: any) {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(recommendImage);
+	// console.log(recommendImage);
 
 	return (
 		<>
