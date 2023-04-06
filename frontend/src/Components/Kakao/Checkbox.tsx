@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RegisterMapAction } from '../../store/RegisterMapSlice'
 import '../../styles/Kakao/NewLocation.css';
 
-const Checkbox = ({ key, id, label }: any) => {
+const Checkbox = ({ id, label }: any) => {
   const dispatch = useDispatch();
   const checked = useSelector((state: any) => state.registerMap.checkedList.includes(id));
   const data = useSelector((s: any) => s.registerMap.checkedList);

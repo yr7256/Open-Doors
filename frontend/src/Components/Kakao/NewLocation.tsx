@@ -9,14 +9,32 @@ import Checkbox from './Checkbox';
 import { persistor } from '../../index';
 import { Button } from '../../styles/Button/ButtonStyle';
 
+interface Category {
+	id: number;
+	name: string;
+}
+
+const categories: Category[] = [
+	{ id: 0, name: '카페' },
+	{ id: 1, name: '음식점' },
+	{ id: 2, name: '병원/약국' },
+	{ id: 31, name: '도서관/서점' },
+	{ id: 32, name: '영화관' },
+	{ id: 33, name: '공원/체육관 및 야외시설' },
+	{ id: 34, name: '문화시설' },
+	{ id: 4, name: '숙박시설' },
+	{ id: 5, name: '공공기관/법원/우체국' },
+	{ id: 6, name: '장애인 복지센터' },
+	{ id: 7, name: '상가시설' },
+	{ id: 8, name: '버스터미널/지하철역' },
+	{ id: 9, name: '기타' },
+];
 
 const NewLocation = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const dispatch = useDispatch();
 	const registerData: any = useSelector((s) => s);
-	// console.log(registerData.RegisterMap)
-	// console.log(registerData.registerMap.checkedList);
 
 	const bflist = [
 		{ id: '1', sfName: '휠체어 접근 가능' },
@@ -39,6 +57,7 @@ const NewLocation = () => {
 	// const [checkedList, setCheckedList] = useState<string[]>([]);
 
 	const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
 		const filesArray = Array.from(event.target.files || []);
 		setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...filesArray]);
 		dispatch(RegisterMapAction.addTospotImages(selectedFiles));
@@ -50,19 +69,6 @@ const NewLocation = () => {
 		dispatch(RegisterMapAction.addTospotImages(selectedFiles));
 		// console.log(registerData.registerMap.spotImages);
 	};
-
-	const handleFileUpload = () => {
-		// do something with the selected files
-		// console.log(selectedFiles);
-	};
-
-	// const checkListHandler = (data: string, isChecked: boolean) => {
-	// 	if (isChecked) {
-	// 		setCheckedList([...checkedList, data]);
-	// 	} else if (!isChecked) {
-	// 		setCheckedList(checkedList.filter((el) => el !== data));
-	// 	}
-	// };
 
 	const goSearch = () => {
 		navigate('/map/newlocation/search');
@@ -76,8 +82,10 @@ const NewLocation = () => {
 		dispatch(RegisterMapAction.addTospotBuildingName(event.target.value));
 	};
 
-	const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(RegisterMapAction.addTospotCategory(event.target.value));
+	const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		const selectedIndex = event.target.options.selectedIndex;
+		const selectedId = event.target.options[selectedIndex].id;
+		dispatch(RegisterMapAction.addTospotCategory(parseInt(selectedId)));
 	};
 
 	const handleTelnumChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +94,8 @@ const NewLocation = () => {
 
 	const goMainPage = () => {
 		// console.log('reset');
-		persistor.purge();
+		// persistor.purge();
+		dispatch(RegisterMapAction.resetData());
 		navigate('/map');
 	};
 
@@ -103,7 +112,7 @@ const NewLocation = () => {
 					spotTelNumber: registerData.registerMap.spotTelNumber,
 					spotLat: state?.lat,
 					spotLng: state?.lng,
-					username: localStorage.getItem('username')
+					username: registerData.user.username,
 				},
 				sfInfos: registerData.registerMap.checkedList,
 			};
@@ -111,30 +120,26 @@ const NewLocation = () => {
 			const json = JSON.stringify(body);
 			const blob = new Blob([json], { type: 'application/json' });
 			formData.append('spotDto', blob);
-			const response = await axios.post(
-				'/api/spot/save',
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-					},
-				}
-			);
+			const response = await axios.post('/api/spot/save', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+				},
+			});
 			console.log(response);
+			alert('등록되었습니다.')
+			goMainPage();
 		} catch (err) {
 			console.error(err);
+			alert('등록되지 않았습니다.')
 		}
 	};
 
 	return (
-		<div id='wrap'>
+		<div id="wrap">
 			<Head>
 				<h1
 					className="back"
-					// onClick={() => {
-					// 	navigate('/map');
-					// }}
 					onClick={goMainPage}
 				>
 					&lt;
@@ -184,14 +189,11 @@ const NewLocation = () => {
 						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">사진등록</label>
 					</div>
 					<div className="md:w-2/3 filebox">
-						<Button>
-							<label htmlFor="file">파일찾기</label>
-							<input
-								type="file"
-								id="file"
-								multiple
-								onChange={handleFileSelect}
-							/>
+						<Button type="button" className="FileBtnStyle">
+							<label className="file-label" htmlFor="file">
+								파일찾기
+							</label>
+							<input type="file" id="file" multiple onChange={handleFileSelect} />
 						</Button>
 						{selectedFiles.length > 0 && (
 							<ul>
@@ -211,14 +213,26 @@ const NewLocation = () => {
 						<label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">업종</label>
 					</div>
 					<div className="md:w-2/3">
-						<input
+						{/* <input
 							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
 							// id="inline-full-name"
 							type="text"
 							placeholder="예) 음식점, 카페 등"
 							onChange={handleCategoryChange}
 							defaultValue={registerData.registerMap.spotCategory}
-						/>
+						/> */}
+						<select
+							className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
+							defaultValue={registerData.registerMap.spotCategory}
+							onChange={handleCategoryChange}
+						>
+							<option value="">업종을 선택해주세요.</option>
+							{categories.map((category) => (
+								<option key={category.id} value={category.name} id={category.id.toString()}>
+									{category.name}
+								</option>
+							))}
+						</select>
 					</div>
 				</div>
 				<div className="md:flex md:items-center mb-6">
@@ -265,16 +279,11 @@ const NewLocation = () => {
 				<div className="md:flex md:items-center">
 					<div className="md:w-1/3"></div>
 					<div className="md:w-2/3 mb-8">
-						<Button
-							type="submit"
-						>
-							등록완료
-						</Button>
+						<Button type="submit">등록완료</Button>
 					</div>
 				</div>
 			</form>
 		</div>
-
 	);
 };
 

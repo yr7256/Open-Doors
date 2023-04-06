@@ -1,0 +1,50 @@
+#detailPageMap {
+  width: 88vw;
+  height: 30vh;
+  margin: auto;
+}
+
+.detailMapHead {
+  display: flex;
+  flex-direction: column;
+  margin : 20px;
+}
+
+.detailMapHeadContent {
+  display: flex;
+  margin: 8px 0 12px 0;
+}
+
+.detailMapHeadContent > * {
+  margin: 0 6px 0 0;
+}
+
+.detailMapHeadInfo {
+  color: #6393CB;
+}
+
+.detailMapContainer {
+  padding-bottom: 9vh;
+}
+
+.detailMapBusStopContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 88vw;
+  margin: 20px auto;
+  padding: 0 0 20px 0;
+}
+
+.detailMapBusStopContainer > div {
+  margin: 6px 0 6px 0;
+}
+
+.DetailMapIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.BusInfored {
+  color: red;
+}

@@ -56,3 +56,17 @@ export const CancelIcon = styled.img`
 	height: 20px;
 	margin: 0px;
 `;
+
+export const MainButton = styled.button`
+	width: 300px;
+	height: 64px;
+	color: #3b587a;
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 4px;
+
+	&:active {
+		background-color: #3b587a;
+		color: #c2dce8;
+	}
+`;

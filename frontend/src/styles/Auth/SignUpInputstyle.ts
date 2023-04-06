@@ -10,17 +10,16 @@ export const Input = styled.input`
 
 export const BirtYearinput = styled.input`
 	height: 52px;
-	width: 76px;
+	width: 84px;
 	border: 1px solid #d9d9d9;
 	margin-right: 4px;
-	/* margin-left: 28px; */
 	margin-top: 8px;
 	margin-bottom: 28px;
 `;
 
 export const Birthinput = styled.input`
 	height: 52px;
-	width: 60px;
+	width: 64px;
 	border: 1px solid #d9d9d9;
 	/* margin-right: 4px; */
 	/* margin-left: 24px; */

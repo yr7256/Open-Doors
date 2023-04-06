@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Map from './pages/Map/Map';
 import SignUp from './pages/Auth/SignUp';
@@ -30,21 +28,15 @@ import { logoutAccount } from './store/AuthSlice';
 import Mylocation from './Components/MyLocation/Mylocation';
 import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
-import Help from './Components/Help/Help';
 import Admin from './Components/Admin/Admin';
 import AdminDetail from './Components/Admin/AdminDetail';
-
-type UserState = {
-	user: {
-		isLogged: boolean;
-		accessToken: string;
-	};
-};
+import AdminRoute from './pages/Routes/AdminRoute';
+import Mainpage from './Components/Menu/Mainpage';
 
 function App() {
+	// const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const accessToken = useSelector((state: UserState) => state.user.accessToken);
-	const isLogged = useSelector((state: UserState) => state.user.isLogged);
+	const accessToken = window.localStorage.getItem('accessToken');
 
 	const handleResize = () => {
 		const vh = window.innerHeight * 0.01;
@@ -54,7 +46,6 @@ function App() {
 	useEffect(() => {
 		handleResize();
 		window.addEventListener('resize', handleResize);
-
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
@@ -62,30 +53,11 @@ function App() {
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
-			console.log('로그아웃됐다');
+			window.localStorage.clear();
+			// navigate('/Login');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
-
-	// useEffect(() => {
-	// 	const cookies = new Cookies();
-	// 	const refreshToken = cookies.get('refresh_token');
-	// 	if (isLogged) {
-	// 		const getAccessToken = async () => {
-	// 			try {
-	// 				const response = await axios.post('', {
-	// 					refreshToken: refreshToken,
-	// 				});
-	// 				// 로컬 스토리지에 엑세스 토큰 저장
-	// 				localStorage.setItem('accessToken', response.data.accessToken);
-	// 			} catch (error) {
-	// 				console.log(error);
-	// 			}
-	// 		};
-	// 		getAccessToken();
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [isLogged]);
 
 	const [mapdata, setMapdata] = useState([]);
 
@@ -95,7 +67,7 @@ function App() {
 			console.log(response.data.spots);
 			setMapdata(response.data.spots);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -106,10 +78,13 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* <Route path="/*" element={<NotFound />} /> */}
-				<Route path="/*" element={<Map mapdata={mapdata} />} />
-				<Route path="/admin/*" element={<Admin mapdata={mapdata}/>} />
-				<Route path="/admin/:id" element={<AdminDetail />} />
+				<Route path="/" element={<Mainpage />} />
+				<Route path="/*" element={<NotFound />} />
+				<Route path="/map/*" element={<Map mapdata={mapdata} />} />
+				<Route element={<AdminRoute />}>
+					<Route path="/admin" element={<Admin data={mapdata} />} />
+					<Route path="/admin/:id" element={<AdminDetail />} />
+				</Route>
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />
@@ -135,7 +110,6 @@ function App() {
 					<Route path="main" element={<SearchAddressMain />} />
 					<Route path="marker" element={<SearchAddressMap />} />
 				</Route>
-				<Route path="/help" element={<Help />} />
 			</Routes>
 		</BrowserRouter>
 	);

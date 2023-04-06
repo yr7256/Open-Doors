@@ -15,12 +15,70 @@ import DisabledToilet from '../../assets/img/Barrierfree/toilet.png';
 import WheelChair from '../../assets/img/Barrierfree/wheelchair.png';
 import star from '../../assets/img/star.png';
 import axios from 'axios';
+import bf0 from '../../assets/img/marker/bf0.png';
+import bf1 from '../../assets/img/marker/bf1.png';
+import bf2 from '../../assets/img/marker/bf2.png';
+import bf4 from '../../assets/img/marker/bf4.png';
+import bf5 from '../../assets/img/marker/bf5.png';
+import bf6 from '../../assets/img/marker/bf6.png';
+import bf7 from '../../assets/img/marker/bf7.png';
+import bf8 from '../../assets/img/marker/bf8.png';
+import bf9 from '../../assets/img/marker/bf9.png';
+import bf31 from '../../assets/img/marker/bf31.png';
+import bf32 from '../../assets/img/marker/bf32.png';
+import bf33 from '../../assets/img/marker/bf33.png';
+import bf34 from '../../assets/img/marker/bf34.png';
+import pf0 from '../../assets/img/marker/pf0.png';
+import pf1 from '../../assets/img/marker/pf1.png';
+import pf2 from '../../assets/img/marker/pf2.png';
+import pf4 from '../../assets/img/marker/pf4.png';
+import pf5 from '../../assets/img/marker/pf5.png';
+import pf6 from '../../assets/img/marker/pf6.png';
+import pf7 from '../../assets/img/marker/pf7.png';
+import pf8 from '../../assets/img/marker/pf8.png';
+import pf9 from '../../assets/img/marker/pf9.png';
+import pf31 from '../../assets/img/marker/pf31.png';
+import pf32 from '../../assets/img/marker/pf32.png';
+import pf33 from '../../assets/img/marker/pf33.png';
+import pf34 from '../../assets/img/marker/pf34.png';
+
+const markerImages: { [key: string]: string } = {
+	'pf0': bf0,
+	'pf1': bf1,
+	'pf2': bf2,
+	'pf4': bf4,
+	'pf5': bf5,
+	'pf6': bf6,
+	'pf7': bf7,
+	'pf8': bf8,
+	'pf9': bf9,
+	'pf30': bf9,
+	'pf31': bf31,
+	'pf32': bf32,
+	'pf33': bf33,
+	'pf34': bf34,
+	'bf0': pf0,
+	'bf1': pf1,
+	'bf2': pf2,
+	'bf4': pf4,
+	'bf5': pf5,
+	'bf6': pf6,
+	'bf7': pf7,
+	'bf8': pf8,
+	'bf9': pf9,
+	'bf30': pf9,
+	'bf31': pf31,
+	'bf32': pf32,
+	'bf33': pf33,
+	'bf34': pf34,
+};
 
 const { kakao } = window;
 
 interface MapProps {
 	mapdata: any;
 }
+
 const sfImages: { [key: string]: string } = {
 	'WheelChair Elevator': WheelChairElevator,
 	Elevator: Elevator,
@@ -83,13 +141,13 @@ const Kakao = (props: MapProps) => {
 				searchForm?.addEventListener('click', function (e) {
 					e.preventDefault();
 					searchPlaces();
-					console.log('검색');
+					// console.log('검색');
 				});
 
 				const searchKeyword = async (keyword: string) => {
 					try {
 						const response = await axios.get(`api/spots/search/${encodeURIComponent(keyword)}`);
-						console.log(response.data.spots);
+						// console.log(response.data.spots);
 						removeMarker();
 						for (let i = 0; i < response.data.spots.length; i++) {
 							if (response.data.spots[i].state === 'access') {
@@ -97,7 +155,7 @@ const Kakao = (props: MapProps) => {
 							}
 						}
 					} catch (error) {
-						console.log(error);
+						// console.log(error);
 					}
 				};
 
@@ -118,6 +176,7 @@ const Kakao = (props: MapProps) => {
 					const marker = new kakao.maps.Marker({
 						map: map,
 						position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
+						image: new kakao.maps.MarkerImage(markerImages[data.spotRate+data.spotCategory], new kakao.maps.Size(32, 40)),
 					});
 
 					markers.push(marker);

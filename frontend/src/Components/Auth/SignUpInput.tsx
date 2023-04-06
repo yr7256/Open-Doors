@@ -70,7 +70,7 @@ function SignUpInput() {
 	const [isName, setIsName] = useState(false);
 
 	// 아이디 중복 검사
-	const [isIdAvailable, setIsIdAvailable] = useState(false);
+	const [isIdAvailable, setIsIdAvailable] = useState('');
 
 	const isSignUpButtonDisabled = !(id && password && passwordCheck && realName);
 
@@ -131,11 +131,6 @@ function SignUpInput() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (isChecked) {
-			console.log(id, password, passwordCheck, realName);
-		} else {
-			// console.log(realName, id, password, formBirth, selectedFacilities, gender);
-		}
 	};
 
 	// 회원가입 post 보내기
@@ -167,25 +162,28 @@ function SignUpInput() {
 
 		try {
 			const submitUserForm = await axios(requestInfo);
-			console.log(submitUserForm);
-			console.log('회원가입이 완료되었습니다');
-			navigate('/Login');
-		} catch (err: any) {
-			console.log('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요');
-			setIdValidMessage(err.response.data.message);
-			console.log(err);
+			axios
+				.get(`https://j8b205.p.ssafy.io/api/user/duplicate?id=${id}`)
+				.then((res) => {
+					navigate('/Login');
+				})
+				.catch((err) => {
+					setIsIdAvailable('중복된 아이디입니다.');
+				});
+		} catch (err) {
+			alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
 		}
 	};
+
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-11">
+				<div className="flex justify-center">
+					<div className="flex flex-col">
 						<Label htmlFor="id">아이디</Label>
-						<br />
 						<Input id="id" name="id" value={id} onChange={onChangeId} placeholder={'   영문, 숫자 포함 4~15자'} />
 						<Message className="message">
-							{idMessage} {idValidMessage}
+							{isIdAvailable === '이미 가입된 아이디입니다.' ? isIdAvailable : idMessage}
 						</Message>
 						<div className="form-el">
 							<Label htmlFor="password">비밀번호</Label> <br />
@@ -193,6 +191,7 @@ function SignUpInput() {
 								id="password"
 								name="password"
 								type="password"
+								autoComplete="off"
 								value={password}
 								onChange={onChangePassword}
 								placeholder={'   영문, 숫자, 특수문자 포함 8자 이상'}
@@ -205,83 +204,69 @@ function SignUpInput() {
 								id="passwordConfirm"
 								name="passwordConfirm"
 								type="password"
+								autoComplete="off"
 								value={passwordCheck}
 								onChange={onChangePasswordConfirm}
 								placeholder={'  비밀번호 확인'}
 							/>
 							<Message className="message">{passwordCheckMessage}</Message>
 						</div>
-						<Label htmlFor="name">이름</Label> <br />
+						<Label htmlFor="name">이름</Label>
 						<Input id="name" name="name" value={realName} onChange={onChangeName} placeholder={'  이름'} />
 						<Message className="message">{nameMessage}</Message>
-					</div>
-				</div>
-				<div className="form-el">
-					<div className="grid grid-cols-12 gap-1">
-						<div className="col-start-2 col-end-5">
-							<Label>생년월일</Label>
-						</div>
-					</div>
-					<br />
-					<div className="grid grid-cols-12 gap-1">
-						<div className="col-start-2 col-end-5">
-							<BirtYearinput type="number" name="birthYear" value={formBirth.birthYear} onChange={handleBirthInput} />년
-						</div>
-						<div className="col-start-6 col-end-9">
-							<Birthinput type="number" name="birthMonth" value={formBirth.birthMonth} onChange={handleBirthInput} />월
-						</div>
-						<div className="col-start-9 col-end-12">
-							<Birthinput type="number" name="birthDay" value={formBirth.birthDay} onChange={handleBirthInput} />일
-						</div>
-					</div>
-				</div>
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-5">
-						<Label>성별</Label>
-					</div>
-				</div>
-				<br />
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-5">
-						<Checkbox type="checkbox" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
-						남성
-					</div>
-					<div className="col-start-5 col-end-9">
-						<Checkbox
-							type="checkbox"
-							value="female"
-							checked={gender === 'female'}
-							onChange={() => setGender('female')}
-						/>
-						여성
-					</div>
-				</div>
-				<br />
-				<div className="grid grid-cols-12 gap-1">
-					<div className="col-start-2 col-end-11">
-						<Label>배리어프리 여부(중복선택 가능)</Label>
-						<Div>
-							<Ptag2>선택하신 조건은</Ptag2>
-							<Ptag2>가입 후, 마이페이지에서 변경 가능 합니다.</Ptag2>
-						</Div>
-						{facilitiesList.map((facility) => (
-							<div key={facility.id}>
-								<Label>
-									<Condition
-										type="checkbox"
-										checked={selectedFacilities.some((f) => f.id === facility.id)}
-										onChange={() => toggleCheckbox(facility)}
-									/>
-									{facility.label}
-								</Label>
+						<Label>생년월일</Label>
+						<div className="flex justify-center">
+							<div className="mr-2">
+								<BirtYearinput type="number" name="birthYear" value={formBirth.birthYear} onChange={handleBirthInput} />{' '}
+								년
 							</div>
-						))}
-						<br />
-						<Button type="submit" disabled={isSignUpButtonDisabled} onClick={submitRegister}>
-							가입하기
-						</Button>
-						<br />
-						<br />
+							<div className="mr-2">
+								<Birthinput type="number" name="birthMonth" value={formBirth.birthMonth} onChange={handleBirthInput} />{' '}
+								월
+							</div>
+							<div className="mr-3">
+								<Birthinput type="number" name="birthDay" value={formBirth.birthDay} onChange={handleBirthInput} /> 일
+							</div>
+						</div>
+						<Label>성별</Label>
+						<div className="flex mt-3">
+							<div className="mr-3">
+								<Checkbox type="checkbox" value="male" checked={gender === 'male'} onChange={() => setGender('male')} />
+								남성
+							</div>
+							<div className="mr-3">
+								<Checkbox
+									type="checkbox"
+									value="female"
+									checked={gender === 'female'}
+									onChange={() => setGender('female')}
+								/>
+								여성
+							</div>
+						</div>
+						<div className="mb-8">
+							<Label>배리어프리 여부(중복선택 가능)</Label>
+							<Div>
+								<Ptag2>선택하신 조건은</Ptag2>
+								<Ptag2>가입 후, 마이페이지에서 변경 가능 합니다.</Ptag2>
+							</Div>
+							{facilitiesList.map((facility) => (
+								<div key={facility.id}>
+									<Label>
+										<Condition
+											type="checkbox"
+											checked={selectedFacilities.some((f: any) => f.id === facility.id)}
+											onChange={() => toggleCheckbox(facility)}
+										/>
+										{facility.label}
+									</Label>
+								</div>
+							))}
+							<br />
+							<Button type="submit" disabled={isSignUpButtonDisabled} onClick={submitRegister}>
+								가입하기
+							</Button>
+						</div>
 					</div>
 				</div>
 			</form>

@@ -69,37 +69,18 @@ export const RegisterMapSlice = createSlice({
 				state.checkedList.splice(itemIndex, 1);
 			}
 		},
-		// resetData(state) {
-		// 	// state.spotName = '';
-		// 	// state.spotBuildingName = '';
-		// 	// state.spotCategory = '';
-		// 	// state.spotTelNumber = '';
-		// 	// state.checkedList = [];
-		// 	// state.spotImages = [];
-		// 	Object.assign(state, initialState);
-		// },
-		// addTocheckedList(state, action) {
-		// 	state.checkList = action.payload;
-		// },
-		// 	addTocheckedList(state, action) {
-		// 		switch (action.type) {
-		// 			case 'TOGGLE_CHECKBOX':
-		// 				return {
-		// 					...state,
-		// 					checkboxes: state.checkList.map((checkbox) =>
-		// 						checkbox.key === action.payload.id
-		// 							? { ...checkbox, isChecked: action.payload.isChecked }
-		// 							: checkbox
-		// 					),
-		// 				};
-		// 			default:
-		// 				return state;
-		// 		}
-		// 	},
+		resetData(state) {
+			state.spotName = '';
+			state.spotBuildingName = '';
+			state.spotCategory = '';
+			state.spotTelNumber = '';
+			state.checkedList = [];
+			state.spotImages = [];
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(PURGE, () => initialState);
-}
+	},
 });
 
 export const RegisterMapAction = RegisterMapSlice.actions;
