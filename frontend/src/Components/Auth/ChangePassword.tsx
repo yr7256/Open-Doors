@@ -14,9 +14,7 @@ type UserState = {
 };
 
 function ChangePassword() {
-	const userId = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
-	const [isChecked, setIsChecked] = useState(false);
 	const [password, setPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');
@@ -24,7 +22,6 @@ function ChangePassword() {
 	const [passwordCheckMessage, setPasswordCheckMessage] = useState('');
 	const [isPassword, setIsPassword] = useState(false);
 	const [isPasswordCheck, setIsPasswordCheck] = useState(false);
-	const [isValidPassword, setIsValidPassword] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -59,11 +56,6 @@ function ChangePassword() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (isChecked) {
-			console.log(newPassword);
-		} else {
-			// console.log(realName, id, password, formBirth, selectedFacilities, gender);
-		}
 	};
 
 	const changePassword = async () => {
@@ -81,8 +73,6 @@ function ChangePassword() {
 		};
 		try {
 			const changePasswordResult = await axios(changePasswordRequest);
-			console.log(changePasswordResult);
-			console.log('비밀번호 변경이 완료되었습니다.');
 			navigate('/Mypage/MyInfoManage');
 			axios
 				.get('https://j8b205.p.ssafy.io/api/user/', {
@@ -92,16 +82,13 @@ function ChangePassword() {
 				})
 				.then((response) => {
 					// setUserDispatch(response);
-					console.log(response.data);
 					const name = response.data.name;
 					const username = response.data.username;
 					dispatch(loginAccount({ username: username, password: newPassword, accessToken: accessToken, name: name }));
 				})
 				.catch((err) => console.log(err));
 		} catch (err) {
-			console.log('비밀번호 변경 에러다');
-			console.log(err);
-			console.log(setIsValidPassword);
+			// console.log(err);
 		}
 	};
 	return (

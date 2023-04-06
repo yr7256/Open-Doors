@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Map from './pages/Map/Map';
 import SignUp from './pages/Auth/SignUp';
@@ -31,6 +30,7 @@ import DonationPage from './pages/Donation/DonationPage';
 import NotFound from './Components/Error/NotFound';
 import Admin from './Components/Admin/Admin';
 import AdminDetail from './Components/Admin/AdminDetail';
+import AdminRoute from './pages/Routes/AdminRoute';
 
 type UserState = {
 	user: {
@@ -40,6 +40,7 @@ type UserState = {
 };
 
 function App() {
+	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 	const isLogged = useSelector((state: UserState) => state.user.isLogged);
@@ -52,7 +53,6 @@ function App() {
 	useEffect(() => {
 		handleResize();
 		window.addEventListener('resize', handleResize);
-
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
@@ -60,7 +60,7 @@ function App() {
 		if (!accessToken) {
 			dispatch(logoutAccount());
 			logout();
-			console.log('로그아웃됐다');
+			// navigate('/Login');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
@@ -72,7 +72,7 @@ function App() {
 			const response = await axios.get('/api/spots');
 			setMapdata(response.data.spots);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -85,8 +85,10 @@ function App() {
 			<Routes>
 				{/* <Route path="/*" element={<NotFound />} /> */}
 				<Route path="/*" element={<Map mapdata={mapdata} />} />
-				<Route path="/admin/*" element={<Admin mapdata={mapdata} />} />
-				<Route path="/admin/:id" element={<AdminDetail />} />
+				<Route element={<AdminRoute />}>
+					<Route path="/admin" element={<Admin data={mapdata} />} />
+					<Route path="/admin/:id" element={<AdminDetail />} />
+				</Route>
 				<Route path="/map/detail/:id/*" element={<MapDetail />}>
 					<Route index element={<DetailHome />} />
 					<Route path="Home" element={<DetailHome />} />

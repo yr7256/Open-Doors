@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { ReviewArea, H2, Line, P, NoReview } from '../../styles/Review/MapReviewstyle';
+import { PhotoContainer } from '../../styles/MapDetail/MapDetailstyle';
+import { ReviewArea, H2, Line, P, NoReview, ReviewImage } from '../../styles/Review/MapReviewstyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,9 +20,6 @@ function MyReview() {
 	const userName = useSelector((state: UserState) => state.user.username);
 	const accessToken = useSelector((state: UserState) => state.user.accessToken);
 
-	console.log(userName);
-	// https://j8b205.p.ssafy.io
-
 	useEffect(() => {
 		axios
 			.get(`https://j8b205.p.ssafy.io/api/review/get/${userName}`, {
@@ -30,32 +28,36 @@ function MyReview() {
 				},
 			})
 			.then((response) => {
-				console.log(response);
 				if (response.data.resultCode === 400) {
 					setReviewData([]);
 				} else {
 					setReviewData(response.data.data);
+					response.data.data.map((v: any, i: number) => {
+						const name = v.username;
+						const imgArr: any[] = [];
+						v.images.map((img: any, index: number) => {
+							const getImage = async () => {
+								const requestImage = await axios.get(
+									`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`
+								);
+								imgArr.push(requestImage.config.url);
+								if (imgArr.length === v.images.length) {
+									setPlaceImage(imgArr);
+								}
+							};
+							getImage();
+						});
+					});
 				}
-
-				// const imgArr: any[] = [];
-				// response.data.data.images.map((img: any, index: any) => {
-				// 	const getImage = async () => {
-				// 		const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
-				// 		imgArr.push(requestImage.config.url);
-				// 		if (index === response.data.data.image.length) {
-				// 			setPlaceImage(imgArr);
-				// 		}
-				// 	};
-				// });
 			})
 			.catch((err) => {
-				console.log(err);
 				setReviewData([]);
 			});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	console.log(reviewData);
+	// console.log(reviewData);
+	// console.log(placeImage);
 
 	return (
 		<>
@@ -73,15 +75,24 @@ function MyReview() {
 					</>
 				) : (
 					<>
-						{reviewData.map((v: { username: string; reviewContent: string; reviewScore: number }, i: number) => (
+						{reviewData.map((v: { spotName: string; reviewContent: string; reviewScore: number }, i: number) => (
 							<React.Fragment key={i}>
 								<div className="grid grid-cols-12 gap-1">
-									<div className="col-start-2 col-span-2">
-										<h2>{v.username}</h2>
+									<div className="col-start-2 col-span-6">
+										<h2>{v.spotName}</h2>
 									</div>
 									<div className="col-start-8 col-span-2"></div>
 									<FontAwesomeIcon icon={faSolidStar} color="#6393CB" />
 									<h3>{v.reviewScore}.0</h3>
+								</div>
+								<div className="grid grid-cols-12 gap-1">
+									<div className="col-start-2 col-span-10">
+										<PhotoContainer>
+											{placeImage.map((value: string, index: number) => (
+												<ReviewImage src={placeImage[index]} key={index} alt="review-image"></ReviewImage>
+											))}
+										</PhotoContainer>
+									</div>
 								</div>
 								<div className="grid grid-cols-12 gap-1">
 									<div className="col-start-2 col-span-10">
@@ -94,6 +105,9 @@ function MyReview() {
 					</>
 				)}
 			</ReviewArea>
+			<br />
+			<br />
+			<br />
 		</>
 	);
 }

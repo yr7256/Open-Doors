@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StyledBurger, Menus } from '../../styles/Menu/styles';
-import React from 'react';
 import RightNav from './RightNav';
 
 const Burger = () => {

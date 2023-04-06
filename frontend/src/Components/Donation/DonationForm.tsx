@@ -79,7 +79,7 @@ function DonationForm() {
 					setCurrentPoint(currentPoint - donationPoint);
 				})
 				.catch((error: AxiosError<FundraiserInfoErrorResponse>) => {
-					console.log(error.response?.data);
+					// console.log(error.response?.data);
 					console.error(error);
 				});
 		} else {
@@ -111,7 +111,7 @@ function DonationForm() {
 	};
 	// const
 	useEffect(() => {
-		console.log(userName);
+		// console.log(userName);
 		const accessToken = localStorage.getItem('accessToken');
 		const headers = {
 			'Content-type': 'application/json',

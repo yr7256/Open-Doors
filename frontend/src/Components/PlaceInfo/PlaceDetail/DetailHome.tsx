@@ -3,7 +3,17 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
-import { Img, Number, Line, Icon, BigIcon, Container, Names, Menus } from '../../../styles/MapDetail/DetailHomestyle';
+import {
+	Img,
+	Number,
+	Line,
+	Icon,
+	BigIcon,
+	Container,
+	Names,
+	Menus,
+	NoNumber,
+} from '../../../styles/MapDetail/DetailHomestyle';
 import location from '../../../assets/img/location.png';
 import call from '../../../assets/img/call.png';
 
@@ -47,14 +57,14 @@ function DetailHome() {
 
 			setPlaceMenus(res.data.data.menus);
 			if (res.data.data.spotTelNumber === '') {
-				setPhoneNumber('전화 번호가 없습니다.');
+				setPhoneNumber('');
 			} else {
 				setPhoneNumber(res.data.data.spotTelNumber);
 			}
 			setPlaceBarrierFree(res.data.data.spotSfInfos);
 
 			const imgArr: any[] = [];
-			res.data.data.images.map((img: any, index: any) => {
+			res.data.data.images.map((img: any, index: number) => {
 				// axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`).then((response) => {
 				// 	// images.append(response.config.url);
 				// 	console.log(response);
@@ -86,8 +96,8 @@ function DetailHome() {
 	];
 
 	// 일치하는 barrierfree만 출력
-	const mapBarrierFree = placeBarrierFree.map((idx: any) => {
-		return idx.sfInfo.id;
+	const mapBarrierFree = placeBarrierFree.map((v: any) => {
+		return v.sfInfo.id;
 	});
 
 	const barrierFree = BarrierFreeList.filter((v: any) => {
@@ -96,6 +106,8 @@ function DetailHome() {
 
 	const barrierFreeNames = barrierFree.map((v: any) => v.sfName);
 	const barrierFreeImages = barrierFree.map((v: any) => v.image);
+
+	// console.log(placePhoneNumber);
 
 	return (
 		<>
@@ -112,9 +124,15 @@ function DetailHome() {
 				<div className="col-start-2 col-span-1">
 					<Img src={call} alt="call" />
 				</div>
-				<div className="col-start-3 col-span-9">
-					<Number>{placePhoneNumber}</Number>
-				</div>
+				{placePhoneNumber === '' ? (
+					<div className="col-start-3 col-span-9">
+						<NoNumber>전화 번호가 없습니다.</NoNumber>
+					</div>
+				) : (
+					<div className="col-start-3 col-span-9">
+						<Number>{placePhoneNumber}</Number>
+					</div>
+				)}
 			</div>
 			<Line />
 			<div className="grid grid-cols-12 gap-1">
@@ -148,17 +166,18 @@ function DetailHome() {
 							{barrierFreeNames.map((v: any) => (
 								<Names key={v}>{v}</Names>
 							))}
-							<br />
-							<br />
-							<br />
-							<br />
 						</div>
 					</div>
 				)}
 			</div>
 			<Line />
 			{placeMenus.length === 0 ? (
-				''
+				<>
+					<br />
+					<br />
+					<br />
+					<br />
+				</>
 			) : (
 				<>
 					<div className="grid grid-cols-12 gap-1">

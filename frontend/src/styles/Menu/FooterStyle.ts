@@ -11,7 +11,7 @@ export const FooterBlock = styled.div`
 `;
 
 export const FooterPlace = styled.div`
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	height: 9vh;
