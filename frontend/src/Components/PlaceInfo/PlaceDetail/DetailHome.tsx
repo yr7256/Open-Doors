@@ -41,9 +41,6 @@ function DetailHome() {
 	// dropbarrierfree
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const onToggle = () => setIsOpen(!isOpen);
-	const onOptionClicked = (value: string, index: number) => () => {
-		setIsOpen(false);
-	};
 
 	useEffect(() => {
 		axios.get(`https://j8b205.p.ssafy.io/api/spot/${id}`).then((res) => {
@@ -65,11 +62,6 @@ function DetailHome() {
 
 			const imgArr: any[] = [];
 			res.data.data.images.map((img: any, index: number) => {
-				// axios.get(`http://192.168.31.134:8080/api/spot/image/4/${img.pathName}`).then((response) => {
-				// 	// images.append(response.config.url);
-				// 	console.log(response);
-				// 	setPlaceImage([...placeImage, response.config.url]);
-				// });
 				const a = async () => {
 					const b = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${id}/${img.pathName}`);
 					imgArr.push(b.config.url);
@@ -106,8 +98,6 @@ function DetailHome() {
 
 	const barrierFreeNames = barrierFree.map((v: any) => v.sfName);
 	const barrierFreeImages = barrierFree.map((v: any) => v.image);
-
-	// console.log(placePhoneNumber);
 
 	return (
 		<>

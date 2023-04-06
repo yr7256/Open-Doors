@@ -27,7 +27,7 @@ export const NoReview = styled.h4`
 `;
 
 export const ReviewImage = styled.img`
-	weight: 100px;
+	width: 100px;
 	height: 100px;
 	margin-right: 4px;
 	margin-top: 12px;
@@ -35,7 +35,7 @@ export const ReviewImage = styled.img`
 `;
 
 export const Icon = styled.img`
-	weight: 40px;
+	width: 40px;
 	height: 40px;
 	margin-top: 12px;
 `;

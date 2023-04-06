@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Line, Link } from '../../styles/MapDetail/MapDetailstyle';
 
 type NavCategory = {

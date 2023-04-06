@@ -40,16 +40,12 @@ function DetailReview() {
 		axios
 			.get(`https://j8b205.p.ssafy.io/api/review/${id}`)
 			.then((response) => {
-				// console.log(response.data.data);
 				setDetailData(response.data.data);
 
 				response.data.data.map((v: any, i: number) => {
 					const name = v.username;
-					// console.log(v);
 					const imgArr: any[] = [];
 					v.images.map((img: any, index: number) => {
-						// console.log(name, img.pathName);
-						//test0405 지수.jpg
 						const getImage = async () => {
 							const requestImage = await axios.get(`https://j8b205.p.ssafy.io/api/spot/image/${name}/${img.pathName}`);
 							imgArr.push(requestImage.config.url);
@@ -64,8 +60,6 @@ function DetailReview() {
 			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	// console.log(detailData);
-	// console.log(placeImage);
 
 	return (
 		<>

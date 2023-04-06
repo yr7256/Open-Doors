@@ -102,6 +102,7 @@ function LoginInput() {
 							id="password"
 							name="password"
 							type="password"
+							autoComplete="off"
 							placeholder={'   비밀번호'}
 							onChange={handlePasswordChange}
 						/>
