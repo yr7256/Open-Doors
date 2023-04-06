@@ -15,12 +15,43 @@ import DisabledToilet from '../../assets/img/Barrierfree/toilet.png';
 import WheelChair from '../../assets/img/Barrierfree/wheelchair.png';
 import star from '../../assets/img/star.png';
 import axios from 'axios';
+import bf0 from '../../assets/img/makrer/bf0.png';
+import bf1 from '../../assets/img/makrer/bf1.png';
+import bf2 from '../../assets/img/makrer/bf2.png';
+import bf4 from '../../assets/img/makrer/bf4.png';
+import bf5 from '../../assets/img/makrer/bf5.png';
+import bf6 from '../../assets/img/makrer/bf6.png';
+import bf7 from '../../assets/img/makrer/bf7.png';
+import bf8 from '../../assets/img/makrer/bf8.png';
+import bf9 from '../../assets/img/makrer/bf9.png';
+import bf31 from '../../assets/img/makrer/bf31.png';
+import bf32 from '../../assets/img/makrer/bf32.png';
+import bf33 from '../../assets/img/makrer/bf33.png';
+import bf34 from '../../assets/img/makrer/bf34.png';
+
+const markerImages: { [key: string]: string } = {
+	'bf0': bf0,
+  'bf1': bf1,
+  'bf2': bf2,
+  'bf4': bf4,
+  'bf5': bf5,
+  'bf6': bf6,
+  'bf7': bf7,
+  'bf8': bf8,
+  'bf9': bf9,
+  'bf31': bf31,
+  'bf32': bf32,
+	'bf33': bf33,
+	'bf34': bf34,
+  // ...and so on for other categories
+};
 
 const { kakao } = window;
 
 interface MapProps {
 	mapdata: any;
 }
+
 const sfImages: { [key: string]: string } = {
 	'WheelChair Elevator': WheelChairElevator,
 	Elevator: Elevator,
@@ -115,10 +146,16 @@ const Kakao = (props: MapProps) => {
 				};
 
 				const displayMarker = (data: any, idx: number) => {
+					const markerImage = markerImages[data.spotRate+data.spotCategory]
 					const marker = new kakao.maps.Marker({
 						map: map,
 						position: new kakao.maps.LatLng(data.spotLat, data.spotLng),
+						image: new kakao.maps.MarkerImage(
+							markerImage,
+							new kakao.maps.Size(32, 40)
+						),
 					});
+					console.log(data.spotRate + data.spotCategory);
 
 					markers.push(marker);
 					// console.log(markers);
