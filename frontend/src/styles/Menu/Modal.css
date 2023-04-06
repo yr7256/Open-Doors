@@ -19,7 +19,7 @@
 
 .resize-handle-top {
   cursor: row-resize;
-  height: 20px;
+  height: 40px;
   width: 80vw;
   position: absolute;
   background-color: white;
