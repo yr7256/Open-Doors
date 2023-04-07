@@ -153,7 +153,7 @@ $ docker-compose.yml up -d
 > docker push [docker hub 계정명]/[repository명]:[태그명]
 ```
 
-# 9. Docker Image Pull 및 컨테이너 실행
+# 8. Docker Image Pull 및 컨테이너 실행
 ## Docker Image pull
 ```
 sudo docker pull [docker hub 계정명]/[repository명]:[태그명]
