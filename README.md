@@ -1,111 +1,129 @@
-# 🏷️ OPEN DOORS - 배리어프리 장소 추천 서비스
+![main](https://i.imgur.com/jPPLgFf.png)
 
-## 👉 [OPEN DOORS Web Page](https://j8b205.p.ssafy.io/)
+>
+>
+>
+> 🏷️ OPEN DOORS
+>
+> 교통 약자를 위한 배리어 프리 장소 추천 서비스입니다.
+>
 
 ## 📆 프로젝트 진행 기간
 
 - 23.02.27(월) ~ 23.04.07(금)
-- SSAFY 2학기 특화 프로젝트 - 빅데이터(추천)
 
-## 📖 기획 배경
+## ✨ 주요 기능
 
-- 배리어프리 장소를 추천하여 휠체어 이용자들도 불편함 없이 편의시설을 이용 가능하게 하고자 함.
+### 배리어프리 장소 추천
+  - 사용자 기반 배리어프리 장소 추천
 
-## 🔎 개요
+### 배리어프리 장소 조회 및 검색
+  - 배리어프리 장소 마커 표시 및 검색
 
-- 배리어프리 장소 추천을 통해 휠체어 사용자도 불편함 없이 식당, 카페 등의 시설을 이용할 수 있있도록 함.
-- 신규 장소 등록 등을 통한 포인트 적립으로 기부를 가능하게 함.
+### 실시간 교통 정보 제공 및 관련 서비스 연결
+  - 대전광역시 내 실시간 저상버스 정보 제공
+  - 장애인 콜택시 서비스와 전화 연결
 
-## ✔ 주요 기능
-
-- 배리어프리 장소 추천
-    - 회원가입 시 등록한 필요한 시설 조건과 사용자가 선택한 장소의 카테고리를 기반으로 추천 방문한 사용자의 리뷰를 기반으로 배리어프리 장소 추천
-- 배리어프리 장소 조회 및 검색
-    - 지도 기반 배리어프리 장소 마커 표시 및 검색
-- 실시간 교통 정보 제공 및 관련 서비스 연결
-    - 대전광역시 내 실시간 저상버스 및 장애인 택시 정보 제공
-    - 장애인 콜택시 서비스와 전화 연결
-- 배리어프리 장소 사용자 리뷰
-    - 진입 용이성, 시설 타입에 따른 항목 별 평가를 통해 개인화 추천 시스템에 반영
-- 배리어프리 신규 장소 등록
-    - 배리어프리로 등록되지 않은 시설에 대한 신규 등록
-    - 기부포인트 적립 및 기부함
+### 기부 포인트 적립 및 기부
+  - 배리어프리 장소 등록을 통한 기부 포인트 적립
+  - 적립된 포인트를 통한 기부
 
 ## 🛠️ 주요 기술
 
 ### Frontend
 
-- React 18.2.0
-- TypeScript 4.9.5
-- redux 4.2.1
+React 18.2.0, TypeScript 4.9.5, redux 4.2.1
 
 ### Backend
 
-- Java 17
-- Spring Boot 2.7.9
-- Gradle 8.0.2
-- Python 3.9.10
-- Flask 2.2.3
+Java 17, Spring Boot 2.7.9, Gradle 8.0.2, Python 3.9.10, Flask 2.2.3
 
 ### BigData
 
-- Numpy1.24.2
-- Pandas 2.0.0
-- BeautifulSoup 4.12.0
-- Selenium 4.8.1.0
+Numpy1.24.2, Pandas 2.0.0, BeautifulSoup 4.12.0, Selenium 4.8.1.0
 
 ### Database
 
-- MySQL 8.0.31
+MySQL 8.0.31
 
-### Infra
+### CI/CD
 
-- EC2 - Docker, Nginx
+EC2, Nginx, Docker-compose, Jenkins
 
-## ✔ 팀원 역할 분배
+## 📟 기획/설계
+
+### 아키텍처
+![Architecture](https://i.imgur.com/EiUuSGT.png)
+### API 명세
+![API](https://i.imgur.com/cGeIb1E.png)
+### 와이어 프레임
+![프로토타입](https://i.imgur.com/6fwC2ZW.jpg)
+### ERD
+![ERD](https://i.imgur.com/2csBn1H.png)
+
+## 🧑‍💻 팀원 소개
 
 ### 유현근
 
-- Team Leader
 - BE
-    - ERD 설계
-    - 인증 및 인가
-    - 배리어프리 장소, 리뷰,  사용자, 관리자, 교통 정보 API
+  - ERD 설계
+  - 인증 및 인가
+  - 배리어프리 장소, 리뷰,  사용자, 관리자, 교통 정보 API
 
 ### 이진섭
 
 - BE
-    - ERD 설계
-    - 인증 및 인가
-    - 포인트, 모금함 API
-    - CI/CD
+  - ERD 설계
+  - 인증 및 인가
+  - 포인트, 기부 API
+  - CI/CD
 
 ### 김성중
 
 - Big Data
-    - 장소 데이터 크롤링
-    - 추천 알고리즘
+  - 장소 데이터 크롤링
+  - 추천 알고리즘
 - FE
-    - 기부하기
-    - 교통정보
+  - 기부하기
+  - 교통정보
 - BE
-    - 실시간 교통정보 API
+  - 실시간 교통정보 API
 
 ### 김영록
 
-- FE Leader
-    - 배리어프리 지도 구성
-    - UI/UX
+- FE
+  - UI/UX
+  - 배리어프리 장소 등록
+  - 배리어프리 장소 검색 
+  - 메인 페이지
+  - 지도 페이지
+  - 관리자 페이지 
 
 ### 유예지
 
 - FE
-    - 로그인, 회원가입, 마이페이지
-    - 상세 페이지 구성
+  - 로그인, 회원가입, 마이페이지
+  - 상세 페이지 구성
 
-## 📟 프로젝트 관련 링크
+## 📱 기능
 
-- [컨벤션](https://www.notion.so/664ee95a23744c6c916eef6de6649940)
-- [와이어프레임](https://www.figma.com/file/3OSUPYoQJpWhmGY5wQyDNZ/Open-doors?node-id=0-1&t=Bz4zJJvgNqk5TtR9-0)
-- [ERD](https://www.erdcloud.com/d/KzRS7P4bfciHmw6W9)
-- [API](https://www.notion.so/API-1b3df2a166c54ad2ae8e31ddad5a1ba3)
+### 로그인
+![로그인](https://i.imgur.com/BxWTts7.gif)
+
+### 배리어프리 장소 등록
+![장소등록](https://i.imgur.com/XIumWu0.gif)
+
+### 배리어프리 장소 승인
+![장소승인](https://i.imgur.com/ovSMuDB.gif)
+
+### 리뷰 등록
+![리뷰등록](https://i.imgur.com/M2zpA63.gif)
+
+### 실시간 저상버스 조회
+![저상버스조회](https://i.imgur.com/ctgv5et.gif)
+
+### 포인트 기부
+![기부](https://i.imgur.com/WBZFlBb.gif)
+
+### 배리어 프리 장소 추천
+![장소추천](https://i.imgur.com/MUnaSyX.gif)
