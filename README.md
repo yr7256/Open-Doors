@@ -116,6 +116,9 @@ EC2, Nginx, Docker-compose, Jenkins
 ### 배리어프리 장소 승인
 ![장소승인](https://i.imgur.com/ovSMuDB.gif)
 
+### 배리어 프리 장소 추천
+![장소추천](https://i.imgur.com/MUnaSyX.gif)
+
 ### 리뷰 등록
 ![리뷰등록](https://i.imgur.com/M2zpA63.gif)
 
@@ -125,5 +128,3 @@ EC2, Nginx, Docker-compose, Jenkins
 ### 포인트 기부
 ![기부](https://i.imgur.com/WBZFlBb.gif)
 
-### 배리어 프리 장소 추천
-![장소추천](https://i.imgur.com/MUnaSyX.gif)
